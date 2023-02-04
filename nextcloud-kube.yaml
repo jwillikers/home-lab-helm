@@ -90,7 +90,8 @@ spec:
     - name: POSTGRES_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: nextcloud_db_password
+          name: nextcloud-secrets
+          key: nextcloud_db_password
           optional: false
     image: docker.io/library/postgres:bullseye
     name: nextcloud-db
@@ -154,27 +155,32 @@ spec:
     - name: SMTP_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: nextcloud_smtp_password
+          name: nextcloud-secrets
+          key: nextcloud_smtp_password
           optional: false
     - name: OBJECTSTORE_S3_SECRET
       valueFrom:
         secretKeyRef:
-          name: nextcloud_s3_secret
+          name: nextcloud-secrets
+          key: nextcloud_s3_secret
           optional: false
     - name: NEXTCLOUD_ADMIN_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: nextcloud_admin_password
+          name: nextcloud-secrets
+          key: nextcloud_admin_password
           optional: false
     - name: POSTGRES_PASSWORD
       valueFrom:
         secretKeyRef:
-          name: nextcloud_db_password
+          name: nextcloud-secrets
+          key: nextcloud_db_password
           optional: false
     - name: OBJECTSTORE_S3_KEY
       valueFrom:
         secretKeyRef:
-          name: nextcloud_s3_key
+          name: nextcloud-secrets
+          key: nextcloud_s3_key
           optional: false
     image: docker.io/library/nextcloud:fpm
     name: nextcloud-server
