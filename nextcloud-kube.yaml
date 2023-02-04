@@ -1,0 +1,274 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    bind-mount-options: /home/jordan/container-volumes/nextcloud-app:z
+    io.containers.autoupdate/nextcloud-cron: registry
+    io.containers.autoupdate/nextcloud-db: registry
+    io.containers.autoupdate/nextcloud-imaginary: registry
+    io.containers.autoupdate/nextcloud-redis: registry
+    io.containers.autoupdate/nextcloud-server: registry
+    io.kubernetes.cri-o.ContainerType/nextcloud-cron: container
+    io.kubernetes.cri-o.ContainerType/nextcloud-db: container
+    io.kubernetes.cri-o.ContainerType/nextcloud-imaginary: container
+    io.kubernetes.cri-o.ContainerType/nextcloud-redis: container
+    io.kubernetes.cri-o.ContainerType/nextcloud-server: container
+    io.kubernetes.cri-o.SandboxID/nextcloud-cron: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
+    io.kubernetes.cri-o.SandboxID/nextcloud-db: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
+    io.kubernetes.cri-o.SandboxID/nextcloud-imaginary: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
+    io.kubernetes.cri-o.SandboxID/nextcloud-redis: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
+    io.kubernetes.cri-o.SandboxID/nextcloud-server: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
+    io.kubernetes.cri-o.TTY/nextcloud-cron: "false"
+    io.kubernetes.cri-o.TTY/nextcloud-db: "false"
+    io.kubernetes.cri-o.TTY/nextcloud-imaginary: "false"
+    io.kubernetes.cri-o.TTY/nextcloud-redis: "false"
+    io.kubernetes.cri-o.TTY/nextcloud-server: "true"
+    io.podman.annotations.autoremove/nextcloud-cron: "TRUE"
+    io.podman.annotations.autoremove/nextcloud-db: "TRUE"
+    io.podman.annotations.autoremove/nextcloud-imaginary: "TRUE"
+    io.podman.annotations.autoremove/nextcloud-redis: "TRUE"
+    io.podman.annotations.autoremove/nextcloud-server: "TRUE"
+    io.podman.annotations.cid-file/nextcloud-cron: /run/user/1000/container-nextcloud-cron.service.ctr-id
+    io.podman.annotations.cid-file/nextcloud-db: /run/user/1000/container-nextcloud-db.service.ctr-id
+    io.podman.annotations.cid-file/nextcloud-imaginary: /run/user/1000/container-nextcloud-imaginary.service.ctr-id
+    io.podman.annotations.cid-file/nextcloud-redis: /run/user/1000/container-nextcloud-redis.service.ctr-id
+    io.podman.annotations.cid-file/nextcloud-server: /run/user/1000/container-nextcloud-server.service.ctr-id
+    io.podman.annotations.init/nextcloud-cron: "FALSE"
+    io.podman.annotations.init/nextcloud-db: "FALSE"
+    io.podman.annotations.init/nextcloud-imaginary: "FALSE"
+    io.podman.annotations.init/nextcloud-redis: "FALSE"
+    io.podman.annotations.init/nextcloud-server: "FALSE"
+    io.podman.annotations.privileged/nextcloud-cron: "FALSE"
+    io.podman.annotations.privileged/nextcloud-db: "FALSE"
+    io.podman.annotations.privileged/nextcloud-imaginary: "FALSE"
+    io.podman.annotations.privileged/nextcloud-redis: "FALSE"
+    io.podman.annotations.privileged/nextcloud-server: "FALSE"
+    io.podman.annotations.publish-all/nextcloud-cron: "FALSE"
+    io.podman.annotations.publish-all/nextcloud-db: "FALSE"
+    io.podman.annotations.publish-all/nextcloud-imaginary: "FALSE"
+    io.podman.annotations.publish-all/nextcloud-redis: "FALSE"
+    io.podman.annotations.publish-all/nextcloud-server: "FALSE"
+  creationTimestamp: "2023-02-04T18:08:13Z"
+  labels:
+    app: nextcloud
+  name: nextcloud
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - args:
+    - redis-server
+    image: docker.io/library/redis:latest
+    name: nextcloud-redis
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      runAsGroup: 1000
+      runAsUser: 1000
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /data
+      name: home-jordan-container-volumes-nextcloud-redis-host-0
+  - args:
+    - postgres
+    env:
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_USER
+      value: nextcloud
+    - name: POSTGRES_DB
+      value: nextcloud
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: nextcloud_db_password
+          optional: false
+    image: docker.io/library/postgres:bullseye
+    name: nextcloud-db
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      runAsGroup: 1000
+      runAsUser: 1000
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: home-jordan-container-volumes-nextcloud-db-data-host-0
+  - args:
+    - php-fpm
+    env:
+    - name: NEXTCLOUD_TRUSTED_DOMAINS
+      value: cloud.jwillikers.io
+    - name: OBJECTSTORE_S3_REGION
+      value: home-lab-0
+    - name: SMTP_PORT
+      value: "465"
+    - name: REDIS_HOST
+      value: localhost
+    - name: SMTP_NAME
+      value: nextcloud@jwillikers.com
+    - name: MAIL_DOMAIN
+      value: jwillikers.com
+    - name: POSTGRES_HOST
+      value: localhost
+    - name: NEXTCLOUD_ADMIN_USER
+      value: admin
+    - name: OBJECTSTORE_S3_HOST
+      value: minio.jwillikers.io
+    - name: SMTP_AUTHTYPE
+      value: PLAIN
+    - name: SMTP_SECURE
+      value: ssl
+    - name: POSTGRES_USER
+      value: nextcloud
+    - name: OBJECTSTORE_S3_SSL
+      value: "true"
+    - name: OBJECTSTORE_S3_BUCKET
+      value: nextcloud
+    - name: OBJECTSTORE_S3_USEPATH_STYLE
+      value: "true"
+    - name: OVERWRITECLIURL
+      value: https://cloud.jwillikers.io
+    - name: TRUSTED_PROXIES
+      value: 10.89.0.0/16
+    - name: SMTP_HOST
+      value: ssl0.ovh.net
+    - name: MAIL_FROM_ADDRESS
+      value: nextcloud
+    - name: POSTGRES_DB
+      value: nextcloud
+    - name: SMTP_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: nextcloud_smtp_password
+          optional: false
+    - name: OBJECTSTORE_S3_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: nextcloud_s3_secret
+          optional: false
+    - name: NEXTCLOUD_ADMIN_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: nextcloud_admin_password
+          optional: false
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: nextcloud_db_password
+          optional: false
+    - name: OBJECTSTORE_S3_KEY
+      valueFrom:
+        secretKeyRef:
+          name: nextcloud_s3_key
+          optional: false
+    image: docker.io/library/nextcloud:fpm
+    name: nextcloud-server
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      runAsGroup: 1000
+      runAsUser: 1000
+      seLinuxOptions:
+        type: spc_t
+    stdin: true
+    tty: true
+    volumeMounts:
+    - mountPath: /var/www/html/custom_apps
+      name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+    - mountPath: /var/www/html/data
+      name: home-jordan-container-volumes-nextcloud-data-host-1
+    - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
+      name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
+    - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
+      name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
+    - mountPath: /var/www/html
+      name: home-jordan-container-volumes-nextcloud-app-host-4
+    - mountPath: /var/www/html/config
+      name: home-jordan-container-volumes-nextcloud-config-host-5
+  - args:
+    - -concurrency
+    - "50"
+    env:
+    - name: PORT
+      value: "8088"
+    image: docker.io/nextcloud/aio-imaginary:latest
+    name: nextcloud-imaginary
+    resources: {}
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /var/www/html/custom_apps
+      name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+    - mountPath: /var/www/html/data
+      name: home-jordan-container-volumes-nextcloud-data-host-1
+    - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
+      name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
+    - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
+      name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
+    - mountPath: /var/www/html
+      name: home-jordan-container-volumes-nextcloud-app-host-4
+    - mountPath: /var/www/html/config
+      name: home-jordan-container-volumes-nextcloud-config-host-5
+  enableServiceLinks: false
+  hostUsers: false
+  hostname: nextcloud
+  restartPolicy: Never
+  volumes:
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-custom-apps
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-data
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-data-host-1
+  - hostPath:
+      path: /home/jordan/Projects/nextcloud-config/redis-session.ini
+      type: File
+    name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
+  - hostPath:
+      path: /home/jordan/Projects/nextcloud-config/z-www-overrides.conf
+      type: File
+    name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-app
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-app-host-4
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-config
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-config-host-5
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-redis
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-redis-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-db-data
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-db-data-host-0
+status: {}

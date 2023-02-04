@@ -1,0 +1,77 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.4.0
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-02-04T15:25:42Z"
+  labels:
+    app: minio-server-pod
+  name: minio-server-pod
+spec:
+  ports:
+  - name: "9000"
+    nodePort: 32029
+    port: 9000
+    targetPort: 9000
+  - name: "9090"
+    nodePort: 30262
+    port: 9090
+    targetPort: 9090
+  selector:
+    app: minio-server-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    bind-mount-options: /home/jordan/s3:z
+    io.containers.autoupdate/minio-server: registry
+  creationTimestamp: "2023-02-04T15:25:42Z"
+  labels:
+    app: minio-server-pod
+  name: minio-server-pod
+spec:
+  containers:
+  - args:
+    - server
+    - /data
+    - --console-address
+    - :9090
+    env:
+    - name: MINIO_BROWSER_REDIRECT_URL
+      value: https://console.minio.jwillikers.io
+    - name: MINIO_SITE_REGION
+      value: home-lab-0
+    - name: MINIO_SITE_NAME
+      value: closet-1
+    image: quay.io/minio/minio:latest
+    name: minio-server
+    ports:
+    - containerPort: 9000
+      hostPort: 9000
+    - containerPort: 9090
+      hostPort: 9090
+    securityContext:
+      runAsGroup: 1000
+      runAsUser: 1000
+      seLinuxOptions:
+        type: spc_t
+    stdin: true
+    tty: true
+    volumeMounts:
+    - mountPath: /data
+      name: home-jordan-s3-host-0
+  hostUsers: false
+  volumes:
+  - hostPath:
+      path: /home/jordan/s3
+      type: Directory
+    name: home-jordan-s3-host-0
