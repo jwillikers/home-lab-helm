@@ -52,6 +52,18 @@ spec:
       value: home-lab-0
     - name: MINIO_SITE_NAME
       value: closet-1
+    - name: MINIO_ROOT_USER
+      valueFrom:
+        secretKeyRef:
+          name: minio-server-secrets
+          key: minio_root_user
+          optional: false
+    - name: MINIO_ROOT_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: minio-server-secrets
+          key: minio_root_password
+          optional: false
     image: quay.io/minio/minio:latest
     name: minio-server
     ports:
