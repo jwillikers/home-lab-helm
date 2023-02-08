@@ -5,6 +5,8 @@ Before=local-fs.target
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/caddy-kube.yaml
 Network=podman1.network
+# Run as non-root inside the container when Podman supports setting sysctls in Kubernetes YAML.
+# RemapUsers: keep-id
 
 [Service]
 Restart=always
