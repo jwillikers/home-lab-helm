@@ -50,6 +50,13 @@ spec:
       #   value: "80"
       seLinuxOptions:
         type: spc_t
+    env:
+    - name: CLOUDFLARE_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: caddy-secrets
+          key: caddy_cloudflare_token
+          optional: false
     ports:
     - containerPort: 80
       hostPort: 80

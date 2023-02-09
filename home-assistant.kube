@@ -1,9 +1,9 @@
 [Unit]
-Description=Minio S3-compatible object storage server
+Description=Home Assistant server
 Before=local-fs.target
 
 [Kube]
-Yaml=/home/jordan/Projects/home-lab-helm/minio-server.yaml
+Yaml=/home/jordan/Projects/home-lab-helm/home-assistant.yaml
 Network=podman1.network
 RemapUsers=keep-id
 

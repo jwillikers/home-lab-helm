@@ -1,0 +1,28 @@
+[Unit]
+Description=Nextcloud cron runner
+Before=local-fs.target
+After=nextcloud.service
+
+[Container]
+ContainerName=nextcloud-cron
+Exec=/usr/local/bin/php -f /var/www/html/cron.php
+Group=1000
+Image=docker.io/library/nextcloud:fpm
+Label=io.containers.autoupdate=registry
+Network=podman1.network
+PodmanArgs=--pod=nextcloud-pod
+PodmanArgs=--health-cmd='nc -z "$POSTGRES_HOST" 5432 || exit 0; if ! nc -z localhost 9000 || nc -z localhost 7867; then exit 1; fi'
+PodmanArgs=--health-interval=1m
+PodmanArgs=--health-start-period=3m
+RemapUsers=keep-id
+Timezone=local
+User=1000
+Volume=/var/home/jordan/container-volumes/nextcloud-app:/var/www/html:z
+Volume=/var/home/jordan/container-volumes/nextcloud-config:/var/www/html/config:z
+Volume=/var/home/jordan/container-volumes/nextcloud-custom-apps:/var/www/html/custom_apps:z
+Volume=/var/home/jordan/container-volumes/nextcloud-data:/var/www/html/data:z
+Volume=/var/home/jordan/Projects/nextcloud-config/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:z
+Volume=/var/home/jordan/Projects/nextcloud-config/z-www-overrides.conf:/usr/local/etc/php-fpm.d/z-www-overrides.conf:z
+
+[Service]
+Restart=on-failure

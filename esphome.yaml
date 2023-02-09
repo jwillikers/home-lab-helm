@@ -1,0 +1,62 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-02-09T01:09:10Z"
+  labels:
+    app: esphome-pod
+  name: esphome-pod
+spec:
+  selector:
+    app: esphome-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.containers.autoupdate/esphome: registry
+    io.kubernetes.cri-o.TTY/esphome: "false"
+    io.podman.annotations.autoremove/esphome: "TRUE"
+    io.podman.annotations.cid-file/esphome: /run/user/1000/container-esphome.service.ctr-id
+    io.podman.annotations.init/esphome: "FALSE"
+    io.podman.annotations.privileged/esphome: "FALSE"
+    io.podman.annotations.publish-all/esphome: "FALSE"
+  creationTimestamp: "2023-02-09T01:09:10Z"
+  labels:
+    app: esphome-pod
+  name: esphome-pod
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - args:
+    - dashboard
+    - /config
+    image: docker.io/esphome/esphome:latest
+    name: esphome
+    securityContext:
+      capabilities: {}
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /config
+      name: home-jordan-container-volumes-esphome-config-host-0
+    - mountPath: /config/.esphome
+      name: esphome-cache-pvc
+  enableServiceLinks: false
+  volumes:
+  - hostPath:
+      path: /home/jordan/container-volumes/esphome-config
+      type: Directory
+    name: home-jordan-container-volumes-esphome-config-host-0
+  - name: esphome-cache-pvc
+    persistentVolumeClaim:
+      claimName: esphome-cache

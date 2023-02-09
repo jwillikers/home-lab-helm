@@ -1,0 +1,130 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-02-08T22:30:09Z"
+  labels:
+    app: gitea
+  name: gitea
+spec:
+  ports:
+  - name: "2222"
+    nodePort: 30341
+    port: 2222
+    targetPort: 2222
+  selector:
+    app: gitea
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.containers.autoupdate/gitea-db: registry
+    io.containers.autoupdate/gitea-server: registry
+    io.kubernetes.cri-o.ContainerType/gitea-db: container
+    io.kubernetes.cri-o.ContainerType/gitea-server: container
+    io.kubernetes.cri-o.SandboxID/gitea-db: 78d588f02f85868142b9d4772ca45049d1158ed0946493ea9ae1791656c17cd
+    io.kubernetes.cri-o.SandboxID/gitea-server: 78d588f02f85868142b9d4772ca45049d1158ed0946493ea9ae1791656c17cd
+    io.kubernetes.cri-o.TTY/gitea-db: "false"
+    io.kubernetes.cri-o.TTY/gitea-server: "false"
+    io.podman.annotations.autoremove/gitea-db: "TRUE"
+    io.podman.annotations.autoremove/gitea-server: "TRUE"
+    io.podman.annotations.cid-file/gitea-db: /run/user/1000/container-gitea-db.service.ctr-id
+    io.podman.annotations.cid-file/gitea-server: /run/user/1000/container-gitea-server.service.ctr-id
+    io.podman.annotations.init/gitea-db: "FALSE"
+    io.podman.annotations.init/gitea-server: "FALSE"
+    io.podman.annotations.privileged/gitea-db: "FALSE"
+    io.podman.annotations.privileged/gitea-server: "FALSE"
+    io.podman.annotations.publish-all/gitea-db: "FALSE"
+    io.podman.annotations.publish-all/gitea-server: "FALSE"
+  creationTimestamp: "2023-02-08T22:30:09Z"
+  labels:
+    app: gitea
+  name: gitea
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_DB
+      value: gitea
+    - name: POSTGRES_USER
+      value: gitea
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: gitea-secrets
+          key: gitea_db_password
+          optional: false
+    image: docker.io/library/postgres:bullseye
+    name: gitea-db
+    ports:
+    - containerPort: 2222
+      hostPort: 2222
+    resources: {}
+    securityContext:
+      capabilities: {}
+      runAsGroup: 1000
+      runAsUser: 1000
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: home-jordan-container-volumes-gitea-db-data-host-0
+  - env:
+    - name: GITEA__database__NAME
+      value: gitea
+    - name: GITEA__server__SSH_DOMAIN
+      value: gitea.jwillikers.io
+    - name: GITEA__database__DB_TYPE
+      value: postgres
+    - name: GITEA__database__HOST
+      value: localhost:5432
+    - name: GITEA__database__USER
+      value: gitea
+    - name: GITEA__server__DOMAIN
+      value: gitea.jwillikers.io
+    - name: GITEA__server__ROOT_URL
+      value: https://gitea.jwillikers.io
+    - name: GITEA__database__PASSWD
+      valueFrom:
+        secretKeyRef:
+          name: gitea-secrets
+          key: gitea_db_password
+          optional: false
+    image: docker.io/gitea/gitea:latest-rootless
+    name: gitea-server
+    resources: {}
+    securityContext:
+      capabilities: {}
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /var/lib/gitea
+      name: home-jordan-container-volumes-gitea-server-data-host-0
+    - mountPath: /etc/gitea
+      name: home-jordan-container-volumes-gitea-server-config-host-1
+  enableServiceLinks: false
+  hostUsers: false
+  hostname: gitea
+  restartPolicy: Never
+  volumes:
+  - hostPath:
+      path: /home/jordan/container-volumes/gitea-db-data
+      type: Directory
+    name: home-jordan-container-volumes-gitea-db-data-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/gitea-server-data
+      type: Directory
+    name: home-jordan-container-volumes-gitea-server-data-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/gitea-server-config
+      type: Directory
+    name: home-jordan-container-volumes-gitea-server-config-host-1
+status: {}

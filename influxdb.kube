@@ -1,9 +1,9 @@
 [Unit]
-Description=Minio S3-compatible object storage server
+Description=InfluxDB instance
 Before=local-fs.target
 
 [Kube]
-Yaml=/home/jordan/Projects/home-lab-helm/minio-server.yaml
+Yaml=/home/jordan/Projects/home-lab-helm/influxdb.yaml
 Network=podman1.network
 RemapUsers=keep-id
 

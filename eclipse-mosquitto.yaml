@@ -1,0 +1,87 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-02-09T01:10:11Z"
+  labels:
+    app: eclipse-mosquitto-pod
+  name: eclipse-mosquitto-pod
+spec:
+  ports:
+  - name: "1883"
+    nodePort: 30422
+    port: 1883
+    targetPort: 1883
+  - name: "9001"
+    nodePort: 31670
+    port: 9001
+    targetPort: 9001
+  selector:
+    app: eclipse-mosquitto-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.containers.autoupdate/eclipse-mosquitto: registry
+    io.kubernetes.cri-o.TTY/eclipse-mosquitto: "false"
+    io.podman.annotations.autoremove/eclipse-mosquitto: "TRUE"
+    io.podman.annotations.cid-file/eclipse-mosquitto: /run/user/1000/container-eclipse-mosquitto.service.ctr-id
+    io.podman.annotations.init/eclipse-mosquitto: "FALSE"
+    io.podman.annotations.privileged/eclipse-mosquitto: "FALSE"
+    io.podman.annotations.publish-all/eclipse-mosquitto: "FALSE"
+  creationTimestamp: "2023-02-09T01:10:11Z"
+  labels:
+    app: eclipse-mosquitto-pod
+  name: eclipse-mosquitto-pod
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - args:
+    - /usr/sbin/mosquitto
+    - -c
+    - /mosquitto/config/mosquitto.conf
+    image: docker.io/library/eclipse-mosquitto:latest
+    name: eclipse-mosquitto
+    ports:
+    - containerPort: 1883
+      hostPort: 1883
+    - containerPort: 9001
+      hostPort: 9001
+    securityContext:
+      capabilities: {}
+      runAsGroup: 1000
+      runAsUser: 1000
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /mosquitto/config/
+      name: home-jordan-container-volumes-eclipse-mosquitto-config-host-0
+    - mountPath: /mosquitto/data/
+      name: home-jordan-container-volumes-eclipse-mosquitto-data-host-1
+    - mountPath: /mosquitto/log/
+      name: home-jordan-container-volumes-eclipse-mosquitto-log-host-2
+  enableServiceLinks: false
+  hostUsers: false
+  volumes:
+  - hostPath:
+      path: /home/jordan/container-volumes/eclipse-mosquitto-config
+      type: Directory
+    name: home-jordan-container-volumes-eclipse-mosquitto-config-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/eclipse-mosquitto-data
+      type: Directory
+    name: home-jordan-container-volumes-eclipse-mosquitto-data-host-1
+  - hostPath:
+      path: /home/jordan/container-volumes/eclipse-mosquitto-log
+      type: Directory
+    name: home-jordan-container-volumes-eclipse-mosquitto-log-host-2

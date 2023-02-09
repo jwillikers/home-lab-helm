@@ -1,0 +1,113 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-02-04T18:12:52Z"
+  labels:
+    app: caddy-pod
+  name: caddy-pod
+spec:
+  ports:
+  - name: "80"
+    nodePort: 32383
+    port: 80
+    targetPort: 80
+  - name: "443"
+    nodePort: 31797
+    port: 443
+    targetPort: 443
+  selector:
+    app: caddy-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.containers.autoupdate/caddy: registry
+    io.kubernetes.cri-o.TTY/caddy: "false"
+    io.podman.annotations.autoremove/caddy: "TRUE"
+    io.podman.annotations.cid-file/caddy: /run/user/1000/container-caddy.service.ctr-id
+    io.podman.annotations.init/caddy: "FALSE"
+    io.podman.annotations.privileged/caddy: "FALSE"
+    io.podman.annotations.publish-all/caddy: "FALSE"
+  creationTimestamp: "2023-02-04T18:12:52Z"
+  labels:
+    app: caddy-pod
+  name: caddy-pod
+spec:
+  automountServiceAccountToken: false
+  containers:
+  - image: quay.io/jwillikers/caddy-cloudflare:latest
+    name: caddy
+    env:
+    - name: CLOUDFLARE_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: caddy-secrets
+          key: caddy_cloudflare_token
+          optional: false
+    ports:
+    - containerPort: 80
+      hostPort: 80
+    - containerPort: 443
+      hostPort: 443
+    securityContext:
+      capabilities:
+        drop:
+        - CAP_MKNOD
+        - CAP_NET_RAW
+        - CAP_AUDIT_WRITE
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /etc/caddy/Caddyfile
+      name: var-home-jordan-Projects-meerkat-caddy-config-Caddyfile-host-4
+    - mountPath: /config/
+      name: caddy-config-pvc
+    - mountPath: /data/
+      name: caddy-data-pvc
+    - mountPath: /var/www/html/custom_apps
+      name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+    - mountPath: /var/www/html/data
+      name: home-jordan-container-volumes-nextcloud-data-host-1
+    - mountPath: /var/www/html
+      name: home-jordan-container-volumes-nextcloud-app-host-4
+    - mountPath: /var/www/html/config
+      name: home-jordan-container-volumes-nextcloud-config-host-5
+  enableServiceLinks: false
+  volumes:
+  - hostPath:
+      path: /var/home/jordan/Projects/meerkat-caddy-config/Caddyfile
+      type: File
+    name: var-home-jordan-Projects-meerkat-caddy-config-Caddyfile-host-4
+  - name: caddy-config-pvc
+    persistentVolumeClaim:
+      claimName: caddy-config
+  - name: caddy-data-pvc
+    persistentVolumeClaim:
+      claimName: caddy-data
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-custom-apps
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-data
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-data-host-1
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-app
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-app-host-4
+  - hostPath:
+      path: /home/jordan/container-volumes/nextcloud-config
+      type: Directory
+    name: home-jordan-container-volumes-nextcloud-config-host-5
