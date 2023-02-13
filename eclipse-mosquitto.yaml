@@ -20,10 +20,6 @@ spec:
     nodePort: 30422
     port: 1883
     targetPort: 1883
-  - name: "9001"
-    nodePort: 31670
-    port: 9001
-    targetPort: 9001
   selector:
     app: eclipse-mosquitto-pod
   type: NodePort
@@ -55,8 +51,6 @@ spec:
     ports:
     - containerPort: 1883
       hostPort: 1883
-    - containerPort: 9001
-      hostPort: 9001
     securityContext:
       capabilities: {}
       runAsGroup: 1000
