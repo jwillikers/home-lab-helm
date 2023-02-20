@@ -1,0 +1,169 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.4.1
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-02-20T20:18:08Z"
+  labels:
+    app: omada-controller-pod
+  name: omada-controller-pod
+spec:
+  ports:
+  - name: "8043"
+    nodePort: 32426
+    port: 8043
+    targetPort: 8043
+  - name: "8088"
+    nodePort: 30082
+    port: 8088
+    targetPort: 8088
+  - name: "8843"
+    nodePort: 30102
+    port: 8843
+    targetPort: 8843
+  - name: "29811"
+    nodePort: 32087
+    port: 29811
+    targetPort: 29811
+  - name: "29812"
+    nodePort: 31529
+    port: 29812
+    targetPort: 29812
+  - name: "29813"
+    nodePort: 31091
+    port: 29813
+    targetPort: 29813
+  - name: "29814"
+    nodePort: 31985
+    port: 29814
+    targetPort: 29814
+  - name: "27001"
+    nodePort: 30738
+    port: 27001
+    protocol: UDP
+    targetPort: 27001
+  - name: "29810"
+    nodePort: 30557
+    port: 29810
+    protocol: UDP
+    targetPort: 29810
+  selector:
+    app: omada-controller-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.containers.autoupdate/omada-controller: registry
+  creationTimestamp: "2023-02-20T20:18:08Z"
+  labels:
+    app: omada-controller-pod
+  name: omada-controller-pod
+spec:
+  containers:
+  - args:
+    - /usr/bin/java
+    - -server
+    - -Xms128m
+    - -Xmx1024m
+    - -XX:MaxHeapFreeRatio=60
+    - -XX:MinHeapFreeRatio=30
+    - -XX:+HeapDumpOnOutOfMemoryError
+    - -XX:HeapDumpPath=/opt/tplink/EAPController/logs/java_heapdump.hprof
+    - -Djava.awt.headless=true
+    - -cp
+    - '/opt/tplink/EAPController/lib/*::/opt/tplink/EAPController/properties:'
+    - com.tplink.smb.omada.starter.OmadaLinuxMain
+    env:
+    - name: PORT_UPGRADE_V1
+      value: "29813"
+    - name: TZ
+      value: US/Central
+    - name: PORTAL_HTTPS_PORT
+      value: "8843"
+    - name: PORT_MANAGER_V2
+      value: "29814"
+    - name: SSL_CERT_NAME
+      value: omada.jwillikers.io.crt
+    - name: PORT_DISCOVERY
+      value: "29810"
+    - name: PORT_MANAGER_V1
+      value: "29811"
+    - name: SHOW_SERVER_LOGS
+      value: "true"
+    - name: PORT_ADOPT_V1
+      value: "29812"
+    - name: SSL_KEY_NAME
+      value: omada.jwillikers.io.key
+    - name: MANAGE_HTTP_PORT
+      value: "8088"
+    - name: SHOW_MONGODB_LOGS
+      value: "false"
+    - name: MANAGE_HTTPS_PORT
+      value: "8043"
+    - name: PORT_APP_DISCOVERY
+      value: "27001"
+    - name: PORTAL_HTTP_PORT
+      value: "8088"
+    image: docker.io/mbentley/omada-controller:latest
+    name: omada-controller
+    securityContext:
+      seLinuxOptions:
+        type: spc_t
+    ports:
+    - containerPort: 8043
+      hostPort: 8043
+    - containerPort: 8088
+      hostPort: 8088
+    - containerPort: 8843
+      hostPort: 8843
+    - containerPort: 29811
+      hostPort: 29811
+    - containerPort: 29812
+      hostPort: 29812
+    - containerPort: 29813
+      hostPort: 29813
+    - containerPort: 29814
+      hostPort: 29814
+    - containerPort: 27001
+      hostPort: 27001
+      protocol: UDP
+    - containerPort: 29810
+      hostPort: 29810
+      protocol: UDP
+    stdin: true
+    tty: true
+    volumeMounts:
+    - mountPath: /cert/omada.jwillikers.io.crt
+      name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host-0
+      readOnly: true
+    - mountPath: /cert/omada.jwillikers.io.key
+      name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.key-host-1
+      readOnly: true
+    - mountPath: /opt/tplink/EAPController/logs
+      name: omada-controller-logs-pvc
+    - mountPath: /opt/tplink/EAPController/data
+      name: omada-controller-data-pvc
+  volumes:
+  - hostPath:
+      path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.crt
+      type: File
+    name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.key
+      type: File
+    name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.key-host-1
+  - name: omada-controller-logs-pvc
+    persistentVolumeClaim:
+      claimName: omada-controller-logs
+  - name: omada-controller-data-pvc
+    persistentVolumeClaim:
+      claimName: omada-controller-data
