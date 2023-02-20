@@ -7,7 +7,9 @@ Yaml=/home/jordan/Projects/home-lab-helm/omada-controller.yaml
 Network=podman1.network
 
 [Service]
-Restart=always
+Restart=on-failure
+TimeoutStartSec=infinity
+TimeoutStopSec=1000
 
 [Install]
 WantedBy=multi-user.target default.target
