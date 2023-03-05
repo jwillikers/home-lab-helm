@@ -46,14 +46,28 @@ metadata:
 spec:
   automountServiceAccountToken: false
   containers:
-  - image: quay.io/jwillikers/caddy-cloudflare:latest
+  - image: quay.io/jwillikers/caddy-ovh:latest
     name: caddy
     env:
-    - name: CLOUDFLARE_API_TOKEN
+    - name: OVH_ENDPOINT
+      value: ovh-eu
+    - name: OVH_APPLICATION_KEY
       valueFrom:
         secretKeyRef:
           name: caddy-secrets
-          key: caddy_cloudflare_token
+          key: ovh_application_key
+          optional: false
+    - name: OVH_APPLICATION_SECRET
+      valueFrom:
+        secretKeyRef:
+          name: caddy-secrets
+          key: ovh_application_secret
+          optional: false
+    - name: OVH_CONSUMER_KEY
+      valueFrom:
+        secretKeyRef:
+          name: caddy-secrets
+          key: ovh_consumer_key
           optional: false
     ports:
     - containerPort: 80
