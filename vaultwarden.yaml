@@ -73,7 +73,7 @@ spec:
           name: vaultwarden-secrets
           key: vaultwarden_smtp_password
           optional: false
-    image: docker.io/vaultwarden/server:latest
+    image: quay.io/vaultwarden/server:latest
     name: vaultwarden
     ports:
     - containerPort: 3012
