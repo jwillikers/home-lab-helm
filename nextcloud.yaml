@@ -212,7 +212,7 @@ spec:
       name: home-jordan-container-volumes-nextcloud-config-host-5
   - args:
     - -concurrency
-    - "50"
+    - "20"
     env:
     - name: PORT
       value: "8088"
@@ -221,6 +221,8 @@ spec:
     resources: {}
     securityContext:
       capabilities:
+        add:
+        - SYS_NICE
         drop:
         - CAP_MKNOD
         - CAP_NET_RAW
