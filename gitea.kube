@@ -1,14 +1,18 @@
 [Unit]
 Description=Gitea Git server
 Before=local-fs.target
+RequiresMountsFor=%t/containers %h/container-volumes/gitea-db-data %h/container-volumes/gitea-server-data %h/container-volumes/gitea-server-config
 
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/gitea.yaml
 Network=podman1.network
+# UserNS=keep-id
 RemapUsers=keep-id
 
 [Service]
 Restart=always
+TimeoutStartSec=infinity
+TimeoutStopSec=1000
 
 [Install]
 WantedBy=multi-user.target default.target

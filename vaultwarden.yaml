@@ -1,71 +1,97 @@
 # Save the output of this file and use kubectl create -f to import
 # it into Kubernetes.
 #
-# Created with podman-4.3.1
-
-# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
-# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
-# has the right permissions to access the volumes added.
----
+# Created with podman-4.4.2
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2023-02-09T00:56:46Z"
+  creationTimestamp: "2023-04-21T17:53:56Z"
   labels:
-    app: vaultwarden-pod
-  name: vaultwarden-pod
+    app: vaultwarden
+  name: vaultwarden
 spec:
   ports:
   - name: "3012"
-    nodePort: 31003
+    nodePort: 31949
     port: 3012
     targetPort: 3012
   selector:
-    app: vaultwarden-pod
+    app: vaultwarden
   type: NodePort
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/vaultwarden: registry
-    io.kubernetes.cri-o.TTY/vaultwarden: "false"
-    io.podman.annotations.autoremove/vaultwarden: "TRUE"
-    io.podman.annotations.cid-file/vaultwarden: /run/user/1000/container-vaultwarden.service.ctr-id
-    io.podman.annotations.init/vaultwarden: "FALSE"
-    io.podman.annotations.privileged/vaultwarden: "FALSE"
-    io.podman.annotations.publish-all/vaultwarden: "FALSE"
-  creationTimestamp: "2023-02-09T00:56:46Z"
+    io.containers.autoupdate/vaultwarden-db: registry
+    io.containers.autoupdate/vaultwarden-server: registry
+  creationTimestamp: "2023-04-21T17:53:56Z"
   labels:
-    app: vaultwarden-pod
-  name: vaultwarden-pod
+    app: vaultwarden
+  name: vaultwarden
 spec:
-  automountServiceAccountToken: false
   containers:
+  - args:
+    - postgres
+    env:
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_USER
+      value: vaultwarden
+    - name: POSTGRES_DB
+      value: vaultwarden
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: vaultwarden-secrets
+          key: vaultwarden_postgres_password
+          optional: false
+    image: docker.io/library/postgres:bullseye
+    name: vaultwarden-db
+    ports:
+    - containerPort: 3012
+      hostPort: 3012
+    resources: {}
+    securityContext:
+      runAsGroup: 1000
+      runAsUser: 1000
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: home-jordan-container-volumes-vaultwarden-db-data-host-0
   - args:
     - /start.sh
     env:
-    - name: SMTP_SECURITY
-      value: force_tls
-    - name: WEBSOCKET_ENABLED
-      value: "true"
-    - name: DOMAIN
-      value: https://vault.jwillikers.io
     - name: SMTP_FROM
       value: vaultwarden@jwillikers.com
-    - name: SMTP_USERNAME
-      value: vaultwarden@jwillikers.com
+    - name: SMTP_SECURITY
+      value: force_tls
     - name: SMTP_AUTH_MECHANISM
       value: Plain
-    - name: SMTP_HOST
-      value: ssl0.ovh.net
+    - name: SMTP_USERNAME
+      value: vaultwarden@jwillikers.com
+    - name: ROCKET_PORT
+      value: "8080"
     - name: SMTP_PORT
       value: "465"
+    - name: DOMAIN
+      value: https://vault.jwillikers.io
+    - name: SMTP_HOST
+      value: ssl0.ovh.net
+    - name: WEBSOCKET_ENABLED
+      value: "true"
     - name: ADMIN_TOKEN
       valueFrom:
         secretKeyRef:
           name: vaultwarden-secrets
           key: vaultwarden_admin_token
+          optional: false
+    - name: DATABASE_URL
+      valueFrom:
+        secretKeyRef:
+          name: vaultwarden-secrets
+          key: vaultwarden_database_url
           optional: false
     - name: SMTP_PASSWORD
       valueFrom:
@@ -74,20 +100,26 @@ spec:
           key: vaultwarden_smtp_password
           optional: false
     image: quay.io/vaultwarden/server:latest
-    name: vaultwarden
-    ports:
-    - containerPort: 3012
-      hostPort: 3012
+    name: vaultwarden-server
+    resources: {}
     securityContext:
-      capabilities: {}
+      runAsGroup: 1000
+      runAsUser: 1000
       seLinuxOptions:
         type: spc_t
     volumeMounts:
     - mountPath: /data
       name: home-jordan-container-volumes-vaultwarden-data-host-0
-  enableServiceLinks: false
+  hostUsers: false
+  hostname: vaultwarden
+  restartPolicy: Never
   volumes:
+  - hostPath:
+      path: /home/jordan/container-volumes/vaultwarden-db-data
+      type: Directory
+    name: home-jordan-container-volumes-vaultwarden-db-data-host-0
   - hostPath:
       path: /home/jordan/container-volumes/vaultwarden-data
       type: Directory
     name: home-jordan-container-volumes-vaultwarden-data-host-0
+status: {}

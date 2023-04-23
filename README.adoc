@@ -1,0 +1,64 @@
+= Home Lab Helm
+:keywords: container helm k8s kubernetes linux podman systemd
+:podman-system-unit: https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html[podman-systemd.unit]
+
+Kubernetes YAML and Podman systemd configuration files for running my home containers.
+Currently, everything is run rootless via Podman.
+
+. Clone this repository.
++
+[,sh]
+----
+git clone git@github.com:jwillikers/home-lab-helm.git
+----
+
+. Change to the project directory.
++
+[,sh]
+----
+cd home-lab-helm
+----
+
+. Create the directory for Podman's systemd container generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Copy in the network file.
++
+[,sh]
+----
+cp podman1.network ~/.config/containers/systemd/
+----
+
+. Copy in the desired '.kube' files for the desired applications.
++
+[,sh]
+----
+cp caddy.kube ~/.config/containers/systemd/
+----
+
+. For any containers that require secrets, enter the secrets in the corresponding `-secrets.yaml` file.
+
+. Import the secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube caddy-secrets.yaml
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the desired units.
++
+[,sh]
+----
+systemctl --user start caddy
+----

@@ -82,7 +82,7 @@ spec:
     - mountPath: /config/
       name: caddy-config-pvc
     - mountPath: /data/
-      name: caddy-data-pvc
+      name: home-jordan-container-volumes-caddy-data-host-0
   volumes:
   - hostPath:
       path: /home/jordan/Projects/quartz64-caddy-config/Caddyfile
@@ -91,6 +91,7 @@ spec:
   - name: caddy-config-pvc
     persistentVolumeClaim:
       claimName: caddy-config
-  - name: caddy-data-pvc
-    persistentVolumeClaim:
-      claimName: caddy-data
+  - hostPath:
+      path: /home/jordan/container-volumes/caddy-data
+      type: Directory
+    name: home-jordan-container-volumes-caddy-data-host-0

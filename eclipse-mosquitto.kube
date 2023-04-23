@@ -1,6 +1,7 @@
 [Unit]
 Description=Eclipse Mosquitto MQTT broker
 Before=local-fs.target
+RequiresMountsFor=%t/containers %h/container-volumes/eclipse-mosquitto-data  %h/container-volumes/eclipse-mosquitto-config %h/container-volumes/eclipse-mosquitto-log
 
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/eclipse-mosquitto.yaml

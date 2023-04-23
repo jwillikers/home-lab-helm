@@ -1,6 +1,7 @@
 [Unit]
 Description=InfluxDB instance
 Before=local-fs.target
+RequiresMountsFor=%t/containers %h/container-volumes/influxdb-data  %h/container-volumes/influxdb-config
 
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/influxdb.yaml

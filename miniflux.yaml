@@ -1,11 +1,11 @@
 # Save the output of this file and use kubectl create -f to import
 # it into Kubernetes.
 #
-# Created with podman-4.3.1
+# Created with podman-4.4.2
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2023-02-08T22:12:14Z"
+  creationTimestamp: "2023-04-21T20:14:20Z"
   labels:
     app: miniflux
   name: miniflux
@@ -20,49 +20,31 @@ metadata:
   annotations:
     io.containers.autoupdate/miniflux-db: registry
     io.containers.autoupdate/miniflux-server: registry
-    io.kubernetes.cri-o.ContainerType/miniflux-db: container
-    io.kubernetes.cri-o.ContainerType/miniflux-server: container
-    io.kubernetes.cri-o.SandboxID/miniflux-db: 58d433b97127e26b36394aa38ea3fbc190a5c45fe64570ce9933db91b8fd113
-    io.kubernetes.cri-o.SandboxID/miniflux-server: 58d433b97127e26b36394aa38ea3fbc190a5c45fe64570ce9933db91b8fd113
-    io.kubernetes.cri-o.TTY/miniflux-db: "false"
-    io.kubernetes.cri-o.TTY/miniflux-server: "false"
-    io.podman.annotations.autoremove/miniflux-db: "TRUE"
-    io.podman.annotations.autoremove/miniflux-server: "TRUE"
-    io.podman.annotations.cid-file/miniflux-db: /run/user/1000/container-miniflux-db.service.ctr-id
-    io.podman.annotations.cid-file/miniflux-server: /run/user/1000/container-miniflux-server.service.ctr-id
-    io.podman.annotations.init/miniflux-db: "FALSE"
-    io.podman.annotations.init/miniflux-server: "FALSE"
-    io.podman.annotations.privileged/miniflux-db: "FALSE"
-    io.podman.annotations.privileged/miniflux-server: "FALSE"
-    io.podman.annotations.publish-all/miniflux-db: "FALSE"
-    io.podman.annotations.publish-all/miniflux-server: "FALSE"
-  creationTimestamp: "2023-02-08T22:12:14Z"
+  creationTimestamp: "2023-04-21T20:14:20Z"
   labels:
     app: miniflux
   name: miniflux
 spec:
-  automountServiceAccountToken: false
   containers:
   - args:
     - postgres
     env:
-    - name: POSTGRES_USER
+    - name: POSTGRES_DB
       value: miniflux
     - name: PGDATA
       value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_DB
+    - name: POSTGRES_USER
       value: miniflux
     - name: POSTGRES_PASSWORD
       valueFrom:
         secretKeyRef:
           name: miniflux-secrets
-          key: miniflux_db_password
+          key: miniflux_postgres_password
           optional: false
     image: docker.io/library/postgres:bullseye
     name: miniflux-db
     resources: {}
     securityContext:
-      capabilities: {}
       runAsGroup: 1000
       runAsUser: 1000
       seLinuxOptions:
@@ -71,34 +53,30 @@ spec:
     - mountPath: /var/lib/postgresql/data
       name: home-jordan-container-volumes-miniflux-db-data-host-0
   - env:
-    - name: CREATE_ADMIN
-      value: "1"
-    - name: DATABASE_URL
-      value: postgres://miniflux:$POSTGRES_PASSWORD@localhost/miniflux?sslmode=disable
     - name: RUN_MIGRATIONS
       value: "1"
     - name: ADMIN_USERNAME
       value: admin
+    - name: CREATE_ADMIN
+      value: "1"
+    - name: DATABASE_URL
+      valueFrom:
+        secretKeyRef:
+          name: miniflux-secrets
+          key: miniflux_database_url
+          optional: false
     - name: ADMIN_PASSWORD
       valueFrom:
         secretKeyRef:
           name: miniflux-secrets
           key: miniflux_admin_password
           optional: false
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: miniflux-secrets
-          key: miniflux_db_password
-          optional: false
-    image: docker.io/miniflux/miniflux:latest
+    image: ghcr.io/miniflux/miniflux:latest
     name: miniflux-server
     resources: {}
     securityContext:
-      capabilities: {}
       seLinuxOptions:
         type: spc_t
-  enableServiceLinks: false
   hostUsers: false
   hostname: miniflux
   restartPolicy: Never

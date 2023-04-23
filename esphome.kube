@@ -1,6 +1,7 @@
 [Unit]
 Description=ESPHome server
 Before=local-fs.target
+RequiresMountsFor=%t/containers %h/container-volumes/esphome-config
 
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/esphome.yaml

@@ -81,9 +81,37 @@ spec:
     volumeMounts:
     - mountPath: /data
       name: home-jordan-s3-host-0
+    - mountPath: /root/.minio/certs/minio.jwillikers.io/public.crt
+      name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.crt-host-0
+      readOnly: true
+    - mountPath: /root/.minio/certs/minio.jwillikers.io/private.key
+      name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.key-host-0
+      readOnly: true
+    - mountPath: /root/.minio/certs/minio.lan.jwillikers.io/public.crt
+      name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.crt-host-0
+      readOnly: true
+    - mountPath: /root/.minio/certs/minio.lan.jwillikers.io/private.key
+      name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.key-host-0
+      readOnly: true
   hostUsers: false
   volumes:
   - hostPath:
       path: /home/jordan/s3
       type: Directory
     name: home-jordan-s3-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.jwillikers.io/minio.jwillikers.io.crt
+      type: File
+    name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.crt-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.jwillikers.io/minio.jwillikers.io.key
+      type: File
+    name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.key-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.lan.jwillikers.io/minio.lan.jwillikers.io.crt
+      type: File
+    name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.crt-host-0
+  - hostPath:
+      path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.lan.jwillikers.io/minio.lan.jwillikers.io.key
+      type: File
+    name: home-jordan-container-volumes-caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.key-host-0
