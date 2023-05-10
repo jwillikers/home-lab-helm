@@ -4,7 +4,7 @@ Before=local-fs.target
 
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/home-assistant.yaml
-Network=podman1.network
+Network=podman.network
 RemapUsers=keep-id
 
 [Service]

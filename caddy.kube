@@ -5,7 +5,7 @@ RequiresMountsFor=%t/containers %h/container-volumes/caddy-data  %h/container-vo
 
 [Kube]
 Yaml=/var/home/jordan/Projects/home-lab-helm/caddy.yaml
-Network=podman1.network
+Network=podman.network
 # Run as non-root inside the container when Podman supports setting sysctls in Kubernetes YAML.
 # RemapUsers: keep-id
 
