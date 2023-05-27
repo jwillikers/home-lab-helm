@@ -1,7 +1,7 @@
 [Unit]
 Description=Miniflux RSS feed reader
 Before=local-fs.target
-RequiresMountsFor=%t/containers %h/container-volumes/miniflux-db-data
+RequiresMountsFor=%h/container-volumes/miniflux-db-data
 
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/miniflux.yaml

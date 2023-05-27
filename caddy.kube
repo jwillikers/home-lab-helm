@@ -1,7 +1,7 @@
 [Unit]
 Description=Caddy reverse-proxy
 Before=local-fs.target
-RequiresMountsFor=%t/containers %h/container-volumes/caddy-data  %h/container-volumes/caddy-config
+RequiresMountsFor=%h/container-volumes/caddy-data  %h/container-volumes/caddy-config
 
 [Kube]
 Yaml=/var/home/jordan/Projects/home-lab-helm/caddy.yaml

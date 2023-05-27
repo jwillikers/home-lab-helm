@@ -1,6 +1,7 @@
 [Unit]
 Description=Home Assistant server
 Before=local-fs.target
+RequiresMountsFor=%h/container-volumes/home-assistant-data
 
 [Kube]
 Yaml=/home/jordan/Projects/home-lab-helm/home-assistant.yaml
