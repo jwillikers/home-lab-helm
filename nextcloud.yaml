@@ -60,223 +60,223 @@ metadata:
 spec:
   automountServiceAccountToken: false
   containers:
-  - args:
-    - redis-server
-    image: docker.io/library/redis:latest
-    name: nextcloud-redis
-    resources: {}
-    securityContext:
-      capabilities:
-        drop:
-        - CAP_MKNOD
-        - CAP_NET_RAW
-        - CAP_AUDIT_WRITE
-      runAsGroup: 1000
-      runAsUser: 1000
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /data
-      name: home-jordan-container-volumes-nextcloud-redis-host-0
-  - args:
-    - postgres
-    env:
-    - name: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_USER
-      value: nextcloud
-    - name: POSTGRES_DB
-      value: nextcloud
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud-secrets
-          key: nextcloud_db_password
-          optional: false
-    image: docker.io/library/postgres:bullseye
-    name: nextcloud-db
-    resources: {}
-    securityContext:
-      capabilities:
-        drop:
-        - CAP_MKNOD
-        - CAP_NET_RAW
-        - CAP_AUDIT_WRITE
-      runAsGroup: 1000
-      runAsUser: 1000
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /var/lib/postgresql/data
-      name: home-jordan-container-volumes-nextcloud-db-data-host-0
-  - args:
-    - php-fpm
-    env:
-    - name: NEXTCLOUD_TRUSTED_DOMAINS
-      value: cloud.jwillikers.io
-    - name: OBJECTSTORE_S3_REGION
-      value: home-lab-0
-    - name: SMTP_PORT
-      value: "465"
-    - name: REDIS_HOST
-      value: localhost
-    - name: SMTP_NAME
-      value: nextcloud@jwillikers.com
-    - name: MAIL_DOMAIN
-      value: jwillikers.com
-    - name: POSTGRES_HOST
-      value: localhost
-    - name: NEXTCLOUD_ADMIN_USER
-      value: admin
-    - name: OBJECTSTORE_S3_HOST
-      value: minio.jwillikers.io
-    - name: SMTP_AUTHTYPE
-      value: PLAIN
-    - name: SMTP_SECURE
-      value: ssl
-    - name: POSTGRES_USER
-      value: nextcloud
-    - name: OBJECTSTORE_S3_SSL
-      value: "true"
-    - name: OBJECTSTORE_S3_BUCKET
-      value: nextcloud
-    - name: OBJECTSTORE_S3_USEPATH_STYLE
-      value: "true"
-    - name: OVERWRITECLIURL
-      value: https://cloud.jwillikers.io
-    - name: TRUSTED_PROXIES
-      value: 10.89.0.0/16
-    - name: SMTP_HOST
-      value: ssl0.ovh.net
-    - name: MAIL_FROM_ADDRESS
-      value: nextcloud
-    - name: POSTGRES_DB
-      value: nextcloud
-    - name: SMTP_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud-secrets
-          key: nextcloud_smtp_password
-          optional: false
-    - name: OBJECTSTORE_S3_SECRET
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud-secrets
-          key: nextcloud_s3_secret
-          optional: false
-    - name: NEXTCLOUD_ADMIN_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud-secrets
-          key: nextcloud_admin_password
-          optional: false
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud-secrets
-          key: nextcloud_db_password
-          optional: false
-    - name: OBJECTSTORE_S3_KEY
-      valueFrom:
-        secretKeyRef:
-          name: nextcloud-secrets
-          key: nextcloud_s3_key
-          optional: false
-    image: docker.io/library/nextcloud:fpm
-    name: nextcloud-server
-    resources: {}
-    securityContext:
-      capabilities:
-        drop:
-        - CAP_MKNOD
-        - CAP_NET_RAW
-        - CAP_AUDIT_WRITE
-      runAsGroup: 1000
-      runAsUser: 1000
-      seLinuxOptions:
-        type: spc_t
-    stdin: true
-    tty: true
-    volumeMounts:
-    - mountPath: /var/www/html/custom_apps
-      name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
-    - mountPath: /var/www/html/data
-      name: home-jordan-container-volumes-nextcloud-data-host-1
-    - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
-      name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
-    - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
-      name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
-    - mountPath: /var/www/html
-      name: home-jordan-container-volumes-nextcloud-app-host-4
-    - mountPath: /var/www/html/config
-      name: home-jordan-container-volumes-nextcloud-config-host-5
-  - args:
-    - -concurrency
-    - "20"
-    env:
-    - name: PORT
-      value: "8088"
-    image: docker.io/nextcloud/aio-imaginary:latest
-    name: nextcloud-imaginary
-    resources: {}
-    securityContext:
-      capabilities:
-        add:
-        - SYS_NICE
-        drop:
-        - CAP_MKNOD
-        - CAP_NET_RAW
-        - CAP_AUDIT_WRITE
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /var/www/html/custom_apps
-      name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
-    - mountPath: /var/www/html/data
-      name: home-jordan-container-volumes-nextcloud-data-host-1
-    - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
-      name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
-    - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
-      name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
-    - mountPath: /var/www/html
-      name: home-jordan-container-volumes-nextcloud-app-host-4
-    - mountPath: /var/www/html/config
-      name: home-jordan-container-volumes-nextcloud-config-host-5
+    - args:
+        - redis-server
+      image: docker.io/library/redis:latest
+      name: nextcloud-redis
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+            - CAP_MKNOD
+            - CAP_NET_RAW
+            - CAP_AUDIT_WRITE
+        runAsGroup: 1000
+        runAsUser: 1000
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data
+          name: home-jordan-container-volumes-nextcloud-redis-host-0
+    - args:
+        - postgres
+      env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          value: nextcloud
+        - name: POSTGRES_DB
+          value: nextcloud
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: nextcloud_db_password
+              optional: false
+      image: docker.io/library/postgres:bookworm
+      name: nextcloud-db
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+            - CAP_MKNOD
+            - CAP_NET_RAW
+            - CAP_AUDIT_WRITE
+        runAsGroup: 1000
+        runAsUser: 1000
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: home-jordan-container-volumes-nextcloud-db-data-host-0
+    - args:
+        - php-fpm
+      env:
+        - name: NEXTCLOUD_TRUSTED_DOMAINS
+          value: cloud.jwillikers.io
+        - name: OBJECTSTORE_S3_REGION
+          value: home-lab-0
+        - name: SMTP_PORT
+          value: "465"
+        - name: REDIS_HOST
+          value: localhost
+        - name: SMTP_NAME
+          value: nextcloud@jwillikers.com
+        - name: MAIL_DOMAIN
+          value: jwillikers.com
+        - name: POSTGRES_HOST
+          value: localhost
+        - name: NEXTCLOUD_ADMIN_USER
+          value: admin
+        - name: OBJECTSTORE_S3_HOST
+          value: minio.jwillikers.io
+        - name: SMTP_AUTHTYPE
+          value: PLAIN
+        - name: SMTP_SECURE
+          value: ssl
+        - name: POSTGRES_USER
+          value: nextcloud
+        - name: OBJECTSTORE_S3_SSL
+          value: "true"
+        - name: OBJECTSTORE_S3_BUCKET
+          value: nextcloud
+        - name: OBJECTSTORE_S3_USEPATH_STYLE
+          value: "true"
+        - name: OVERWRITECLIURL
+          value: https://cloud.jwillikers.io
+        - name: TRUSTED_PROXIES
+          value: 10.89.0.0/16
+        - name: SMTP_HOST
+          value: ssl0.ovh.net
+        - name: MAIL_FROM_ADDRESS
+          value: nextcloud
+        - name: POSTGRES_DB
+          value: nextcloud
+        - name: SMTP_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: nextcloud_smtp_password
+              optional: false
+        - name: OBJECTSTORE_S3_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: nextcloud_s3_secret
+              optional: false
+        - name: NEXTCLOUD_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: nextcloud_admin_password
+              optional: false
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: nextcloud_db_password
+              optional: false
+        - name: OBJECTSTORE_S3_KEY
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: nextcloud_s3_key
+              optional: false
+      image: docker.io/library/nextcloud:fpm
+      name: nextcloud-server
+      resources: {}
+      securityContext:
+        capabilities:
+          drop:
+            - CAP_MKNOD
+            - CAP_NET_RAW
+            - CAP_AUDIT_WRITE
+        runAsGroup: 1000
+        runAsUser: 1000
+        seLinuxOptions:
+          type: spc_t
+      stdin: true
+      tty: true
+      volumeMounts:
+        - mountPath: /var/www/html/custom_apps
+          name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+        - mountPath: /var/www/html/data
+          name: home-jordan-container-volumes-nextcloud-data-host-1
+        - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
+          name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
+        - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
+          name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
+        - mountPath: /var/www/html
+          name: home-jordan-container-volumes-nextcloud-app-host-4
+        - mountPath: /var/www/html/config
+          name: home-jordan-container-volumes-nextcloud-config-host-5
+    - args:
+        - -concurrency
+        - "20"
+      env:
+        - name: PORT
+          value: "8088"
+      image: docker.io/nextcloud/aio-imaginary:latest
+      name: nextcloud-imaginary
+      resources: {}
+      securityContext:
+        capabilities:
+          add:
+            - SYS_NICE
+          drop:
+            - CAP_MKNOD
+            - CAP_NET_RAW
+            - CAP_AUDIT_WRITE
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/www/html/custom_apps
+          name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+        - mountPath: /var/www/html/data
+          name: home-jordan-container-volumes-nextcloud-data-host-1
+        - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
+          name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
+        - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
+          name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
+        - mountPath: /var/www/html
+          name: home-jordan-container-volumes-nextcloud-app-host-4
+        - mountPath: /var/www/html/config
+          name: home-jordan-container-volumes-nextcloud-config-host-5
   enableServiceLinks: false
   hostUsers: false
   hostname: nextcloud
   restartPolicy: Never
   volumes:
-  - hostPath:
-      path: /home/jordan/container-volumes/nextcloud-custom-apps
-      type: Directory
-    name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
-  - hostPath:
-      path: /home/jordan/container-volumes/nextcloud-data
-      type: Directory
-    name: home-jordan-container-volumes-nextcloud-data-host-1
-  - hostPath:
-      path: /home/jordan/Projects/nextcloud-config/redis-session.ini
-      type: File
-    name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
-  - hostPath:
-      path: /home/jordan/Projects/nextcloud-config/z-www-overrides.conf
-      type: File
-    name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
-  - hostPath:
-      path: /home/jordan/container-volumes/nextcloud-app
-      type: Directory
-    name: home-jordan-container-volumes-nextcloud-app-host-4
-  - hostPath:
-      path: /home/jordan/container-volumes/nextcloud-config
-      type: Directory
-    name: home-jordan-container-volumes-nextcloud-config-host-5
-  - hostPath:
-      path: /home/jordan/container-volumes/nextcloud-redis
-      type: Directory
-    name: home-jordan-container-volumes-nextcloud-redis-host-0
-  - hostPath:
-      path: /home/jordan/container-volumes/nextcloud-db-data
-      type: Directory
-    name: home-jordan-container-volumes-nextcloud-db-data-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/nextcloud-custom-apps
+        type: Directory
+      name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/nextcloud-data
+        type: Directory
+      name: home-jordan-container-volumes-nextcloud-data-host-1
+    - hostPath:
+        path: /home/jordan/Projects/nextcloud-config/redis-session.ini
+        type: File
+      name: home-jordan-Projects-nextcloud-config-redis-session.ini-host-2
+    - hostPath:
+        path: /home/jordan/Projects/nextcloud-config/z-www-overrides.conf
+        type: File
+      name: home-jordan-Projects-nextcloud-config-z-www-overrides.conf-host-3
+    - hostPath:
+        path: /home/jordan/container-volumes/nextcloud-app
+        type: Directory
+      name: home-jordan-container-volumes-nextcloud-app-host-4
+    - hostPath:
+        path: /home/jordan/container-volumes/nextcloud-config
+        type: Directory
+      name: home-jordan-container-volumes-nextcloud-config-host-5
+    - hostPath:
+        path: /home/jordan/container-volumes/nextcloud-redis
+        type: Directory
+      name: home-jordan-container-volumes-nextcloud-redis-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/nextcloud-db-data
+        type: Directory
+      name: home-jordan-container-volumes-nextcloud-db-data-host-0
 status: {}

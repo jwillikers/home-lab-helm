@@ -26,63 +26,63 @@ metadata:
   name: miniflux
 spec:
   containers:
-  - args:
-    - postgres
-    env:
-    - name: POSTGRES_DB
-      value: miniflux
-    - name: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_USER
-      value: miniflux
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: miniflux-secrets
-          key: miniflux_postgres_password
-          optional: false
-    image: docker.io/library/postgres:bullseye
-    name: miniflux-db
-    resources: {}
-    securityContext:
-      runAsGroup: 1000
-      runAsUser: 1000
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /var/lib/postgresql/data
-      name: home-jordan-container-volumes-miniflux-db-data-host-0
-  - env:
-    - name: RUN_MIGRATIONS
-      value: "1"
-    - name: ADMIN_USERNAME
-      value: admin
-    - name: CREATE_ADMIN
-      value: "1"
-    - name: DATABASE_URL
-      valueFrom:
-        secretKeyRef:
-          name: miniflux-secrets
-          key: miniflux_database_url
-          optional: false
-    - name: ADMIN_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: miniflux-secrets
-          key: miniflux_admin_password
-          optional: false
-    image: ghcr.io/miniflux/miniflux:latest
-    name: miniflux-server
-    resources: {}
-    securityContext:
-      seLinuxOptions:
-        type: spc_t
+    - args:
+        - postgres
+      env:
+        - name: POSTGRES_DB
+          value: miniflux
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_USER
+          value: miniflux
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: miniflux-secrets
+              key: miniflux_postgres_password
+              optional: false
+      image: docker.io/library/postgres:bookworm
+      name: miniflux-db
+      resources: {}
+      securityContext:
+        runAsGroup: 1000
+        runAsUser: 1000
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: home-jordan-container-volumes-miniflux-db-data-host-0
+    - env:
+        - name: RUN_MIGRATIONS
+          value: "1"
+        - name: ADMIN_USERNAME
+          value: admin
+        - name: CREATE_ADMIN
+          value: "1"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: miniflux-secrets
+              key: miniflux_database_url
+              optional: false
+        - name: ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: miniflux-secrets
+              key: miniflux_admin_password
+              optional: false
+      image: ghcr.io/miniflux/miniflux:latest
+      name: miniflux-server
+      resources: {}
+      securityContext:
+        seLinuxOptions:
+          type: spc_t
   hostUsers: false
   hostname: miniflux
   restartPolicy: Never
   volumes:
-  - hostPath:
-      path: /home/jordan/container-volumes/miniflux-db-data
-      type: Directory
-    name: home-jordan-container-volumes-miniflux-db-data-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/miniflux-db-data
+        type: Directory
+      name: home-jordan-container-volumes-miniflux-db-data-host-0
 status: {}
