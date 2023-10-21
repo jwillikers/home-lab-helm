@@ -27,7 +27,9 @@ git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 
 .Documentation
 * https://github.com/h2non/imaginary[imaginary]
+* https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/automatic_configuration.html[Nextcloud Admin Manual: Automatic setup]
 * https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html[Nextcloud Admin Manual: Background jobs]
+* https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/config_sample_php_parameters.html#deleted-items-trash-bin[Nextcloud Admin Manual: Configuration Parameters - Deleted Items (trash bin)]
 * https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/email_configuration.html[Nextcloud Admin Manual: Email]
 * https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/index.html[Nextcloud Admin Manual: Nextcloud configuration]
 * https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html[Nextcloud Admin Manual: Reverse proxy]
