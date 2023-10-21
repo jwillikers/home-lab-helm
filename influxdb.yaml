@@ -16,10 +16,10 @@ metadata:
   name: influxdb-pod
 spec:
   ports:
-  - name: "8086"
-    nodePort: 30331
-    port: 8086
-    targetPort: 8086
+    - name: "8086"
+      nodePort: 30331
+      port: 8086
+      targetPort: 8086
   selector:
     app: influxdb-pod
   type: NodePort
@@ -42,62 +42,62 @@ metadata:
 spec:
   automountServiceAccountToken: false
   containers:
-  - args:
-    - influxd
-    env:
-    - name: DOCKER_INFLUXDB_INIT_ORG
-      value: jwillikers
-    - name: DOCKER_INFLUXDB_INIT_BUCKET
-      value: data
-    - name: DOCKER_INFLUXDB_INIT_MODE
-      value: setup
-    - name: DOCKER_INFLUXDB_INIT_RETENTION
-      value: 56w
-    - name: DOCKER_INFLUXDB_INIT_USERNAME
-      value: jordan
-    - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
-      valueFrom:
-        secretKeyRef:
-          name: influxdb-secrets
-          key: influxdb_admin_token
-          optional: false
-    - name: DOCKER_INFLUXDB_INIT_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: influxdb-secrets
-          key: influxdb_admin_password
-          optional: false
-    image: docker.io/library/influxdb:latest
-    name: influxdb
-    ports:
-    - containerPort: 8086
-      hostPort: 8086
-    securityContext:
-      capabilities: {}
-      runAsGroup: 1000
-      runAsUser: 1000
-      seLinuxOptions:
-        type: spc_t
-    stdin: true
-    tty: true
-    volumeMounts:
-    - mountPath: /etc/influxdb2/config.yml
-      name: home-jordan-container-volumes-influxdb-config-config.yml-host-0
-    - mountPath: /var/lib/influxdb2
-      name: home-jordan-container-volumes-influxdb-data-host-1
-    - mountPath: /etc/influxdb2
-      name: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288-pvc
+    - args:
+        - influxd
+      env:
+        - name: DOCKER_INFLUXDB_INIT_ORG
+          value: jwillikers
+        - name: DOCKER_INFLUXDB_INIT_BUCKET
+          value: data
+        - name: DOCKER_INFLUXDB_INIT_MODE
+          value: setup
+        - name: DOCKER_INFLUXDB_INIT_RETENTION
+          value: 56w
+        - name: DOCKER_INFLUXDB_INIT_USERNAME
+          value: jordan
+        - name: DOCKER_INFLUXDB_INIT_ADMIN_TOKEN
+          valueFrom:
+            secretKeyRef:
+              name: influxdb-secrets
+              key: influxdb_admin_token
+              optional: false
+        - name: DOCKER_INFLUXDB_INIT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: influxdb-secrets
+              key: influxdb_admin_password
+              optional: false
+      image: docker.io/library/influxdb:latest
+      name: influxdb
+      ports:
+        - containerPort: 8086
+          hostPort: 8086
+      securityContext:
+        capabilities: {}
+        runAsGroup: 1000
+        runAsUser: 1000
+        seLinuxOptions:
+          type: spc_t
+      stdin: true
+      tty: true
+      volumeMounts:
+        - mountPath: /etc/influxdb2/config.yml
+          name: influxdb-config-config.yml-host-0
+        - mountPath: /var/lib/influxdb2
+          name: influxdb-data-host-1
+        - mountPath: /etc/influxdb2
+          name: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288-pvc
   enableServiceLinks: false
   hostUsers: false
   volumes:
-  - hostPath:
-      path: /home/jordan/container-volumes/influxdb-config/config.yml
-      type: File
-    name: home-jordan-container-volumes-influxdb-config-config.yml-host-0
-  - hostPath:
-      path: /home/jordan/container-volumes/influxdb-data
-      type: Directory
-    name: home-jordan-container-volumes-influxdb-data-host-1
-  - name: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288-pvc
-    persistentVolumeClaim:
-      claimName: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288
+    - hostPath:
+        path: /home/jordan/container-volumes/influxdb-config/config.yml
+        type: File
+      name: influxdb-config-config.yml-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/influxdb-data
+        type: Directory
+      name: influxdb-data-host-1
+    - name: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288-pvc
+      persistentVolumeClaim:
+        claimName: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288

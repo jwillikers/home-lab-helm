@@ -59,7 +59,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: home-jordan-container-volumes-vaultwarden-db-data-host-0
+          name: vaultwarden-db-data-host-0
     - args:
         - /start.sh
       env:
@@ -109,7 +109,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: home-jordan-container-volumes-vaultwarden-data-host-0
+          name: vaultwarden-data-host-0
   hostUsers: false
   hostname: vaultwarden
   restartPolicy: Never
@@ -117,9 +117,9 @@ spec:
     - hostPath:
         path: /home/jordan/container-volumes/vaultwarden-db-data
         type: Directory
-      name: home-jordan-container-volumes-vaultwarden-db-data-host-0
+      name: vaultwarden-db-data-host-0
     - hostPath:
         path: /home/jordan/container-volumes/vaultwarden-data
         type: Directory
-      name: home-jordan-container-volumes-vaultwarden-data-host-0
+      name: vaultwarden-data-host-0
 status: {}

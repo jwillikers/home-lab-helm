@@ -37,18 +37,18 @@ metadata:
 spec:
   automountServiceAccountToken: false
   containers:
-  - image: ghcr.io/home-assistant/home-assistant:stable
-    name: home-assistant
-    securityContext:
-      capabilities: {}
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /config
-      name: home-jordan-container-volumes-home-assistant-config-host-0
+    - image: ghcr.io/home-assistant/home-assistant:stable
+      name: home-assistant
+      securityContext:
+        capabilities: {}
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /config
+          name: home-assistant-config-host-0
   enableServiceLinks: false
   volumes:
-  - hostPath:
-      path: /home/jordan/container-volumes/home-assistant-config
-      type: Directory
-    name: home-jordan-container-volumes-home-assistant-config-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/home-assistant-config
+        type: Directory
+      name: home-assistant-config-host-0

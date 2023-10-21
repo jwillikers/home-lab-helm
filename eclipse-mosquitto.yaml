@@ -16,10 +16,10 @@ metadata:
   name: eclipse-mosquitto-pod
 spec:
   ports:
-  - name: "1883"
-    nodePort: 30422
-    port: 1883
-    targetPort: 1883
+    - name: "1883"
+      nodePort: 30422
+      port: 1883
+      targetPort: 1883
   selector:
     app: eclipse-mosquitto-pod
   type: NodePort
@@ -42,40 +42,40 @@ metadata:
 spec:
   automountServiceAccountToken: false
   containers:
-  - args:
-    - /usr/sbin/mosquitto
-    - -c
-    - /mosquitto/config/mosquitto.conf
-    image: docker.io/library/eclipse-mosquitto:latest
-    name: eclipse-mosquitto
-    ports:
-    - containerPort: 1883
-      hostPort: 1883
-    securityContext:
-      capabilities: {}
-      runAsGroup: 1000
-      runAsUser: 1000
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /mosquitto/config/
-      name: home-jordan-container-volumes-eclipse-mosquitto-config-host-0
-    - mountPath: /mosquitto/data/
-      name: home-jordan-container-volumes-eclipse-mosquitto-data-host-1
-    - mountPath: /mosquitto/log/
-      name: home-jordan-container-volumes-eclipse-mosquitto-log-host-2
+    - args:
+        - /usr/sbin/mosquitto
+        - -c
+        - /mosquitto/config/mosquitto.conf
+      image: docker.io/library/eclipse-mosquitto:latest
+      name: eclipse-mosquitto
+      ports:
+        - containerPort: 1883
+          hostPort: 1883
+      securityContext:
+        capabilities: {}
+        runAsGroup: 1000
+        runAsUser: 1000
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /mosquitto/config/
+          name: eclipse-mosquitto-config-host-0
+        - mountPath: /mosquitto/data/
+          name: eclipse-mosquitto-data-host-1
+        - mountPath: /mosquitto/log/
+          name: eclipse-mosquitto-log-host-2
   enableServiceLinks: false
   hostUsers: false
   volumes:
-  - hostPath:
-      path: /home/jordan/container-volumes/eclipse-mosquitto-config
-      type: Directory
-    name: home-jordan-container-volumes-eclipse-mosquitto-config-host-0
-  - hostPath:
-      path: /home/jordan/container-volumes/eclipse-mosquitto-data
-      type: Directory
-    name: home-jordan-container-volumes-eclipse-mosquitto-data-host-1
-  - hostPath:
-      path: /home/jordan/container-volumes/eclipse-mosquitto-log
-      type: Directory
-    name: home-jordan-container-volumes-eclipse-mosquitto-log-host-2
+    - hostPath:
+        path: /home/jordan/container-volumes/eclipse-mosquitto-config
+        type: Directory
+      name: eclipse-mosquitto-config-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/eclipse-mosquitto-data
+        type: Directory
+      name: eclipse-mosquitto-data-host-1
+    - hostPath:
+        path: /home/jordan/container-volumes/eclipse-mosquitto-log
+        type: Directory
+      name: eclipse-mosquitto-log-host-2

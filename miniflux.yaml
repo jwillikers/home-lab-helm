@@ -51,7 +51,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: home-jordan-container-volumes-miniflux-db-data-host-0
+          name: miniflux-db-data-host-0
     - env:
         - name: RUN_MIGRATIONS
           value: "1"
@@ -84,5 +84,5 @@ spec:
     - hostPath:
         path: /home/jordan/container-volumes/miniflux-db-data
         type: Directory
-      name: home-jordan-container-volumes-miniflux-db-data-host-0
+      name: miniflux-db-data-host-0
 status: {}

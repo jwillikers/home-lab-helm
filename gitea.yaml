@@ -76,7 +76,7 @@ spec:
         runAsUser: 1000
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: home-jordan-container-volumes-gitea-db-data-host-0
+          name: gitea-db-data-host-0
     - env:
         - name: GITEA__database__NAME
           value: gitea
@@ -107,9 +107,9 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/gitea
-          name: home-jordan-container-volumes-gitea-server-data-host-0
+          name: gitea-server-data-host-0
         - mountPath: /etc/gitea
-          name: home-jordan-container-volumes-gitea-server-config-host-1
+          name: gitea-server-config-host-1
   enableServiceLinks: false
   hostUsers: false
   hostname: gitea
@@ -118,13 +118,13 @@ spec:
     - hostPath:
         path: /home/jordan/container-volumes/gitea-db-data
         type: Directory
-      name: home-jordan-container-volumes-gitea-db-data-host-0
+      name: gitea-db-data-host-0
     - hostPath:
         path: /home/jordan/container-volumes/gitea-server-data
         type: Directory
-      name: home-jordan-container-volumes-gitea-server-data-host-0
+      name: gitea-server-data-host-0
     - hostPath:
         path: /home/jordan/container-volumes/gitea-server-config
         type: Directory
-      name: home-jordan-container-volumes-gitea-server-config-host-1
+      name: gitea-server-config-host-1
 status: {}

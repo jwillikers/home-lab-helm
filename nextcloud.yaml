@@ -77,7 +77,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: home-jordan-container-volumes-nextcloud-redis-host-0
+          name: nextcloud-redis-host-0
     - args:
         - postgres
       env:
@@ -108,7 +108,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: home-jordan-container-volumes-nextcloud-db-data-host-0
+          name: nextcloud-db-data-host-0
     - args:
         - php-fpm
       env:
@@ -199,9 +199,9 @@ spec:
       tty: true
       volumeMounts:
         - mountPath: /var/www/html/custom_apps
-          name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+          name: nextcloud-custom-apps-host-0
         - mountPath: /var/www/html/data
-          name: home-jordan-container-volumes-nextcloud-data-host-1
+          name: nextcloud-data-host-1
         - mountPath: /docker-entrypoint-hooks.d/pre-installation
           name: nextcloud-config-docker-entrypoint-hooks.d-pre-installation-host
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
@@ -209,9 +209,9 @@ spec:
         - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
           name: nextcloud-config-z-www-overrides.conf-host-3
         - mountPath: /var/www/html
-          name: home-jordan-container-volumes-nextcloud-app-host-4
+          name: nextcloud-app-host-4
         - mountPath: /var/www/html/config
-          name: home-jordan-container-volumes-nextcloud-config-host-5
+          name: nextcloud-config-host-5
     - args:
         - -concurrency
         - "20"
@@ -233,17 +233,17 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/www/html/custom_apps
-          name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+          name: nextcloud-custom-apps-host-0
         - mountPath: /var/www/html/data
-          name: home-jordan-container-volumes-nextcloud-data-host-1
+          name: nextcloud-data-host-1
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
           name: nextcloud-config-redis-session.ini-host-2
         - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
           name: nextcloud-config-z-www-overrides.conf-host-3
         - mountPath: /var/www/html
-          name: home-jordan-container-volumes-nextcloud-app-host-4
+          name: nextcloud-app-host-4
         - mountPath: /var/www/html/config
-          name: home-jordan-container-volumes-nextcloud-config-host-5
+          name: nextcloud-config-host-5
   enableServiceLinks: false
   hostUsers: false
   hostname: nextcloud
@@ -252,11 +252,11 @@ spec:
     - hostPath:
         path: /home/jordan/container-volumes/nextcloud-custom-apps
         type: Directory
-      name: home-jordan-container-volumes-nextcloud-custom-apps-host-0
+      name: nextcloud-custom-apps-host-0
     - hostPath:
         path: /home/jordan/container-volumes/nextcloud-data
         type: Directory
-      name: home-jordan-container-volumes-nextcloud-data-host-1
+      name: nextcloud-data-host-1
     - hostPath:
         path: /home/jordan/Projects/nextcloud-config/entrypoint-hooks.d/pre-installation
         type: Directory
@@ -272,17 +272,17 @@ spec:
     - hostPath:
         path: /home/jordan/container-volumes/nextcloud-app
         type: Directory
-      name: home-jordan-container-volumes-nextcloud-app-host-4
+      name: nextcloud-app-host-4
     - hostPath:
         path: /home/jordan/container-volumes/nextcloud-config
         type: Directory
-      name: home-jordan-container-volumes-nextcloud-config-host-5
+      name: nextcloud-config-host-5
     - hostPath:
         path: /home/jordan/container-volumes/nextcloud-redis
         type: Directory
-      name: home-jordan-container-volumes-nextcloud-redis-host-0
+      name: nextcloud-redis-host-0
     - hostPath:
         path: /home/jordan/container-volumes/nextcloud-db-data
         type: Directory
-      name: home-jordan-container-volumes-nextcloud-db-data-host-0
+      name: nextcloud-db-data-host-0
 status: {}

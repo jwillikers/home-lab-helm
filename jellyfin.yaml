@@ -37,41 +37,41 @@ metadata:
 spec:
   automountServiceAccountToken: false
   containers:
-  - env:
-    - name: JELLYFIN_PublishedServerUrl
-      value: jellyfin.jwillikers.io
-    image: docker.io/jellyfin/jellyfin:latest
-    name: jellyfin
-    securityContext:
-      capabilities:
-        drop:
-        - CAP_MKNOD
-        - CAP_NET_RAW
-        - CAP_AUDIT_WRITE
-      runAsGroup: 1000
-      runAsUser: 1000
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /media
-      name: home-jordan-Media-host-0
-      readOnly: true
-    - mountPath: /config
-      name: home-jordan-container-volumes-jellyfin-config-host-1
-    - mountPath: /cache
-      name: home-jordan-container-volumes-jellyfin-cache-host-2
+    - env:
+        - name: JELLYFIN_PublishedServerUrl
+          value: jellyfin.jwillikers.io
+      image: docker.io/jellyfin/jellyfin:latest
+      name: jellyfin
+      securityContext:
+        capabilities:
+          drop:
+            - CAP_MKNOD
+            - CAP_NET_RAW
+            - CAP_AUDIT_WRITE
+        runAsGroup: 1000
+        runAsUser: 1000
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /media
+          name: home-jordan-Media-host-0
+          readOnly: true
+        - mountPath: /config
+          name: jellyfin-config-host-1
+        - mountPath: /cache
+          name: jellyfin-cache-host-2
   enableServiceLinks: false
   hostUsers: false
   volumes:
-  - hostPath:
-      path: /home/jordan/Media
-      type: Directory
-    name: home-jordan-Media-host-0
-  - hostPath:
-      path: /home/jordan/container-volumes/jellyfin-config
-      type: Directory
-    name: home-jordan-container-volumes-jellyfin-config-host-1
-  - hostPath:
-      path: /home/jordan/container-volumes/jellyfin-cache
-      type: Directory
-    name: home-jordan-container-volumes-jellyfin-cache-host-2
+    - hostPath:
+        path: /home/jordan/Media
+        type: Directory
+      name: home-jordan-Media-host-0
+    - hostPath:
+        path: /home/jordan/container-volumes/jellyfin-config
+        type: Directory
+      name: jellyfin-config-host-1
+    - hostPath:
+        path: /home/jordan/container-volumes/jellyfin-cache
+        type: Directory
+      name: jellyfin-cache-host-2

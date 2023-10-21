@@ -37,26 +37,26 @@ metadata:
 spec:
   automountServiceAccountToken: false
   containers:
-  - args:
-    - dashboard
-    - /config
-    image: docker.io/esphome/esphome:latest
-    name: esphome
-    securityContext:
-      capabilities: {}
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /config
-      name: home-jordan-container-volumes-esphome-config-host-0
-    - mountPath: /config/.esphome
-      name: esphome-cache-pvc
+    - args:
+        - dashboard
+        - /config
+      image: docker.io/esphome/esphome:latest
+      name: esphome
+      securityContext:
+        capabilities: {}
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /config
+          name: esphome-config-host-0
+        - mountPath: /config/.esphome
+          name: esphome-cache-pvc
   enableServiceLinks: false
   volumes:
-  - hostPath:
-      path: /home/jordan/container-volumes/esphome-config
-      type: Directory
-    name: home-jordan-container-volumes-esphome-config-host-0
-  - name: esphome-cache-pvc
-    persistentVolumeClaim:
-      claimName: esphome-cache
+    - hostPath:
+        path: /home/jordan/container-volumes/esphome-config
+        type: Directory
+      name: esphome-config-host-0
+    - name: esphome-cache-pvc
+      persistentVolumeClaim:
+        claimName: esphome-cache
