@@ -98,7 +98,7 @@ systemctl --user enable --now nextcloud-cron.timer
 
 == Maintenance
 
-To generate missing indices use the following command.
+To generate missing indices, use the following command.
 
 [,sh]
 ----
