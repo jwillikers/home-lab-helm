@@ -1,8 +1,8 @@
 = Home Lab Helm
 Jordan Williams <jordan@jwillikers.com>
-:keywords: container helm k8s kubernetes linux podman systemd
 :experimental:
 :icons: font
+:keywords: container helm k8s kubernetes linux podman systemd
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -84,6 +84,11 @@ systemctl --user daemon-reload
 ----
 systemctl --user start caddy
 ----
+
+== Services
+
+Caddy is used on per-machine basis as a reverse-proxy to manage connections between the containers and everything external to the host.
+
 
 == References
 

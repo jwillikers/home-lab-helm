@@ -5,6 +5,7 @@
         "autoupdate",
         "ifdef",
         "jwillikers",
+        "Minio",
         "Nextcloud",
         "urandom"
     ]
