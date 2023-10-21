@@ -3,6 +3,7 @@
         "adoc",
         "alnum",
         "autoupdate",
+        "Caddyfile",
         "ifdef",
         "jwillikers",
         "Minio",

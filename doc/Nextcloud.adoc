@@ -14,6 +14,8 @@ This Nextcloud server is configured to use S3-compatible object as primary stora
 In particular, it uses the S3-compatible object storage provided by a local https://min.io/[Minio] instance.
 So, configure the Minio server before configuring this Nextcloud instance.
 The Caddy container is, of course, used as the reverse-proxy for the Nextcloud server.
+However, be sure to use the `caddy-nextcloud.yaml` file instead of the `caddy.yaml` file to run the Caddy container.
+The Caddy configuration for Nextcloud mounts in directories from the Nextcloud pod in order to server the site directly.
 
 The Nextcloud pod uses configuration files provided by the https://github.com/jwillikers/nextcloud-config[Nextcloud Config] repository.
 In addition, a separate systemd service and timer need to be configured to run background jobs for the Nextcloud server.
