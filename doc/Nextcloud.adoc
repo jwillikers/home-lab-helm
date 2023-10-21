@@ -7,7 +7,8 @@ Background jobs are carried out by a separate container which is executed every 
 == Usage
 
 The Nextcloud pod uses configuration files provided by the https://github.com/jwillikers/nextcloud-config[Nextcloud Config] repository.
-Follow the commands below to put the repository in the expected location.
+In addition, a separate systemd service and timer need to be configured to run background jobs for the Nextcloud server.
+Follow the commands below to install the Nextcloud Config repository and configure the container for background jobs.
 
 . Create the `~/Projects` directory.
 +
@@ -21,6 +22,85 @@ mkdir -p ~/Projects
 [,sh]
 ----
 git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
+----
+
+. Create the directory for Podman's systemd container generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Copy the `podman.network`, `nextcloud.kube`, and `nextcloud-cron.container` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+cp nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
+----
+
+. Create the systemd directory for user units.
++
+[,sh]
+----
+mkdir -p ~/.config/systemd/user/
+----
+
+. Copy the `nextcloud-cron.timer` file to the `~/.config/systemd/user/` directory.
++
+[,sh]
+----
+cp nextcloud-cron.timer ~/.config/systemd/user/
+----
+
+. Fill in any missing secrets in the `nextcloud-secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1
+----
+====
+
+. Import the secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube nextcloud-secrets.yaml
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the desired Nextcloud pod.
++
+[,sh]
+----
+systemctl --user start nextcloud
+----
+
+. Wait for the installation of the Nextcloud container to complete.
+
+. Enable and start the timer for the background job container.
++
+[,sh]
+----
+systemctl --user enable --now nextcloud-cron.timer
+----
+
+== Maintenance
+
+To generate missing indices use the following command.
+
+[,sh]
+----
+podman exec --tty nextcloud-nextcloud-server ./occ db:add-missing-indices
 ----
 
 == References
