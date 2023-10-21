@@ -1,6 +1,7 @@
 = Nextcloud
+:keywords: container helm k8s kubernetes linux podman systemd
 
-The Nextcloud pod uses the Nextcloud PHP-FPM container image.
+The {Nextcloud} pod uses the Nextcloud PHP-FPM container image.
 Redis provides image caching, and imaginary handles image previews. 
 Background jobs are carried out by a separate container which is executed every five minutes by a systemd timer.
 
