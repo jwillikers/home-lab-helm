@@ -1,0 +1,41 @@
+= Nextcloud
+
+The Nextcloud pod uses the Nextcloud PHP-FPM container image.
+Redis provides image caching, and imaginary handles image previews. 
+Background jobs are carried out by a separate container which is executed every five minutes by a systemd timer.
+
+== Usage
+
+The Nextcloud pod uses configuration files provided by the https://github.com/jwillikers/nextcloud-config[Nextcloud Config] repository.
+Follow the commands below to put the repository in the expected location.
+
+. Create the `~/Projects` directory.
++
+[,sh]
+----
+mkdir -p ~/Projects
+----
+
+. Clone this repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
+----
+
+== References
+
+.Documentation
+* https://github.com/h2non/imaginary[imaginary]
+* https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html[Nextcloud Admin Manual: Background jobs]
+* https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/email_configuration.html[Nextcloud Admin Manual: Email]
+* https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/index.html[Nextcloud Admin Manual: Nextcloud configuration]
+* https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/reverse_proxy_configuration.html[Nextcloud Admin Manual: Reverse proxy]
+* https://docs.nextcloud.com/server/latest/admin_manual/installation/server_tuning.html#previews[Nextcloud Admin Manual: Server tuning - Previews]
+* https://docs.nextcloud.com/server/latest/admin_manual/installation/server_tuning.html#tune-php-fpm[Nextcloud Admin Manual: Server tuning - Tune PHP-FPM]
+* https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/files_locking_transactional.html[Nextcloud Admin Manual: Transactional file locking]
+* https://github.com/nextcloud/docker[Nextcloud Docker]
+* https://hub.docker.com/_/redis[redis Official Docker Image] 
+
+.See Also
+* https://github.com/nextcloud/all-in-one[Nextcloud All-in-One]
