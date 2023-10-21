@@ -30,7 +30,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-cp podman1.network ~/.config/containers/systemd/
+cp podman.network ~/.config/containers/systemd/
 ----
 
 . Copy in the desired '.kube' files for the desired applications.
@@ -41,6 +41,16 @@ cp caddy.kube ~/.config/containers/systemd/
 ----
 
 . For any containers that require secrets, enter the secrets in the corresponding `-secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1
+----
+====
 
 . Import the secrets in Podman with the `podman play kube` command.
 +
