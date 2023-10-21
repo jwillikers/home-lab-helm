@@ -80,7 +80,7 @@ podman play kube nextcloud-secrets.yaml
 systemctl --user daemon-reload
 ----
 
-. Start the desired Nextcloud pod.
+. Start the Nextcloud pod.
 +
 [,sh]
 ----
