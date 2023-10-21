@@ -5,6 +5,8 @@
 Kubernetes YAML and Podman systemd configuration files for running my home containers.
 Currently, everything is run rootless via Podman.
 
+== Usage
+
 . Clone this repository.
 +
 [,sh]
@@ -72,3 +74,13 @@ systemctl --user daemon-reload
 ----
 systemctl --user start caddy
 ----
+
+== License
+
+This project is licensed under the https://creativecommons.org/licenses/by-sa/4.0/legalcode[Creative Commons Attribution-ShareAlike 4.0 International License].
+
+© 2023 Jordan Williams
+
+== Authors
+
+mailto:{email}[{author}]
