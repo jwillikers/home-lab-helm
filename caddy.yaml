@@ -77,21 +77,21 @@ spec:
     - containerPort: 443
       hostPort: 443
     volumeMounts:
-    - mountPath: /etc/caddy/Caddyfile
-      name: home-jordan-Projects-quartz64-caddy-config-Caddyfile-host-0
+    - mountPath: /etc/caddy/
+      name: caddy-config-host
     - mountPath: /config/
       name: caddy-config-pvc
     - mountPath: /data/
-      name: home-jordan-container-volumes-caddy-data-host-0
+      name: caddy-data-host
   volumes:
   - hostPath:
-      path: /home/jordan/Projects/quartz64-caddy-config/Caddyfile
-      type: File
-    name: home-jordan-Projects-quartz64-caddy-config-Caddyfile-host-0
+      path: /home/jordan/Projects/caddy-config
+      type: Directory
+    name: caddy-config-host
   - name: caddy-config-pvc
     persistentVolumeClaim:
       claimName: caddy-config
   - hostPath:
       path: /home/jordan/container-volumes/caddy-data
       type: Directory
-    name: home-jordan-container-volumes-caddy-data-host-0
+    name: caddy-data-host

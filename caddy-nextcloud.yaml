@@ -83,8 +83,8 @@ spec:
       seLinuxOptions:
         type: spc_t
     volumeMounts:
-    - mountPath: /etc/caddy/Caddyfile
-      name: var-home-jordan-Projects-meerkat-caddy-config-Caddyfile-host-4
+    - mountPath: /etc/caddy/
+      name: caddy-config-host
     - mountPath: /config/
       name: caddy-config-pvc
     - mountPath: /data/
@@ -100,9 +100,9 @@ spec:
   enableServiceLinks: false
   volumes:
   - hostPath:
-      path: /var/home/jordan/Projects/meerkat-caddy-config/Caddyfile
-      type: File
-    name: var-home-jordan-Projects-meerkat-caddy-config-Caddyfile-host-4
+      path: /var/home/jordan/Projects/caddy-config
+      type: Directory
+    name: caddy-config-host
   - name: caddy-config-pvc
     persistentVolumeClaim:
       claimName: caddy-config
