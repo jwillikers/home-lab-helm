@@ -85,6 +85,13 @@ systemctl --user daemon-reload
 systemctl --user start caddy
 ----
 
+== References
+
+.Documentation
+* https://docs.podman.io/en/latest/[Podman Documentation]
+* https://docs.podman.io/en/latest/markdown/podman-systemd.unit.5.html[podman-systemd.unit]
+* https://www.freedesktop.org/software/systemd/man/latest/[systemd Manual Pages]
+
 == License
 
 This project is licensed under the https://creativecommons.org/licenses/by-sa/4.0/legalcode[Creative Commons Attribution-ShareAlike 4.0 International License].
