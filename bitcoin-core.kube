@@ -1,0 +1,15 @@
+[Unit]
+Description=Bitcoin Core server
+Before=local-fs.target
+RequiresMountsFor=%h/container-volumes/bitcoin-core-server-data
+
+[Kube]
+Yaml=%h/Projects/home-lab-helm/bitcoin-core.yaml
+Network=podman.network
+RemapUsers=keep-id
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target default.target

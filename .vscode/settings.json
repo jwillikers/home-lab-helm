@@ -3,11 +3,17 @@
         "adoc",
         "alnum",
         "autoupdate",
+        "bitcoind",
         "Caddyfile",
+        "electrs",
         "ifdef",
         "jwillikers",
+        "lncm",
         "Minio",
         "Nextcloud",
-        "urandom"
+        "osminogin",
+        "urandom",
+        "zmqpubrawblock",
+        "zmqpubrawtx"
     ]
 }

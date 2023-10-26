@@ -1,0 +1,114 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.7.0
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-10-26T23:53:35Z"
+  labels:
+    app: bitcoin-core
+  name: bitcoin-core
+spec:
+  selector:
+    app: bitcoin-core
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    bind-mount-options: /var/home/core/container-volumes/bitcoin-core-server-data:z
+    io.containers.autoupdate/bitcoin-core-server: registry
+    io.containers.autoupdate/bitcoin-core-tor: registry
+    io.containers.autoupdate/electrs: registry
+  creationTimestamp: "2023-10-26T23:53:35Z"
+  labels:
+    app: bitcoin-core
+  name: bitcoin-core
+spec:
+  containers:
+  - image: docker.io/osminogin/tor-simple:latest
+    name: bitcoin-core-tor
+    securityContext:
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /etc/tor
+      name: var-home-core-Projects-bitcoin-core-config-tor-host-0
+      readOnly: true
+    - mountPath: /var/lib/tor
+      name: 1a160162573cda9693b9625d40e689aefdbfc240a8073c4ef2fc4c0d469169e9-pvc
+  - args:
+    - -zmqpubrawblock=tcp://0.0.0.0:28332
+    - -zmqpubrawtx=tcp://0.0.0.0:28333
+    image: docker.io/lncm/bitcoind:v25.1
+    name: bitcoin-core-server
+    securityContext:
+      runAsGroup: 977
+      runAsUser: 992
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /.bitcoin
+      name: var-home-core-container-volumes-bitcoin-core-server-data-host-0
+    - mountPath: /.bitcoin/bitcoin.conf
+      name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf-host-1
+      readOnly: true
+    - mountPath: /.bitcoin/bitcoin.conf.d
+      name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf.d-host-2
+      readOnly: true
+    - mountPath: /data/.bitcoin
+      name: e3f0489fa20b702a7a5c9b9ed3175bb3b42ba8d77fd606066604d5d23efda15d-pvc
+  - image: docker.io/getumbrel/electrs:v0.9.14
+    name: electrs
+    securityContext:
+      runAsGroup: 977
+      runAsUser: 992
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /data/db
+      name: var-home-core-container-volumes-electrs-data-host-0
+    - mountPath: /etc/electrs/config.toml
+      name: var-home-core-Projects-bitcoin-core-config-electrs-config.toml-host-1
+      readOnly: true
+    - mountPath: /data/.bitcoin
+      name: var-home-core-container-volumes-bitcoin-core-server-data-host-2
+      readOnly: true
+  hostUsers: false
+  volumes:
+  - hostPath:
+      path: /var/home/core/container-volumes/bitcoin-core-server-data
+      type: Directory
+    name: var-home-core-container-volumes-bitcoin-core-server-data-host-2
+  - name: e3f0489fa20b702a7a5c9b9ed3175bb3b42ba8d77fd606066604d5d23efda15d-pvc
+    persistentVolumeClaim:
+      claimName: e3f0489fa20b702a7a5c9b9ed3175bb3b42ba8d77fd606066604d5d23efda15d
+  - hostPath:
+      path: /var/home/core/Projects/bitcoin-core-config/electrs/config.toml
+      type: File
+    name: var-home-core-Projects-bitcoin-core-config-electrs-config.toml-host-1
+  - hostPath:
+      path: /var/home/core/container-volumes/bitcoin-core-server-data
+      type: Directory
+    name: var-home-core-container-volumes-bitcoin-core-server-data-host-0
+  - hostPath:
+      path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf
+      type: File
+    name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf-host-1
+  - hostPath:
+      path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf.d
+      type: Directory
+    name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf.d-host-2
+  - hostPath:
+      path: /var/home/core/container-volumes/electrs-data
+      type: Directory
+    name: var-home-core-container-volumes-electrs-data-host-0
+  - hostPath:
+      path: /var/home/core/Projects/bitcoin-core-config/tor
+      type: Directory
+    name: var-home-core-Projects-bitcoin-core-config-tor-host-0
+  - name: 1a160162573cda9693b9625d40e689aefdbfc240a8073c4ef2fc4c0d469169e9-pvc
+    persistentVolumeClaim:
+      claimName: 1a160162573cda9693b9625d40e689aefdbfc240a8073c4ef2fc4c0d469169e9
