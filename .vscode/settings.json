@@ -2,6 +2,7 @@
     "cSpell.words": [
         "adoc",
         "alnum",
+        "authcookie",
         "autoupdate",
         "bitcoind",
         "Caddyfile",
@@ -12,6 +13,7 @@
         "Minio",
         "Nextcloud",
         "osminogin",
+        "sysctls",
         "urandom",
         "zmqpubrawblock",
         "zmqpubrawtx"
