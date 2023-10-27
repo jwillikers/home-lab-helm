@@ -1,0 +1,13 @@
+[Unit]
+Description=Icinga2 monitoring server container
+Before=local-fs.target
+
+[Kube]
+Yaml=%h/Projects/home-lab-helm/icinga-server-kube.yaml
+Network=podman.network
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target default.target
