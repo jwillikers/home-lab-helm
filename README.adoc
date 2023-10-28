@@ -19,6 +19,8 @@ https://fedoraproject.org/iot/[Fedora IoT] is the current OS used for deployment
 
 == Usage
 
+// todo document setting sysctl for low ports.
+
 . Clone this repository.
 +
 [,sh]
