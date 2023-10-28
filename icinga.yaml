@@ -12,8 +12,8 @@ kind: Service
 metadata:
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
-    app: icinga-server-pod
-  name: icinga-server-pod
+    app: icinga-pod
+  name: icinga-pod
 spec:
   ports:
   - name: "5665"
@@ -21,14 +21,14 @@ spec:
     port: 5665
     targetPort: 5665
   selector:
-    app: icinga-server-pod
+    app: icinga-pod
   type: NodePort
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/icinga-server: registry
+    io.containers.autoupdate/icinga: registry
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
     app: icinga-pod
@@ -44,7 +44,7 @@ spec:
     - name: HOSTNAME
       value: icinga.jwillikers.io
     image: docker.io/icinga/icinga2:latest
-    name: icinga-server
+    name: icinga
     ports:
     - containerPort: 5665
     securityContext:
@@ -57,9 +57,9 @@ spec:
       name: icinga-config-host-0
   hostname: icinga.jwillikers.io
   volumes:
-  - name: icinga-server-pvc
+  - name: icinga-pvc
     persistentVolumeClaim:
-      claimName: icinga-server
+      claimName: icinga
   - hostPath:
       path: /home/core/Projects/icinga-config/etc/icinga2
       type: Directory
