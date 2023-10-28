@@ -72,7 +72,7 @@ spec:
     - name: icingaweb.resources.icingaweb_db.host
       value: localhost
     - name: icingaweb.resources.icingadb.username
-      value: icingaweb
+      value: icingadb
     - name: icingaweb.resources.icingadb.db
       value: pgsql
     - name: icingaweb.modules.icingadb.commandtransports.icinga2.host
@@ -132,8 +132,8 @@ spec:
     - name: icingaweb.resources.icingadb.password
       valueFrom:
         secretKeyRef:
-          name: icingaweb-secrets
-          key: icingaweb_icingadb_postgresql_password
+          name: icingadb-secrets
+          key: icingadb_postgresql_password
           optional: false
     - name: icingaweb.modules.icingadb.commandtransports.icinga2.password
       valueFrom:
