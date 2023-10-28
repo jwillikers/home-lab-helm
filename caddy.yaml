@@ -85,13 +85,13 @@ spec:
       name: caddy-data-host
   volumes:
   - hostPath:
-      path: /home/jordan/Projects/caddy-config
+      path: /home/core/Projects/caddy-config
       type: Directory
     name: caddy-config-host
   - name: caddy-config-pvc
     persistentVolumeClaim:
       claimName: caddy-config
   - hostPath:
-      path: /home/jordan/container-volumes/caddy-data
+      path: /home/core/container-volumes/caddy-data
       type: Directory
     name: caddy-data-host
