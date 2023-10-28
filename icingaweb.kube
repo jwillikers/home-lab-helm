@@ -1,9 +1,9 @@
 [Unit]
-Description=Icinga DB
+Description=Icinga Web
 Before=local-fs.target
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/icingadb.yaml
+Yaml=%h/Projects/home-lab-helm/icingaweb.yaml
 Network=podman.network
 RemapUsers=keep-id
 
