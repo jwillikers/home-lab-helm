@@ -76,7 +76,7 @@ spec:
     - name: icingaweb.resources.icingadb.db
       value: pgsql
     - name: icingaweb.modules.icingadb.commandtransports.icinga2.host
-      value: icinga-server.dns.podman
+      value: icinga.dns.podman
     - name: icingaweb.roles.Administrators.permissions
       value: '*'
     - name: icingaweb.resources.icingaweb_db.username

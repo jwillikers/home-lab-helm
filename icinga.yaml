@@ -31,8 +31,8 @@ metadata:
     io.containers.autoupdate/icinga-server: registry
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
-    app: icinga-server-pod
-  name: icinga-server-pod
+    app: icinga-pod
+  name: icinga-pod
 spec:
   containers:
   - args:
@@ -42,7 +42,7 @@ spec:
     - name: ICINGA_MASTER
       value: "1"
     - name: HOSTNAME
-      value: icinga-server.jwillikers.io
+      value: icinga.jwillikers.io
     image: docker.io/icinga/icinga2:latest
     name: icinga-server
     ports:
@@ -52,10 +52,10 @@ spec:
         type: spc_t
     volumeMounts:
     - mountPath: /data
-      name: icinga-server-pvc
+      name: icinga-pvc
     - mountPath: /data/etc/icinga2
-      name: icinga-server-config-host-0
-  hostname: icinga-server.jwillikers.io
+      name: icinga-config-host-0
+  hostname: icinga.jwillikers.io
   volumes:
   - name: icinga-server-pvc
     persistentVolumeClaim:
@@ -63,4 +63,4 @@ spec:
   - hostPath:
       path: /home/core/Projects/icinga-config/etc/icinga2
       type: Directory
-    name: icinga-server-config-host-0
+    name: icinga-config-host-0

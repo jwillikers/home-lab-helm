@@ -3,7 +3,7 @@ Description=Icinga2 monitoring server container
 Before=local-fs.target
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/icinga-server.yaml
+Yaml=%h/Projects/home-lab-helm/icinga.yaml
 Network=podman.network
 
 [Service]
