@@ -1,0 +1,103 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.7.0
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-10-28T15:28:33Z"
+  labels:
+    app: icingadb
+  name: icingadb
+spec:
+  selector:
+    app: icingadb
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    bind-mount-options: /var/home/core/container-volumes/icingadb-postgresql-data:Z
+    io.containers.autoupdate/icingadb-postgresql: registry
+    io.containers.autoupdate/icingadb-redis: registry
+    io.containers.autoupdate/icingadb-server: registry
+  creationTimestamp: "2023-10-28T15:28:33Z"
+  labels:
+    app: icingadb
+  name: icingadb
+spec:
+  containers:
+  - args:
+    - redis-server
+    image: docker.io/library/redis:latest
+    name: icingadb-redis
+    securityContext:
+      runAsGroup: 387
+      runAsUser: 387
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /data
+      name: var-home-core-container-volumes-icingadb-redis-host-0
+  - args:
+    - postgres
+    env:
+    - name: POSTGRES_DB
+      value: icingadb
+    - name: POSTGRES_USER
+      value: icingadb
+    - name: PGDATA
+      value: /var/lib/postgresql/data/pgdata
+    - name: POSTGRES_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: icingadb-secrets
+          key: icingadb_postgresql_password
+          optional: false
+    image: docker.io/library/postgres:bookworm
+    name: icingadb-postgresql
+    securityContext:
+      runAsGroup: 387
+      runAsUser: 387
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /var/lib/postgresql/data
+      name: var-home-core-container-volumes-icingadb-postgresql-data-host-0
+  - env:
+    - name: ICINGADB_RETENTION_HISTORY-DAYS
+      value: "30"
+    - name: ICINGADB_DATABASE_TYPE
+      value: pgsql
+    - name: ICINGADB_DATABASE_PORT
+      value: "5432"
+    - name: ICINGADB_DATABASE_USER
+      value: icingadb
+    - name: ICINGADB_REDIS_HOST
+      value: localhost
+    - name: ICINGADB_REDIS_PORT
+      value: "6379"
+    - name: ICINGADB_DATABASE_HOST
+      value: localhost
+    - name: ICINGADB_DATABASE_DATABASE
+      value: icingadb
+    - name: ICINGADB_DATABASE_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          name: icingadb-secrets
+          key: icingadb_postgresql_password
+          optional: false
+    image: docker.io/icinga/icingadb:latest
+    name: icingadb-server
+    securityContext: {}
+  hostUsers: false
+  volumes:
+  - hostPath:
+      path: /var/home/core/container-volumes/icingadb-redis
+      type: Directory
+    name: var-home-core-container-volumes-icingadb-redis-host-0
+  - hostPath:
+      path: /var/home/core/container-volumes/icingadb-postgresql-data
+      type: Directory
+    name: var-home-core-container-volumes-icingadb-postgresql-data-host-0
