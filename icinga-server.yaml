@@ -53,8 +53,14 @@ spec:
     volumeMounts:
     - mountPath: /data
       name: icinga-server-pvc
+    - mountPath: /data/etc/icinga2
+      name: icinga-server-config-host-0
   hostname: icinga-server.jwillikers.io
   volumes:
   - name: icinga-server-pvc
     persistentVolumeClaim:
       claimName: icinga-server
+  - hostPath:
+      path: /home/core/Projects/icinga-config/etc/icinga2
+      type: Directory
+    name: icinga-server-config-host-0
