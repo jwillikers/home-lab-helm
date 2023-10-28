@@ -62,7 +62,7 @@ You can generate a random password with the following command.
 
 [,sh]
 ----
-tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 ----
 ====
 
