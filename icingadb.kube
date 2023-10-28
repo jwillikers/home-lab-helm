@@ -5,6 +5,7 @@ Before=local-fs.target
 [Kube]
 Yaml=%h/Projects/home-lab-helm/icingadb.yaml
 Network=podman.network
+RemapUsers=keep-id
 
 [Service]
 Restart=always
