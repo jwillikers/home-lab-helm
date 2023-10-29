@@ -48,6 +48,8 @@ spec:
     ports:
     - containerPort: 5665
     securityContext:
+      capabilities:
+        add: ["NET_RAW"]
       seLinuxOptions:
         type: spc_t
     volumeMounts:
