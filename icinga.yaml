@@ -15,11 +15,6 @@ metadata:
     app: icinga-pod
   name: icinga-pod
 spec:
-  ports:
-  - name: "5665"
-    nodePort: 30958
-    port: 5665
-    targetPort: 5665
   selector:
     app: icinga-pod
   type: NodePort
@@ -45,8 +40,6 @@ spec:
       value: icinga.jwillikers.io
     image: docker.io/icinga/icinga2:latest
     name: icinga
-    ports:
-    - containerPort: 5665
     securityContext:
       capabilities:
         add: ["NET_RAW"]
