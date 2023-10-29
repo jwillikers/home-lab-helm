@@ -102,7 +102,7 @@ spec:
     - name: icingaweb.resources.icingaweb_db.db
       value: pgsql
     - name: icingaweb.modules.icingadb.commandtransports.icinga2.username
-      value: root
+      value: icingadb-web
     - name: icingaweb.config.logging.log
       value: php
     - name: icingaweb.config.global.config_resource
@@ -139,7 +139,7 @@ spec:
       valueFrom:
         secretKeyRef:
           name: icingaweb-secrets
-          key: icinga_root_api_user_password
+          key: icinga_icingadb-web_api_user_password
           optional: false
     # todo Use the latest tag when Arm builds are available for it.
     image: docker.io/icinga/icingaweb2:main
