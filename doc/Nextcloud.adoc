@@ -23,6 +23,14 @@ Follow the commands below to install the Nextcloud Config repository and configu
 
 . Follow the <<Redis.adoc#System Configuration,Redis System Configuration>> instructions.
 
+. Follow the <<Caddy.adoc,instructions for Caddy>>.
++
+[NOTE]
+====
+The `caddy-nextcloud.kube` file should be used instead of the `caddy.kube` file on the host running Nextcloud.
+This uses the appropriate configuration to mount the Nextcloud directories in order to proxy the site via _FastCGI_.
+====
+
 . Create the `~/Projects` directory.
 +
 [,sh]
@@ -30,39 +38,32 @@ Follow the commands below to install the Nextcloud Config repository and configu
 mkdir -p ~/Projects
 ----
 
-. Clone this repository under the `~/Projects` directory.
+. Clone the Nextcloud Config repository under the `~/Projects` directory.
 +
 [,sh]
 ----
 git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 ----
 
-. Create the directory for Podman's systemd container generator.
+. Create the directories for Podman's systemd generator and user units.
 +
 [,sh]
 ----
-mkdir -p ~/.config/containers/systemd
+mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
-. Copy the `podman.network`, `nextcloud.kube`, and `nextcloud-cron.container` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `caddy-nextcloud.kube`, `podman.network`, `nextcloud.kube`, and `nextcloud-cron.container` files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
-cp nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
+ln --relative --symbolic podman.network nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
 ----
 
-. Create the systemd directory for user units.
+. Symlink the `nextcloud-cron.timer` file to the `~/.config/systemd/user/` directory.
 +
 [,sh]
 ----
-mkdir -p ~/.config/systemd/user/
-----
-
-. Copy the `nextcloud-cron.timer` file to the `~/.config/systemd/user/` directory.
-+
-[,sh]
-----
-cp nextcloud-cron.timer ~/.config/systemd/user/
+ln --relative --symbolic nextcloud-cron.timer ~/.config/systemd/user/
 ----
 
 . Fill in any missing secrets in the `nextcloud-secrets.yaml` file.
@@ -73,7 +74,7 @@ You can generate a random password with the following command.
 
 [,sh]
 ----
-tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 ----
 ====
 

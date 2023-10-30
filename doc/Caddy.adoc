@@ -1,0 +1,113 @@
+= Caddy
+:experimental:
+:keywords: acme caddy dns http https proxy reverse-proxy ssl tls
+
+https://caddyserver.com/[Caddy] is the reverse-proxy used to connect the services of pods operating in internal Podman networks to the outside world and to handle TLS certificates provisioned through the ACME protocol.
+The https://github.com/jwillikers/caddy-ovh-image[Caddy OVH Image] is used since it includes the OVH plugin which makes it possible to obtain certificates through the DNS-01 challenge, which doesn't require the containers to be publicly accessible.
+Caddy configurations for the various services are provided by the https://github.com/jwillikers/caddy-config[Caddy Config] repository.
+
+== System Configuration
+
+The system must be configured for Caddy to receive HTTP and HTTPS connections.
+
+. Allow rootless containers to publish to ports 80 and 443 by lowering the starting port for the range of unprivileged ports.
++
+./etc/sysctl.d/99-lower-unprivileged_port_start.conf
+[source]
+----
+; Allow publishing to lower port numbers without requiring superuser privileges.
+net.ipv4.ip_unprivileged_port_start=80
+----
+
+. Load the new sysctl configuration.
++
+[,sh]
+----
+sudo sysctl --system
+----
+
+. Open the default HTTP and HTTPS ports, 80 and 443 respectively, in the firewall, since rootless Podman won't be able to open this for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-service=http --add-service=https --permanent
+----
+
+. Reload the new firewall rules.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+== OVH API Token
+
+Caddy uses an OVH API token to complete the ACME DNS-01 challenge to provision TLS certificates for the various services.
+The instructions here describe how to create an OVH API token and store is as a secret in Podman.
+
+. Open the https://www.ovh.com/auth/api/createToken[OVH Create Token Page] in a web browser.
+. Enter the _Application name_, i.e. `Caddy <Hostname>`.
+. Enter an _Application description.
+I use `ACME DNS-01 Challenge Provider`.
+. Select the time after which the token will expire in the _Validity_ field.
+I use `Unlimited` to avoid the token expiring.
+. Add the required _Rights_ for `/domain/zone/*` for each of `GET`, `PUT`, `POST`, and `DELETE`.
+. Create the token.
+. Add the token's application key, application secret, and consumer key to the corresponding variables in the `caddy-secrets.yaml` file.
+. Import the `caddy-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube caddy-secrets.yaml
+----
+
+== Usage
+
+. Create the `~/Projects` directory.
++
+[,sh]
+----
+mkdir -p ~/Projects
+----
+
+. Clone the Caddy Config repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/caddy-config.git
+----
+
+. Symlink sites from the `sites-available` subdirectory to the `sites-enabled` subdirectory to enable them.
++
+[,sh]
+----
+ln --relative --symbolic ~/Projects/caddy-config/sites-available/nextcloud.caddyfile ~/Projects/caddy-config/sites-enabled/nextcloud.caddyfile
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `caddy.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --relative --symbolic podman.network caddy.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the Caddy pod.
++
+[,sh]
+----
+systemctl --user start caddy
+----

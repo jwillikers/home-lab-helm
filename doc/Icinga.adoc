@@ -1,0 +1,124 @@
+= Icinga
+:experimental:
+:keywords: icinga icinga2 icingadb icingaweb monitoring nagios php
+:Icinga: https://icinga.com/[Icinga]
+:Icinga-DB: https://icinga.com/docs/icinga-db/latest/doc/01-About/[Icinga DB]
+:Icinga-2: https://icinga.com/docs/icinga-2/latest/doc/01-about/[Icinga 2]
+:Icinga-Web-2: https://icinga.com/docs/icinga-web/latest/[Icinga Web 2]
+
+The {Icinga} charts are collection of three separate charts for providing the primary services that comprise the Icinga monitoring suite.
+These charts are for {Icinga-2}, {Icinga-DB}, and {Icinga-Web-2}.
+Official helm charts are available from the https://github.com/Icinga/helm-charts[Icinga2 Kubernetes Helm Charts] project.
+
+== Usage
+
+The Icinga 2 chart uses the configuration provided by the https://github.com/jwillikers/icinga-config[Icinga Config] repository.
+Certain sensitive parameters are kept in specific files which must be managed separately.
+The instructions here document the process get the Icinga 2, Icinga DB, and Icinga Web 2 services up and running.
+
+[TIP]
+====
+It is recommend to run Icinga 2 and Icinga DB on the same machine to reduce latency. 
+====
+
+. Follow the <<Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<Caddy.adoc,instructions for Caddy>>.
+
+. Open the necessary ports in the firewall, since rootless Podman won't be able to open these for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-port=5665/tcp --permanent
+----
+
+. Reload the new firewall rules.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+. Create the `~/Projects` directory.
++
+[,sh]
+----
+mkdir -p ~/Projects
+----
+
+. Clone the Icinga Config repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/icinga-config.git
+----
+
+. Generate the `IcingaDbWebApiPassword`.
+This password will be used by Icinga Web 2 to connect to the Icinga 2 instance.
+Keep this password handy when filling at the `icingaweb-secrets.yaml` file later.
++
+[,sh]
+----
+echo "const IcingaDbWebApiPassword = \"$(openssl rand -base64 30)\"" | tee ~/Projects/icinga-config/etc/icinga2/constants.d/icingadb-web-api-user-password.conf
+----
+
+. Generate the `TicketSalt`.
++
+[,sh]
+----
+echo "const TicketSalt = \"$(openssl rand -base64 30)\"" > ~/Projects/icinga-config/etc/icinga2/constants.d/ticket-salt.conf
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network`, `icinga.kube`, `icingadb.kube`, and `icingaweb.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --relative --symbolic podman.network icinga.kube icingadb.kube icingaweb.kube ~/.config/containers/systemd/
+----
+
+. Fill in any missing secrets in the `icingadb-secrets.yaml` and `icingaweb-secrets.yaml` files.
+Use the password for the `IcingaDbWebApiPassword` as the value for the `icinga_icingadb-web_api_user_password` secret in the `icingaweb-secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
+----
+====
+
+. Import the `icingadb-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube icingadb-secrets.yaml
+----
+
+. Import the `icingaweb-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube icingaweb-secrets.yaml
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the Icinga 2, Icinga DB, and Icinga Web 2 pods.
++
+[,sh]
+----
+systemctl --user start icinga icingadb icingaweb
+----

@@ -19,8 +19,6 @@ https://fedoraproject.org/iot/[Fedora IoT] is the current OS used for deployment
 
 == Usage
 
-// todo document setting sysctl for low ports.
-
 . Clone this repository.
 +
 [,sh]
@@ -35,28 +33,21 @@ git clone git@github.com:jwillikers/home-lab-helm.git
 cd home-lab-helm
 ----
 
-. Create the directory for Podman's systemd container generator.
+. Create the directory for Podman's systemd generator.
 +
 [,sh]
 ----
 mkdir -p ~/.config/containers/systemd
 ----
 
-. Copy in the network file.
+. Symlink the `podman.network` and the desired '.kube' files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
-cp podman.network ~/.config/containers/systemd/
+ln --relative --symbolic podman.network ~/.config/containers/systemd/
 ----
 
-. Copy in the desired '.kube' files for the desired applications.
-+
-[,sh]
-----
-cp caddy.kube ~/.config/containers/systemd/
-----
-
-. For any containers that require secrets, enter the secrets in the corresponding `-secrets.yaml` file.
+. For any pods that require secrets, enter the secrets in the corresponding `-secrets.yaml` file.
 +
 [TIP]
 ====
