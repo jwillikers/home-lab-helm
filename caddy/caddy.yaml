@@ -82,7 +82,7 @@ spec:
     - mountPath: /config/
       name: caddy-config-pvc
     - mountPath: /data/
-      name: caddy-data-host
+      name: caddy-data-pvc
   volumes:
   - hostPath:
       path: /home/core/Projects/caddy-config
