@@ -17,6 +17,10 @@ Everything is meant to be run rootless via Podman.
 The configuration is intended for systems using https://selinuxproject.org/page/Main_Page[SELinux].
 https://fedoraproject.org/iot/[Fedora IoT] is the current OS used for deployment.
 
+https://caddyserver.com/[Caddy] is used on per-machine basis as a reverse-proxy to manage connections between the containers and everything external to the host.
+Caddy configuration files for these services are stored in the https://github.com/jwillikers/caddy-config[Caddy Config] repository.
+Anything that allows using a choice of database uses https://www.postgresql.org/[PostgreSQL].
+
 == Usage
 
 . Clone this repository.
@@ -33,18 +37,13 @@ git clone git@github.com:jwillikers/home-lab-helm.git
 cd home-lab-helm
 ----
 
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
 . Create the directory for Podman's systemd generator.
 +
 [,sh]
 ----
 mkdir -p ~/.config/containers/systemd
-----
-
-. Symlink the `podman.network` and the desired '.kube' files to the `~/.config/containers/systemd/` directory.
-+
-[,sh]
-----
-ln --relative --symbolic podman.network ~/.config/containers/systemd/
 ----
 
 . For any pods that require secrets, enter the secrets in the corresponding `-secrets.yaml` file.
@@ -63,7 +62,14 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 +
 [,sh]
 ----
-podman play kube caddy-secrets.yaml
+podman play kube esphome/esphome-secrets.yaml
+----
+
+. Symlink the `podman.network` and the desired '.kube' files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --relative --symbolic podman.network esphome/esphome.kube ~/.config/containers/systemd/
 ----
 
 . Load the newly added systemd units.
@@ -77,14 +83,14 @@ systemctl --user daemon-reload
 +
 [,sh]
 ----
-systemctl --user start caddy
+systemctl --user start esphome
 ----
 
 == Services
 
-https://caddyserver.com/[Caddy] is used on per-machine basis as a reverse-proxy to manage connections between the containers and everything external to the host.
-Caddy configuration files for these services are stored in the https://github.com/jwillikers/caddy-config[Caddy Config] repository.
-Anything that allows using a choice of database uses https://www.postgresql.org/[PostgreSQL].
+* <<caddy/README.adoc,Caddy>>
+* <<icinga/README.adoc,Icinga>>
+* <<nextcloud/README.adoc,Nextcloud>>
 
 == References
 
