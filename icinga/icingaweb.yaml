@@ -151,8 +151,9 @@ spec:
     image: docker.io/icinga/icingaweb2:main
     name: icingaweb-server
     securityContext:
-      runAsGroup: 387
-      runAsUser: 387
+      # todo Fix upstream image to allow running as the current user in the container. 
+      # runAsGroup: 387
+      # runAsUser: 387
       seLinuxOptions:
         type: spc_t
     volumeMounts:
