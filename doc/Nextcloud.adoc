@@ -1,6 +1,6 @@
 = Nextcloud
 :experimental:
-:keywords: container helm k8s kubernetes linux podman systemd
+:keywords: cloud container helm k8s kubernetes linux nextcloud podman redis systemd
 :Minio: https://min.io/[Minio]
 :Nextcloud: https://nextcloud.com/[Nextcloud]
 
@@ -20,6 +20,8 @@ The Caddy configuration for Nextcloud mounts in directories from the Nextcloud p
 The Nextcloud pod uses configuration files provided by the https://github.com/jwillikers/nextcloud-config[Nextcloud Config] repository.
 In addition, a separate systemd service and timer need to be configured to run background jobs for the Nextcloud server.
 Follow the commands below to install the Nextcloud Config repository and configure the container for background jobs.
+
+. Follow the <<Redis.adoc#System Configuration,Redis System Configuration>> instructions.
 
 . Create the `~/Projects` directory.
 +

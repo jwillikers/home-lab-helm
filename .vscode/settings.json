@@ -25,6 +25,7 @@
         "OBJECTSTORE",
         "Omada",
         "osminogin",
+        "overcommit",
         "OVERWRITECLIURL",
         "pgdata",
         "pgsql",

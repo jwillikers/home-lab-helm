@@ -1,0 +1,22 @@
+= Redis
+:experimental:
+
+https://redis.io/[Redis] containers require some additional system configuration.
+Refer to the https://redis.io/docs/management/admin/[Redis administration] documentation for more details and recommendations.
+
+== System Configuration
+
+. Enable the Linux kernel's overcommit memory setting.
++
+./etc/sysctl.d/99-enable-memory_overcommit.conf
+[source]
+----
+vm.overcommit_memory = 1
+----
+
+. Load the updated sysctl configuration.
++
+[,sh]
+----
+sudo sysctl --system
+----
