@@ -3,7 +3,7 @@ Description=Minio S3-compatible object storage server
 Before=local-fs.target
 
 [Kube]
-Yaml=/home/jordan/Projects/home-lab-helm/minio-server.yaml
+Yaml=%h/Projects/home-lab-helm/minio-server.yaml
 Network=podman.network
 RemapUsers=keep-id
 

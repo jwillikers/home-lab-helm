@@ -4,7 +4,7 @@ Before=local-fs.target
 RequiresMountsFor=%h/container-volumes %h/Media
 
 [Kube]
-Yaml=/var/home/jordan/Projects/home-lab-helm/jellyfin.yaml
+Yaml=%h/Projects/home-lab-helm/jellyfin.yaml
 Network=podman.network
 RemapUsers=keep-id
 

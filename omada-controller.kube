@@ -3,7 +3,7 @@ Description=Omada Controller
 Before=local-fs.target
 
 [Kube]
-Yaml=/home/jordan/Projects/home-lab-helm/omada-controller.yaml
+Yaml=%h/Projects/home-lab-helm/omada-controller.yaml
 Network=podman.network
 
 [Service]

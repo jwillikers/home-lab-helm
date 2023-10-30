@@ -32,6 +32,7 @@
         "sysctls",
         "urandom",
         "USEPATH",
+        "vaultwarden",
         "zmqpubrawblock",
         "zmqpubrawtx"
     ]
