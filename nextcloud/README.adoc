@@ -1,6 +1,14 @@
 = Nextcloud
 :experimental:
+:icons: font
 :keywords: cloud container helm k8s kubernetes linux nextcloud podman redis systemd
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 :Minio: https://min.io/[Minio]
 :Nextcloud: https://nextcloud.com/[Nextcloud]
 

@@ -1,6 +1,14 @@
 = Caddy
 :experimental:
+:icons: font
 :keywords: acme caddy dns http https proxy reverse-proxy ssl tls
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 
 https://caddyserver.com/[Caddy] is the reverse-proxy used to connect the services of pods operating in internal Podman networks to the outside world and to handle TLS certificates provisioned through the ACME protocol.
 The https://github.com/jwillikers/caddy-ovh-image[Caddy OVH Image] is used since it includes the OVH plugin which makes it possible to obtain certificates through the DNS-01 challenge, which doesn't require the containers to be publicly accessible.

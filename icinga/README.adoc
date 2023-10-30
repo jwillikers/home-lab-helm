@@ -1,6 +1,14 @@
 = Icinga
 :experimental:
+:icons: font
 :keywords: icinga icinga2 icingadb icingaweb monitoring nagios php
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
 :Icinga: https://icinga.com/[Icinga]
 :Icinga-DB: https://icinga.com/docs/icinga-db/latest/doc/01-About/[Icinga DB]
 :Icinga-2: https://icinga.com/docs/icinga-2/latest/doc/01-about/[Icinga 2]
