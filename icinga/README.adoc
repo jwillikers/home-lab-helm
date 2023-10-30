@@ -130,3 +130,19 @@ systemctl --user daemon-reload
 ----
 systemctl --user start icinga icingadb icingaweb
 ----
+
+== Validate
+
+Use the following Podman command to validate the Icinga configuration.
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --rm \
+  --tty \
+  --volume icinga-data:/data:Z \
+  --volume ~/Projects/icinga-config/etc/icinga2:/data/etc/icinga2:ro,Z \
+  docker.io/icinga/icinga2:latest \
+  icinga2 daemon --validate
+----
