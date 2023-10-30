@@ -39,7 +39,7 @@ spec:
         type: spc_t
     volumeMounts:
     - mountPath: /data
-      name: var-home-core-container-volumes-icingadb-redis-host-0
+      name: icingadb-redis-data-pvc
   - args:
     - postgres
     env:
@@ -64,7 +64,7 @@ spec:
         type: spc_t
     volumeMounts:
     - mountPath: /var/lib/postgresql/data
-      name: var-home-core-container-volumes-icingadb-postgresql-data-host-0
+      name: icingadb-postgresql-data-pvc
   - env:
     - name: ICINGADB_RETENTION_HISTORY-DAYS
       value: "30"
@@ -93,11 +93,9 @@ spec:
     securityContext: {}
   hostUsers: false
   volumes:
-  - hostPath:
-      path: /var/home/core/container-volumes/icingadb-redis
-      type: Directory
-    name: var-home-core-container-volumes-icingadb-redis-host-0
-  - hostPath:
-      path: /var/home/core/container-volumes/icingadb-postgresql-data
-      type: Directory
-    name: var-home-core-container-volumes-icingadb-postgresql-data-host-0
+  - name: icingadb-redis-data-pvc
+    persistentVolumeClaim:
+      claimName: icingadb-redis-data
+  - name: icingadb-postgresql-data-pvc
+    persistentVolumeClaim:
+      claimName: icingadb-postgresql-data

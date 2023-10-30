@@ -47,15 +47,17 @@ spec:
         type: spc_t
     volumeMounts:
     - mountPath: /data
-      name: icinga-pvc
+      name: icinga-data-pvc
     - mountPath: /data/etc/icinga2
-      name: icinga-config-host-0
+      name: icinga-config-host
+      # todo Read-only 
+      # readOnly: True
   hostname: icinga.jwillikers.io
   volumes:
-  - name: icinga-pvc
+  - name: icinga-data-pvc
     persistentVolumeClaim:
-      claimName: icinga
+      claimName: icinga-data
   - hostPath:
       path: /home/core/Projects/icinga-config/etc/icinga2
       type: Directory
-    name: icinga-config-host-0
+    name: icinga-config-host

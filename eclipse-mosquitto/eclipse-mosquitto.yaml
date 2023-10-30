@@ -59,23 +59,21 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /mosquitto/config/
-          name: eclipse-mosquitto-config-host-0
+          name: eclipse-mosquitto-config-host
         - mountPath: /mosquitto/data/
-          name: eclipse-mosquitto-data-host-1
+          name: eclipse-mosquitto-data-pvc
         - mountPath: /mosquitto/log/
-          name: eclipse-mosquitto-log-host-2
+          name: eclipse-mosquitto-log-pvc
   enableServiceLinks: false
   hostUsers: false
   volumes:
     - hostPath:
-        path: /home/jordan/container-volumes/eclipse-mosquitto-config
+        path: /home/core/Projects/eclipse-mosquitto-config
         type: Directory
-      name: eclipse-mosquitto-config-host-0
-    - hostPath:
-        path: /home/jordan/container-volumes/eclipse-mosquitto-data
-        type: Directory
-      name: eclipse-mosquitto-data-host-1
-    - hostPath:
-        path: /home/jordan/container-volumes/eclipse-mosquitto-log
-        type: Directory
-      name: eclipse-mosquitto-log-host-2
+      name: eclipse-mosquitto-config-host
+    - name: eclipse-mosquitto-data-pvc
+      persistentVolumeClaim:
+        claimName: eclipse-mosquitto-data
+    - name: eclipse-mosquitto-log-pvc
+      persistentVolumeClaim:
+        claimName: eclipse-mosquitto-log

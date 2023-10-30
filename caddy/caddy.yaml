@@ -91,7 +91,7 @@ spec:
   - name: caddy-config-pvc
     persistentVolumeClaim:
       claimName: caddy-config
-  - hostPath:
-      path: /home/core/container-volumes/caddy-data
-      type: Directory
-    name: caddy-data-host
+  - name: caddy-data-pvc
+    persistentVolumeClaim:
+      claimName: caddy-data
+    

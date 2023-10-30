@@ -40,9 +40,9 @@ spec:
           name: var-home-core-Projects-bitcoin-core-config-tor-host-0
           readOnly: true
         - mountPath: /var/lib/tor
-          name: var-home-core-container-volumes-bitcoin-core-tor-data-host-0
+          name: bitcoin-core-tor-data-pvc
         - mountPath: /run/tor
-          name: var-home-core-container-volumes-bitcoin-core-tor-run-host-0
+          name: bitcoin-core-tor-run-pvc
     - args:
         - -zmqpubrawblock=tcp://0.0.0.0:28332
         - -zmqpubrawtx=tcp://0.0.0.0:28333
@@ -62,10 +62,11 @@ spec:
         - mountPath: /.bitcoin/bitcoin.conf.d
           name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf.d-host-2
           readOnly: true
+        # todo This isn't needed anymore, right? 
         - mountPath: /data/.bitcoin
           name: e3f0489fa20b702a7a5c9b9ed3175bb3b42ba8d77fd606066604d5d23efda15d-pvc
         - mountPath: /run/tor
-          name: var-home-core-container-volumes-bitcoin-core-tor-run-host-0
+          name: bitcoin-core-tor-run-pvc
           readOnly: true
     - image: docker.io/getumbrel/electrs:v0.9.14
       name: electrs
@@ -85,6 +86,7 @@ spec:
           readOnly: true
   hostUsers: false
   volumes:
+    # todo Move to PVC
     - hostPath:
         path: /var/home/core/container-volumes/bitcoin-core-server-data
         type: Directory
@@ -108,6 +110,7 @@ spec:
         path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf.d
         type: Directory
       name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf.d-host-2
+    # todo Move to PVC
     - hostPath:
         path: /var/home/core/container-volumes/electrs-data
         type: Directory
@@ -116,11 +119,9 @@ spec:
         path: /var/home/core/Projects/bitcoin-core-config/tor
         type: Directory
       name: var-home-core-Projects-bitcoin-core-config-tor-host-0
-    - hostPath:
-        path: /var/home/core/container-volumes/bitcoin-core-tor-data
-        type: Directory
-      name: var-home-core-container-volumes-bitcoin-core-tor-data-host-0
-    - hostPath:
-        path: /var/home/core/container-volumes/bitcoin-core-tor-run
-        type: Directory
-      name: var-home-core-container-volumes-bitcoin-core-tor-run-host-0
+    - name: bitcoin-core-tor-data-pvc
+      persistentVolumeClaim:
+        claimName: bitcoin-core-tor-data
+    - name: bitcoin-core-tor-run-pvc
+      persistentVolumeClaim:
+        claimName: bitcoin-core-tor-run

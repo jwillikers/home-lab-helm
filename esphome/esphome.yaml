@@ -48,15 +48,15 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /config
-          name: esphome-config-host-0
+          name: esphome-config-host
         - mountPath: /config/.esphome
           name: esphome-cache-pvc
   enableServiceLinks: false
   volumes:
     - hostPath:
-        path: /home/jordan/container-volumes/esphome-config
+        path: /home/core/Projects/esphome-config
         type: Directory
-      name: esphome-config-host-0
+      name: esphome-config-host
     - name: esphome-cache-pvc
       persistentVolumeClaim:
         claimName: esphome-cache

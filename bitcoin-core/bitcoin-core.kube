@@ -1,7 +1,7 @@
 [Unit]
 Description=Bitcoin Core server
 Before=local-fs.target
-RequiresMountsFor=%h/container-volumes/bitcoin-core-server-data
+RequiresMountsFor=%h/container-volumes
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/bitcoin-core/bitcoin-core.yaml

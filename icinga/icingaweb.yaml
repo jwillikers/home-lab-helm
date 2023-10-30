@@ -51,7 +51,7 @@ spec:
         type: spc_t
     volumeMounts:
     - mountPath: /var/lib/postgresql/data
-      name: var-home-core-container-volumes-icingaweb-postgresql-data-host-0
+      name: icingaweb-postgresql-data-pvc
   - args:
     - bash
     - -eo
@@ -59,6 +59,12 @@ spec:
     - -c
     - . /etc/apache2/envvars; exec apache2 -DFOREGROUND
     env:
+    - name: APACHE_RUN_GROUP
+      # The GID used for runAsGroup.
+      value: 387
+    - name: APACHE_RUN_USER
+      # The UID used for runAsUser.
+      value: 387
     - name: icingaweb.resources.icingaweb_db.dbname
       value: icingaweb
     - name: icingaweb.resources.icingadb.dbname
@@ -151,21 +157,13 @@ spec:
         type: spc_t
     volumeMounts:
     - mountPath: /data
-      name: var-home-core-container-volumes-icingaweb-server-data-host-0
-    - mountPath: /var/run/apache2
-      name: var-home-core-container-volumes-icingaweb-server-run-host-1
+      name: icingaweb-server-data-pvc
   hostUsers: false
   hostname: icingaweb.jwillikers.io
   volumes:
-  - hostPath:
-      path: /var/home/core/container-volumes/icingaweb-postgresql-data
-      type: Directory
-    name: var-home-core-container-volumes-icingaweb-postgresql-data-host-0
-  - hostPath:
-      path: /var/home/core/container-volumes/icingaweb-server-data
-      type: Directory
-    name: var-home-core-container-volumes-icingaweb-server-data-host-0
-  - hostPath:
-      path: /var/home/core/container-volumes/icingaweb-server-run
-      type: Directory
-    name: var-home-core-container-volumes-icingaweb-server-run-host-1
+  - name: icingaweb-postgresql-data-pvc
+    persistentVolumeClaim:
+      claimName: icingaweb-postgresql-data
+  - name: icingaweb-server-data-pvc
+    persistentVolumeClaim:
+      claimName: icingaweb-server-data
