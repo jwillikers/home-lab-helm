@@ -37,7 +37,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /etc/tor
-          name: var-home-core-Projects-bitcoin-core-config-tor-host-0
+          name: bitcoin-core-config-tor-host
           readOnly: true
         - mountPath: /var/lib/tor
           name: bitcoin-core-tor-data-pvc
@@ -55,16 +55,13 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /.bitcoin
-          name: var-home-core-container-volumes-bitcoin-core-server-data-host-0
+          name: bitcoin-core-server-data-pvc
         - mountPath: /.bitcoin/bitcoin.conf
-          name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf-host-1
+          name: bitcoin-core-config-bitcoin-bitcoin.conf-host
           readOnly: true
         - mountPath: /.bitcoin/bitcoin.conf.d
-          name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf.d-host-2
+          name: bitcoin-core-config-bitcoin-bitcoin.conf.d-host
           readOnly: true
-        # todo This isn't needed anymore, right? 
-        - mountPath: /data/.bitcoin
-          name: e3f0489fa20b702a7a5c9b9ed3175bb3b42ba8d77fd606066604d5d23efda15d-pvc
         - mountPath: /run/tor
           name: bitcoin-core-tor-run-pvc
           readOnly: true
@@ -77,48 +74,37 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data/db
-          name: var-home-core-container-volumes-electrs-data-host-0
+          name: electrs-data-pvc
         - mountPath: /etc/electrs/config.toml
-          name: var-home-core-Projects-bitcoin-core-config-electrs-config.toml-host-1
+          name: bitcoin-core-config-electrs-config.toml-host
           readOnly: true
         - mountPath: /data/.bitcoin
-          name: var-home-core-container-volumes-bitcoin-core-server-data-host-2
+          name: bitcoin-core-server-data-pvc
           readOnly: true
   hostUsers: false
   volumes:
-    # todo Move to PVC
-    - hostPath:
-        path: /var/home/core/container-volumes/bitcoin-core-server-data
-        type: Directory
-      name: var-home-core-container-volumes-bitcoin-core-server-data-host-2
-    - name: e3f0489fa20b702a7a5c9b9ed3175bb3b42ba8d77fd606066604d5d23efda15d-pvc
+    - name: bitcoin-core-server-data-pvc
       persistentVolumeClaim:
-        claimName: e3f0489fa20b702a7a5c9b9ed3175bb3b42ba8d77fd606066604d5d23efda15d
+        claimName: bitcoin-core-server-data
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/electrs/config.toml
         type: File
-      name: var-home-core-Projects-bitcoin-core-config-electrs-config.toml-host-1
-    - hostPath:
-        path: /var/home/core/container-volumes/bitcoin-core-server-data
-        type: Directory
-      name: var-home-core-container-volumes-bitcoin-core-server-data-host-0
+      name: bitcoin-core-config-electrs-config.toml-host
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf
         type: File
-      name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf-host-1
+      name: bitcoin-core-config-bitcoin-bitcoin.conf-host
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf.d
         type: Directory
-      name: var-home-core-Projects-bitcoin-core-config-bitcoin-bitcoin.conf.d-host-2
-    # todo Move to PVC
-    - hostPath:
-        path: /var/home/core/container-volumes/electrs-data
-        type: Directory
-      name: var-home-core-container-volumes-electrs-data-host-0
+      name: bitcoin-core-config-bitcoin-bitcoin.conf.d-host
+    - name: electrs-data-pvc
+      persistentVolumeClaim:
+        claimName: electrs-data
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/tor
         type: Directory
-      name: var-home-core-Projects-bitcoin-core-config-tor-host-0
+      name: bitcoin-core-config-tor-host
     - name: bitcoin-core-tor-data-pvc
       persistentVolumeClaim:
         claimName: bitcoin-core-tor-data
