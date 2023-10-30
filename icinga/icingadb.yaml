@@ -30,7 +30,7 @@ spec:
   containers:
   - args:
     - redis-server
-    image: docker.io/library/redis:latest
+    image: docker.io/library/redis:alpine
     name: icingadb-redis
     securityContext:
       # The Redis user and group use the id 999.
