@@ -1,10 +1,9 @@
 [Unit]
-Description=Home Assistant server
+Description=Icinga DB
 Before=local-fs.target
-RequiresMountsFor=%h/container-volumes/home-assistant-data
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/home-assistant.yaml
+Yaml=%h/Projects/home-lab-helm/icinga/icingadb.yaml
 Network=podman.network
 RemapUsers=keep-id
 

@@ -4,7 +4,7 @@ Before=local-fs.target
 RequiresMountsFor=%h/container-volumes/caddy-data %h/Projects/caddy-config
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/caddy.yaml
+Yaml=%h/Projects/home-lab-helm/caddy/caddy.yaml
 Network=podman.network
 # Run as non-root inside the container when Podman supports setting sysctls in Kubernetes YAML.
 # RemapUsers: keep-id

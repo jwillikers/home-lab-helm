@@ -4,7 +4,7 @@ Before=local-fs.target
 RequiresMountsFor=%h/container-volumes/eclipse-mosquitto-data %h/container-volumes/eclipse-mosquitto-config %h/container-volumes/eclipse-mosquitto-log
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/eclipse-mosquitto.yaml
+Yaml=%h/Projects/home-lab-helm/eclipse-mosquitto/eclipse-mosquitto.yaml
 Network=podman.network
 RemapUsers=keep-id
 

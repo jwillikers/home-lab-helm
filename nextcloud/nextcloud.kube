@@ -1,9 +1,9 @@
 [Unit]
-Description=Minio S3-compatible object storage server
+Description=Nextcloud server
 Before=local-fs.target
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/minio-server.yaml
+Yaml=%h/Projects/home-lab-helm/nextcloud/nextcloud.yaml
 Network=podman.network
 RemapUsers=keep-id
 

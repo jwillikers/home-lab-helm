@@ -21,9 +21,9 @@ The Nextcloud pod uses configuration files provided by the https://github.com/jw
 In addition, a separate systemd service and timer need to be configured to run background jobs for the Nextcloud server.
 Follow the commands below to install the Nextcloud Config repository and configure the container for background jobs.
 
-. Follow the <<Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
 
-. Follow the <<Caddy.adoc,instructions for Caddy>>.
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 +
 [NOTE]
 ====
@@ -56,7 +56,7 @@ mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 +
 [,sh]
 ----
-ln --relative --symbolic podman.network nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
+ln --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
 ----
 
 . Symlink the `nextcloud-cron.timer` file to the `~/.config/systemd/user/` directory.

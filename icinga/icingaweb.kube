@@ -1,10 +1,11 @@
 [Unit]
-Description=Icinga2 monitoring server container
+Description=Icinga Web
 Before=local-fs.target
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/icinga.yaml
+Yaml=%h/Projects/home-lab-helm/icinga/icingaweb.yaml
 Network=podman.network
+RemapUsers=keep-id
 
 [Service]
 Restart=always

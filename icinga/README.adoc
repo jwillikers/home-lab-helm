@@ -21,8 +21,8 @@ The instructions here document the process get the Icinga 2, Icinga DB, and Icin
 It is recommend to run Icinga 2 and Icinga DB on the same machine to reduce latency. 
 ====
 
-. Follow the <<Redis.adoc#System Configuration,Redis System Configuration>> instructions.
-. Follow the <<Caddy.adoc,instructions for Caddy>>.
+. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
 . Open the necessary ports in the firewall, since rootless Podman won't be able to open these for us.
 +
@@ -79,7 +79,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-ln --relative --symbolic podman.network icinga.kube icingadb.kube icingaweb.kube ~/.config/containers/systemd/
+ln --relative --symbolic ../podman.network icinga.kube icingadb.kube icingaweb.kube ~/.config/containers/systemd/
 ----
 
 . Fill in any missing secrets in the `icingadb-secrets.yaml` and `icingaweb-secrets.yaml` files.

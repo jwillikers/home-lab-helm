@@ -4,7 +4,7 @@ Before=local-fs.target
 RequiresMountsFor=%t/containers %h/container-volumes/vaultwarden-data %h/container-volumes/vaultwarden-db-data
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/vaultwarden.yaml
+Yaml=%h/Projects/home-lab-helm/vaultwarden/vaultwarden.yaml
 Network=podman.network
 RemapUsers=keep-id
 

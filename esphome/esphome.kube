@@ -1,9 +1,10 @@
 [Unit]
-Description=Nextcloud server
+Description=ESPHome server
 Before=local-fs.target
+RequiresMountsFor=%h/container-volumes/esphome-config
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/nextcloud.yaml
+Yaml=%h/Projects/home-lab-helm/esphome/esphome.yaml
 Network=podman.network
 RemapUsers=keep-id
 

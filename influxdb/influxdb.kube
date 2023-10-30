@@ -4,7 +4,7 @@ Before=local-fs.target
 RequiresMountsFor=%h/container-volumes/influxdb-data %h/container-volumes/influxdb-config
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/influxdb.yaml
+Yaml=%h/Projects/home-lab-helm/influxdb/influxdb.yaml
 Network=podman.network
 RemapUsers=keep-id
 

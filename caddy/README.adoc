@@ -95,7 +95,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-ln --relative --symbolic podman.network caddy.kube ~/.config/containers/systemd/
+ln --relative --symbolic ../podman.network caddy.kube ~/.config/containers/systemd/
 ----
 
 . Load the newly added systemd units.

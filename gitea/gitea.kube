@@ -4,7 +4,7 @@ Before=local-fs.target
 RequiresMountsFor=%h/container-volumes/gitea-db-data %h/container-volumes/gitea-server-data %h/container-volumes/gitea-server-config
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/gitea.yaml
+Yaml=%h/Projects/home-lab-helm/gitea/gitea.yaml
 Network=podman.network
 # UserNS=keep-id
 RemapUsers=keep-id

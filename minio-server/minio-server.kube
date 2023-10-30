@@ -1,9 +1,9 @@
 [Unit]
-Description=Icinga DB
+Description=Minio S3-compatible object storage server
 Before=local-fs.target
 
 [Kube]
-Yaml=%h/Projects/home-lab-helm/icingadb.yaml
+Yaml=%h/Projects/home-lab-helm/minio-server/minio-server.yaml
 Network=podman.network
 RemapUsers=keep-id
 
