@@ -50,8 +50,7 @@ spec:
       name: icinga-data-pvc
     - mountPath: /data/etc/icinga2
       name: icinga-config-host
-      # todo Read-only 
-      # readOnly: True
+      readOnly: True
   hostname: icinga.jwillikers.io
   volumes:
   - name: icinga-data-pvc
