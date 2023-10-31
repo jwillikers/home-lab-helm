@@ -1,0 +1,99 @@
+= Bitcoin Core
+:experimental:
+:icons: font
+:keywords: bitcoin bitcoin-core electrum electrs satoshi tor
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Bitcoin-Core: https://bitcoincore.org/[Bitcoin Core]
+:electrs: https://github.com/romanz/electrs[electrs]
+:Electrum: https://electrum.org/[Electrum]
+:Tor: https://www.torproject.org/[Tor]
+
+The Bitcoin Core pod bundles together essential for running a Bitcoin node, including the {Bitcoin-Core} server, the {Tor} service, and the {electrs} implementation of the {Electrum} wallet.
+
+== Usage
+
+The Bitcoin Core chart uses the configuration provided by the https://github.com/jwillikers/bitcoin-core-config[Bitcoin Core Config] repository.
+
+. Verify that the deployment will have enough disk space.
+I recommend at least 1 TB at this point in time.
+If using a separate disk, I recommend mounting the user's 
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
++
+[NOTE]
+====
+The `electrs.caddyfile` proxies the RPC port for the electrs wallet.
+Be careful if you choose
+====
+
+. Create the `~/Projects` directory.
++
+[,sh]
+----
+mkdir -p ~/Projects
+----
+
+. Clone the Bitcoin Core Config repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/bitcoin-core-config.git
+----
+
+. Create the directory for Podman's systemd generator and user units.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
+----
+
+. Symlink the `podman.network` and `bitcoin-core.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --relative --symbolic ../podman.network bitcoin-core.kube ~/.config/containers/systemd/
+----
+
+. Symlink the `podman.network` and `bitcoin-core.kube` files to the `~/.config/containers/systemd/` directory.
+This timer will remove the `onion_v3_private_key`, forcing the Bitcoin Core node to generate a new one.
+This preserves anonymity by not using a consistent node.
++
+[,sh]
+----
+ln --relative --symbolic remove-bitcoin-onion-private-key.* ~/.config/systemd/user/
+----
+
+. Create the volume for the Tor run directory.
++
+[,sh]
+----
+podman volume create bitcoin-core-tor-run
+----
+
+. Restrict the permissions for this volume to make Tor happy.
++
+[,sh]
+----
+sudo chmod 0700 /home/core/.local/share/containers/storage/volumes/bitcoin-core-tor-run/_data
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the Bitcoin Core pod.
++
+[,sh]
+----
+systemctl --user start bitcoin-core
+----
+

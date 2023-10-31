@@ -1,0 +1,9 @@
+[Unit]
+Description=Remove the Bitcoin Core server's private Onion key to force it to generate a new key.
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/rm --force %h/.local/share/containers/storage/volumes/bitcoin-core-server-data/_data/onion_v3_private_key
+
+[Install]
+WantedBy=default.target
