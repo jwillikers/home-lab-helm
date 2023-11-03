@@ -24,12 +24,11 @@ The Bitcoin Core chart uses the configuration provided by the https://github.com
 I recommend at least 1 TB at this point in time.
 If using a separate disk, I recommend mounting the user's 
 
-. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+. Follow the <<../nginx/README.adoc,instructions for NGINX>>.
 +
 [NOTE]
 ====
-The `electrs.caddyfile` proxies the RPC port for the electrs wallet.
-Be careful if you choose
+The `electrs.conf` file proxies the RPC port for the electrs wallet.
 ====
 
 . Create the `~/Projects` directory.
@@ -96,4 +95,3 @@ systemctl --user daemon-reload
 ----
 systemctl --user start bitcoin-core
 ----
-

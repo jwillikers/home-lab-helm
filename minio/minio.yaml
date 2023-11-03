@@ -12,8 +12,8 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-04T15:25:42Z"
   labels:
-    app: minio-server-pod
-  name: minio-server-pod
+    app: minio-pod
+  name: minio-pod
 spec:
   ports:
     - name: "9000"
@@ -25,19 +25,19 @@ spec:
       port: 9090
       targetPort: 9090
   selector:
-    app: minio-server-pod
+    app: minio-pod
   type: NodePort
 ---
 apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    bind-mount-options: /home/jordan/s3:z
-    io.containers.autoupdate/minio-server: registry
+    bind-mount-options: /home/core/s3:z
+    io.containers.autoupdate/minio: registry
   creationTimestamp: "2023-02-04T15:25:42Z"
   labels:
-    app: minio-server-pod
-  name: minio-server-pod
+    app: minio-pod
+  name: minio-pod
 spec:
   containers:
     - args:
@@ -48,22 +48,22 @@ spec:
       env:
         - name: MINIO_BROWSER_REDIRECT_URL
           value: https://console.minio.jwillikers.io
-        - name: MINIO_SITE_REGION
-          value: home-lab-0
-        - name: MINIO_SITE_NAME
-          value: closet-1
-        - name: MINIO_ROOT_USER
-          valueFrom:
-            secretKeyRef:
-              name: minio-server-secrets
-              key: minio_root_user
-              optional: false
         - name: MINIO_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: minio-server-secrets
+              name: minio-secrets
               key: minio_root_password
               optional: false
+        - name: MINIO_ROOT_USER
+          valueFrom:
+            secretKeyRef:
+              name: minio-secrets
+              key: minio_root_user
+              optional: false
+        - name: MINIO_SITE_NAME
+          value: closet-1
+        - name: MINIO_SITE_REGION
+          value: us-east-1
       image: quay.io/minio/minio:latest
       name: minio-server
       ports:
@@ -82,16 +82,16 @@ spec:
         - mountPath: /data
           name: home-core-s3-host
         - mountPath: /root/.minio/certs/minio.jwillikers.io/public.crt
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.crt-host-0
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.crt-host
           readOnly: true
         - mountPath: /root/.minio/certs/minio.jwillikers.io/private.key
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.key-host-0
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.key-host
           readOnly: true
         - mountPath: /root/.minio/certs/minio.lan.jwillikers.io/public.crt
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.crt-host-0
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.crt-host
           readOnly: true
         - mountPath: /root/.minio/certs/minio.lan.jwillikers.io/private.key
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.key-host-0
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.key-host
           readOnly: true
   hostUsers: false
   volumes:
@@ -102,16 +102,16 @@ spec:
     - hostPath:
         path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.jwillikers.io/minio.jwillikers.io.crt
         type: File
-      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.crt-host-0
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.crt-host
     - hostPath:
         path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.jwillikers.io/minio.jwillikers.io.key
         type: File
-      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.key-host-0
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.jwillikers.io-minio.jwillikers.io.key-host
     - hostPath:
         path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.lan.jwillikers.io/minio.lan.jwillikers.io.crt
         type: File
-      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.crt-host-0
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.crt-host
     - hostPath:
         path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/minio.lan.jwillikers.io/minio.lan.jwillikers.io.key
         type: File
-      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.key-host-0
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.key-host

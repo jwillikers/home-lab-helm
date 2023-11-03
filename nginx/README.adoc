@@ -1,0 +1,104 @@
+= NGINX
+:experimental:
+:icons: font
+:keywords: acme caddy dns http https proxy reverse-proxy ssl tls
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:NGINX: https://www.nginx.com/[NGINX]
+
+{NGINX} is a reverse-proxy used to proxy raw TCP connections such as the connection to electrs since Caddy does not natively include such functionality.
+NGINX configurations are stored in the https://github.com/jwillikers/nginx-config[NGINX Config] repository.
+
+== System Configuration
+
+The system must be configured for NGINX to receive HTTP and HTTPS connections when using NGINX as a reverse-proxy for such connections.
+Since electrs typically operates on port 50002 when using HTTPS, this port will be opened as well in the example.
+
+. Allow rootless containers to publish to ports 80 and 443 by lowering the starting port for the range of unprivileged ports.
++
+./etc/sysctl.d/99-lower-unprivileged_port_start.conf
+[source]
+----
+; Allow publishing to lower port numbers without requiring superuser privileges.
+net.ipv4.ip_unprivileged_port_start=80
+----
+
+. Load the new sysctl configuration.
++
+[,sh]
+----
+sudo sysctl --system
+----
+
+. Open the default HTTP and HTTPS ports, 80 and 443 respectively, as well as port 50002 in the firewall, since rootless Podman won't be able to open this for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-service=http --add-service=https --add-port=50002 --permanent
+----
+
+. Reload the new firewall rules.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+== Usage
+
+. Follow the <<../certbot/README.adoc,Certbot Configuration>> instructions.
+TLS certificates are handled by the Certbot container.
+
+. Create the `~/Projects` directory.
++
+[,sh]
+----
+mkdir -p ~/Projects
+----
+
+. Clone the NGINX Config repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/nginx-config.git
+----
+
+. Symlink sites from the `sites-available` subdirectory to the `sites-enabled` subdirectory to enable them.
++
+[,sh]
+----
+ln --relative --symbolic ~/Projects/nginx-config/sites-available/electrs.conf ~/Projects/nginx-config/sites-enabled/electrs.conf
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `nginx.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --relative --symbolic ../podman.network nginx.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the NGINX pod.
++
+[,sh]
+----
+systemctl --user start nginx
+----

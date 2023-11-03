@@ -76,28 +76,52 @@ spec:
         runAsUser: 1000
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: gitea-db-data-host-0
+          name: gitea-db-data-host
     - env:
         - name: GITEA__database__NAME
           value: gitea
-        - name: GITEA__server__SSH_DOMAIN
-          value: gitea.jwillikers.io
-        - name: GITEA__database__DB_TYPE
-          value: postgres
         - name: GITEA__database__HOST
           value: localhost:5432
-        - name: GITEA__database__USER
-          value: gitea
-        - name: GITEA__server__DOMAIN
-          value: gitea.jwillikers.io
-        - name: GITEA__server__ROOT_URL
-          value: https://gitea.jwillikers.io
         - name: GITEA__database__PASSWD
           valueFrom:
             secretKeyRef:
               name: gitea-secrets
               key: gitea_db_password
               optional: false
+        - name: GITEA__database__DB_TYPE
+          value: postgres
+        - name: GITEA__database__USER
+          value: gitea
+        - name: GITEA__server__DOMAIN
+          value: gitea.jwillikers.io
+        - name: GITEA__server__SSH_DOMAIN
+          value: gitea.jwillikers.io
+        - name: GITEA__server__ROOT_URL
+          value: https://gitea.jwillikers.io
+        - name: GITEA__storage__MINIO_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: gitea_minio_access_key_id
+              optional: false
+        - name: GITEA__storage__MINIO_BUCKET
+          value: gitea
+        - name: GITEA__storage__MINIO_ENDPOINT
+          value: minio.jwillikers.io
+        - name: GITEA__storage__MINIO_LOCATION
+          value: us-east-1
+        - name: GITEA__storage__MINIO_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: gitea_minio_secret_access_key
+              optional: false
+        - name: GITEA__storage__MINIO_USE_SSL
+          value: true
+        - name: GITEA__storage__SERVE_DIRECT
+          value: true
+        - name: GITEA__storage__STORAGE_TYPE
+          value: minio
       image: docker.io/gitea/gitea:latest-rootless
       name: gitea-server
       resources: {}
@@ -107,9 +131,9 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/gitea
-          name: gitea-server-data-host-0
+          name: gitea-server-data-host
         - mountPath: /etc/gitea
-          name: gitea-server-config-host-1
+          name: gitea-server-config-host
   enableServiceLinks: false
   hostUsers: false
   hostname: gitea
@@ -118,13 +142,13 @@ spec:
     - hostPath:
         path: /home/jordan/container-volumes/gitea-db-data
         type: Directory
-      name: gitea-db-data-host-0
+      name: gitea-db-data-host
     - hostPath:
         path: /home/jordan/container-volumes/gitea-server-data
         type: Directory
-      name: gitea-server-data-host-0
+      name: gitea-server-data-host
     - hostPath:
         path: /home/jordan/container-volumes/gitea-server-config
         type: Directory
-      name: gitea-server-config-host-1
+      name: gitea-server-config-host
 status: {}

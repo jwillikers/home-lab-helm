@@ -88,9 +88,14 @@ systemctl --user start esphome
 
 == Services
 
+* <<bitcoin-core/README.adoc,Bitcoin Core>>
 * <<caddy/README.adoc,Caddy>>
+* <<certbot/README.adoc,Certbot>>
+* <<gitea/README.adoc,Gitea>>
 * <<icinga/README.adoc,Icinga>>
+* <<minio/README.adoc,Minio>>
 * <<nextcloud/README.adoc,Nextcloud>>
+* <<nginx/README.adoc,NGINX>>
 
 == References
 

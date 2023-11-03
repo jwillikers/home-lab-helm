@@ -115,7 +115,7 @@ spec:
         - name: NEXTCLOUD_TRUSTED_DOMAINS
           value: cloud.jwillikers.io
         - name: OBJECTSTORE_S3_REGION
-          value: home-lab-0
+          value: us-east-1
         - name: SMTP_PORT
           value: "465"
         - name: REDIS_HOST

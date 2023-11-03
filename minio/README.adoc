@@ -1,0 +1,368 @@
+= MinIO
+:experimental:
+:icons: font
+:keywords: filesystem minio object s3 storage
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:MinIO: https://min.io/[MinIO]
+
+The {MinIO} pod provides S3-compatible object storage.
+
+== Usage
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Open the necessary ports in the firewall, since rootless Podman won't be able to open these for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-port=9000/tcp --add-port=9001/tcp  --permanent
+----
+
+. Reload the firewall rules that were just saved.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+. Create the `~/s3` data directory for MinIO to serve.
++
+[,sh]
+----
+mkdir ~/s3
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `minio.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --relative --symbolic ../podman.network minio.kube ~/.config/containers/systemd/
+----
+
+. Fill in any missing secrets in the `minio-secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
+----
+====
+
+. Import the `minio-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube minio-secrets.yaml
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the MinIO pod.
++
+[,sh]
+----
+systemctl --user start minio
+----
+
+. Configure the MinIO client tool to access the MinIO server.
+The following command creates the alias `jwillikers` for my MinIO instance.
+When prompted, enter the root account's username as the access key and the root account's password as the secret key.
+These were the values configured earlier in the `minio-secrets.yaml` file.
++
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  quay.io/minio/mc:latest \
+  alias set jwillikers https://minio.jwillikers.io
+mc: Configuration written to `/.mc/config.json`. Please update your access credentials.
+mc: Successfully created `/.mc/share`.
+mc: Initialized share uploads `/.mc/share/uploads.json` file.
+mc: Initialized share downloads `/.mc/share/downloads.json` file.
+Enter Access Key: abcde123
+Enter Secret Key: 
+Added `jwillikers` successfully.
+----
+
+. Create a non-root user account to use to access the MinIO server.
++
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  quay.io/minio/mc:latest \
+  admin user add jwillikers jordan
+Enter Secret Key: 
+----
+
+== Policies
+
+.read-only-policy.json
+[,json]
+----
+{
+ "Version": "2012-10-17",
+ "Statement": [
+  {
+   "Effect": "Allow",
+   "Action": [
+    "s3:GetBucketLocation",
+    "s3:GetObject",
+    "s3:ListBucket"
+   ],
+   "Resource": [
+    "arn:aws:s3:::media/*"
+   ]
+  }
+ ]
+}
+----
+
+.minimal-write-policy.json
+[,json]
+----
+{
+ "Version": "2012-10-17",
+ "Statement": [
+  {
+   "Effect": "Allow",
+   "Action": [
+    "s3:GetObject",
+    "s3:ListBucket",
+    "s3:PutObject"
+   ],
+   "Resource": [
+    "arn:aws:s3:::pi-camera/*"
+   ]
+  }
+ ]
+}
+----
+
+.bucket-read-write-policy.json
+[,json]
+----
+{
+ "Version": "2012-10-17",
+ "Statement": [
+  {
+   "Effect": "Allow",
+   "Action": [
+    "s3:*"
+   ],
+   "Resource": [
+    "arn:aws:s3:::nextcloud/*"
+   ]
+  }
+ ]
+}
+----
+
+== MinIO Client
+
+The MinIO Client image can be used to interact with the MinIO server.
+This section describes how to use the MinIO Client container.
+
+Configure the MinIO client to access the MinIO server as `minio`.
+This alias will be used by subsequent `mc` commands.
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  quay.io/minio/mc:latest \
+  alias set jwillikers https://minio.jwillikers.io
+mc: Configuration written to `/.mc/config.json`. Please update your access credentials.
+mc: Successfully created `/.mc/share`.
+mc: Initialized share uploads `/.mc/share/uploads.json` file.
+mc: Initialized share downloads `/.mc/share/downloads.json` file.
+Enter Access Key: abcde123
+Enter Secret Key: 
+Added `jwillikers` successfully.
+----
+
+=== Create a User
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  quay.io/minio/mc:latest \
+  admin user add jwillikers jordan
+Enter Secret Key: 
+----
+
+=== Create a Group
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  --volume ./nextcloud-policy.json:/:Z \
+  quay.io/minio/mc:latest \
+  admin group add jwillikers nextcloud jordan
+----
+
+=== Create an Access Token
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  --volume ./nextcloud-policy.json:/nextcloud-policy.json:Z \
+  quay.io/minio/mc:latest \
+  admin user svcacct add --description "Nextcloud server storage backend" --name "Nextcloud" --policy "nextcloud-policy.json" jwillikers jordan
+Access Key: XXXXXXXXXXXXXXXXXXXX
+Secret Key: ****************************************
+Expiration: no-expiry
+----
+
+=== Create a Policy
+
+mc admin policy create jwillikers.io minimal-write minimal-write-policy.json
+
+=== Attach a Policy
+
+mc admin policy attach jwillikers readonly --user jordan
+mc admin policy attach jwillikers readonly --group users
+
+=== Create a Bucket
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  quay.io/minio/mc:latest \
+  mb jwillikers/nextcloud
+----
+
+=== Download
+
+[,sh]
+----
+mkdir media
+----
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  --volume media:/data:Z \
+  quay.io/minio/mc:latest \
+  cp --recursive jwillikers.io/media /data/
+----
+
+=== Upload
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  --volume media:/data:Z \
+  quay.io/minio/mc:latest \
+  cp --recursive /data/ jwillikers/media
+----
+
+=== List Files
+
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  quay.io/minio/mc:latest \
+  ls jwillikers/media
+[2023-11-02 18:47:24 UTC]     0B Books/
+[2023-11-02 18:47:24 UTC]     0B Music/
+[2023-11-02 18:47:24 UTC]     0B Videos/
+----
+
+=== Find Files
+
+=== Disk Usage
+
+=== Delete Files
+
+=== Delete Bucket
+
+=== Undo

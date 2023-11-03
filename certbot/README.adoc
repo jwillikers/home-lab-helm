@@ -1,0 +1,109 @@
+= Certbot
+:experimental:
+:icons: font
+:keywords: certbot certificate eff tls
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Certbot: https://certbot.eff.org/[Certbot]
+
+The {Certbot} container provisions TLS certificates and automates renewal.
+The Certbot container is run daily via a systemd timer.
+
+== OVH API Token
+
+Certbot uses an OVH API token to complete the ACME DNS-01 challenge to provision TLS certificates for the various services.
+The instructions here describe how to create an OVH API token and store is as a secret in Podman.
+
+. Open the https://www.ovh.com/auth/api/createToken[OVH Create Token Page] in a web browser.
+. Enter the _Application name_, i.e. `Certbot <Hostname>`.
+. Enter an _Application description.
+I use `ACME DNS-01 Challenge Provider`.
+. Select the time after which the token will expire in the _Validity_ field.
+I use `Unlimited` to avoid the token expiring.
+. Add the required _Rights_ for `/domain/zone/*` for each of `GET`, `PUT`, `POST`, and `DELETE`.
+. Create the token.
+
+== Usage
+
+The Certbot container only provides TLS certificates.
+These are made available in the `certbot-data` volume which can be used by other containers, such as a reverse-proxy.
+
+. Add the token's application key, application secret, and consumer key to the corresponding variables in the `~/.config/certbot/ovh-credentials.ini` file.
+. Create the `~/.config/certbot` directory.
++
+[,sh]
+----
+mkdir -p ~/.config/certbot
+----
+
+. Copy the `ovh-credential.ini` file to `~/.config/certbot/`.
+. Restrict the permissions of the file so that only the owner can read and write to the file.
++
+[,sh]
+----
+chmod 0600 ~/.config/certbot/ovh-credentials.ini
+----
+
+. Initialize Certbot by requesting certificates for desired domains.
++
+[,sh]
+----
+podman run \
+    --interactive \
+    --name certbot \
+    --rm \
+    --tty \
+    --userns keep-id \
+    --volume $(pwd)/ovh-credentials.ini:/etc/letsencrypt/ovh-credentials.ini:ro,Z \
+    --volume certbot-data:/var/lib/letsencrypt:Z \
+    --volume certbot-log:/var/log/letsencrypt:Z \
+    --workdir /var/lib/letsencrypt \
+    docker.io/certbot/dns-ovh:latest \
+    certonly \
+        --agree-tos \
+        --dns-ovh \
+        --dns-ovh-credentials /etc/letsencrypt/ovh-credentials.ini \
+        --domain electrs.jwillikers.io \
+        --email jordan@jwillikers.com \
+        --noninteractive
+----
+
+. Create the directories for Podman's systemd generator and user units.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
+----
+
+. Symlink the `certbot-renew.container` file to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --relative --symbolic ../podman.network certbot-renew.container ~/.config/containers/systemd/
+----
+
+. Symlink the `certbot-renew.timer` file to the `~/.config/systemd/user/` directory.
++
+[,sh]
+----
+ln --relative --symbolic certbot-renew.timer ~/.config/systemd/user/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Enable and start the timer for the Certbot renewal container.
++
+[,sh]
+----
+systemctl --user enable --now certbot-renew.timer
+----
