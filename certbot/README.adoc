@@ -65,7 +65,7 @@ podman run \
     --rm \
     --tty \
     --userns keep-id \
-    --volume $(pwd)/ovh-credentials.ini:/etc/letsencrypt/ovh-credentials.ini:ro,Z \
+    --volume ~/.config/certbot/ovh-credentials.ini:/etc/letsencrypt/ovh-credentials.ini:ro,Z \
     --volume certbot-data:/var/lib/letsencrypt:Z \
     --volume certbot-log:/var/log/letsencrypt:Z \
     --workdir /var/lib/letsencrypt \
@@ -90,14 +90,14 @@ mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network certbot-renew.container ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network certbot-renew.container ~/.config/containers/systemd/
 ----
 
 . Symlink the `certbot-renew.timer` file to the `~/.config/systemd/user/` directory.
 +
 [,sh]
 ----
-ln --relative --symbolic certbot-renew.timer ~/.config/systemd/user/
+ln --force --relative --symbolic certbot-renew.timer ~/.config/systemd/user/
 ----
 
 . Load the newly added systemd units.
