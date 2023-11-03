@@ -49,7 +49,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network minio.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network minio.kube ~/.config/containers/systemd/
 ----
 
 . Fill in any missing secrets in the `minio-secrets.yaml` file.

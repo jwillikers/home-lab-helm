@@ -56,7 +56,7 @@ mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network bitcoin-core.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network bitcoin-core.kube ~/.config/containers/systemd/
 ----
 
 . Symlink the `podman.network` and `bitcoin-core.kube` files to the `~/.config/containers/systemd/` directory.
@@ -65,7 +65,7 @@ This preserves anonymity by not using a consistent node.
 +
 [,sh]
 ----
-ln --relative --symbolic remove-bitcoin-onion-private-key.* ~/.config/systemd/user/
+ln --force --relative --symbolic remove-bitcoin-onion-private-key.* ~/.config/systemd/user/
 ----
 
 . Create the volume for the Tor run directory.

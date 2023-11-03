@@ -69,7 +69,7 @@ podman play kube esphome/esphome-secrets.yaml
 +
 [,sh]
 ----
-ln --relative --symbolic podman.network esphome/esphome.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic podman.network esphome/esphome.kube ~/.config/containers/systemd/
 ----
 
 . Load the newly added systemd units.

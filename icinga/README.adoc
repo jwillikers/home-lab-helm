@@ -87,7 +87,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network icinga.kube icingadb.kube icingaweb.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network icinga.kube icingadb.kube icingaweb.kube ~/.config/containers/systemd/
 ----
 
 . Fill in any missing secrets in the `icingadb-secrets.yaml` and `icingaweb-secrets.yaml` files.

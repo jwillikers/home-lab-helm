@@ -72,7 +72,7 @@ git -C ~/Projects clone https://github.com/jwillikers/nginx-config.git
 +
 [,sh]
 ----
-ln --relative --symbolic ~/Projects/nginx-config/sites-available/electrs.conf ~/Projects/nginx-config/sites-enabled/electrs.conf
+ln --force --relative --symbolic ~/Projects/nginx-config/sites-available/electrs.conf ~/Projects/nginx-config/sites-enabled/electrs.conf
 ----
 
 . Create the directory for Podman's systemd generator.
@@ -86,7 +86,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network nginx.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network nginx.kube ~/.config/containers/systemd/
 ----
 
 . Load the newly added systemd units.

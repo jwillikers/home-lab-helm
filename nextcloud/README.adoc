@@ -67,14 +67,14 @@ mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
 ----
 
 . Symlink the `nextcloud-cron.timer` file to the `~/.config/systemd/user/` directory.
 +
 [,sh]
 ----
-ln --relative --symbolic nextcloud-cron.timer ~/.config/systemd/user/
+ln --force --relative --symbolic nextcloud-cron.timer ~/.config/systemd/user/
 ----
 
 . Create a `nextcloud` bucket in MinIO.

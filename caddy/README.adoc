@@ -89,7 +89,7 @@ git -C ~/Projects clone https://github.com/jwillikers/caddy-config.git
 +
 [,sh]
 ----
-ln --relative --symbolic ~/Projects/caddy-config/sites-available/nextcloud.caddyfile ~/Projects/caddy-config/sites-enabled/nextcloud.caddyfile
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/nextcloud.caddyfile ~/Projects/caddy-config/sites-enabled/nextcloud.caddyfile
 ----
 
 . Create the directory for Podman's systemd generator.
@@ -103,7 +103,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network caddy.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network caddy.kube ~/.config/containers/systemd/
 ----
 
 . Load the newly added systemd units.

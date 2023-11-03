@@ -81,7 +81,7 @@ mkdir -p ~/.config/containers/systemd
 +
 [,sh]
 ----
-ln --relative --symbolic ../podman.network gitea.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network gitea.kube ~/.config/containers/systemd/
 ----
 
 . Create a `gitea` bucket in MinIO.
