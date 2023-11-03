@@ -42,6 +42,12 @@ mkdir -p ~/.config/certbot
 ----
 
 . Copy the `ovh-credential.ini` file to `~/.config/certbot/`.
++
+[,sh]
+----
+cp ovh-credential.ini ~/.config/certbot/
+----
+
 . Restrict the permissions of the file so that only the owner can read and write to the file.
 +
 [,sh]
