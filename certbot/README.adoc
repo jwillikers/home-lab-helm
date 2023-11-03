@@ -66,6 +66,7 @@ podman run \
     --tty \
     --userns keep-id \
     --volume ~/.config/certbot/ovh-credentials.ini:/etc/letsencrypt/ovh-credentials.ini:ro,Z \
+    --volume certbot-certificates:/etc/letsencrypt/live:z \
     --volume certbot-data:/var/lib/letsencrypt:Z \
     --volume certbot-log:/var/log/letsencrypt:Z \
     --workdir /var/lib/letsencrypt \
