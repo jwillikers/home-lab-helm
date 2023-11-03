@@ -1,0 +1,80 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.7.0
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-11-03T21:45:22Z"
+  labels:
+    app: nginx-pod
+  name: nginx-pod
+spec:
+  ports:
+  - name: "80"
+    nodePort: 32214
+    port: 80
+    targetPort: 80
+  - name: "443"
+    nodePort: 30860
+    port: 443
+    targetPort: 443
+  - name: "50002"
+    nodePort: 32685
+    port: 50002
+    targetPort: 50002
+  selector:
+    app: nginx-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    bind-mount-options: /var/home/core/Projects/nginx-config:Z
+    io.containers.autoupdate/nginx: registry
+  creationTimestamp: "2023-11-03T21:45:22Z"
+  labels:
+    app: nginx-pod
+  name: nginx-pod
+spec:
+  containers:
+  - args:
+    - nginx
+    - -g
+    - daemon off;
+    env:
+    - name: TERM
+      value: xterm
+    image: docker.io/library/nginx:latest
+    name: nginx
+    ports:
+    - containerPort: 80
+    - containerPort: 443
+    - containerPort: 50002
+    securityContext:
+      seLinuxOptions:
+        type: spc_t
+    stdin: true
+    tty: true
+    volumeMounts:
+    - mountPath: /etc/nginx
+      name: Projects-nginx-config-host
+      readOnly: true
+    - mountPath: /etc/nginx/ssl
+      name: certbot-certificates-pvc
+      readOnly: true
+  volumes:
+  - hostPath:
+      path: /var/home/core/Projects/nginx-config
+      type: Directory
+    name: nginx-config-host
+  - name: certbot-certificates-pvc
+    persistentVolumeClaim:
+      claimName: certbot-certificates
+      readOnly: true
