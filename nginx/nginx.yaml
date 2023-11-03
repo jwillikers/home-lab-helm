@@ -64,7 +64,7 @@ spec:
     tty: true
     volumeMounts:
     - mountPath: /etc/nginx
-      name: Projects-nginx-config-host
+      name: nginx-config-host
       readOnly: true
     - mountPath: /etc/nginx/ssl
       name: certbot-certificates-pvc
