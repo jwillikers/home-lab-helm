@@ -23,7 +23,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/vaultwarden-db: registry
+    io.containers.autoupdate/vaultwarden-postgres: registry
     io.containers.autoupdate/vaultwarden-server: registry
   creationTimestamp: "2023-04-21T17:53:56Z"
   labels:
@@ -47,7 +47,7 @@ spec:
               key: vaultwarden_postgres_password
               optional: false
       image: docker.io/library/postgres:bookworm
-      name: vaultwarden-db
+      name: vaultwarden-postgres
       ports:
         - containerPort: 3012
           hostPort: 3012
@@ -59,7 +59,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: vaultwarden-db-data-host
+          name: vaultwarden-postgres-data-host
     - args:
         - /start.sh
       env:
@@ -115,11 +115,11 @@ spec:
   restartPolicy: Never
   volumes:
     - hostPath:
-        path: /home/jordan/container-volumes/vaultwarden-db-data
+        path: /home/core/container-volumes/vaultwarden-postgres-data
         type: Directory
-      name: vaultwarden-db-data-host
+      name: vaultwarden-postgres-data-host
     - hostPath:
-        path: /home/jordan/container-volumes/vaultwarden-data
+        path: /home/core/container-volumes/vaultwarden-data
         type: Directory
       name: vaultwarden-data-host
 status: {}

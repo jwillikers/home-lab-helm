@@ -24,24 +24,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/gitea-db: registry
+    io.containers.autoupdate/gitea-postgres: registry
     io.containers.autoupdate/gitea-server: registry
-    io.kubernetes.cri-o.ContainerType/gitea-db: container
-    io.kubernetes.cri-o.ContainerType/gitea-server: container
-    io.kubernetes.cri-o.SandboxID/gitea-db: 78d588f02f85868142b9d4772ca45049d1158ed0946493ea9ae1791656c17cd
-    io.kubernetes.cri-o.SandboxID/gitea-server: 78d588f02f85868142b9d4772ca45049d1158ed0946493ea9ae1791656c17cd
-    io.kubernetes.cri-o.TTY/gitea-db: "false"
-    io.kubernetes.cri-o.TTY/gitea-server: "false"
-    io.podman.annotations.autoremove/gitea-db: "TRUE"
-    io.podman.annotations.autoremove/gitea-server: "TRUE"
-    io.podman.annotations.cid-file/gitea-db: /run/user/1000/container-gitea-db.service.ctr-id
-    io.podman.annotations.cid-file/gitea-server: /run/user/1000/container-gitea-server.service.ctr-id
-    io.podman.annotations.init/gitea-db: "FALSE"
-    io.podman.annotations.init/gitea-server: "FALSE"
-    io.podman.annotations.privileged/gitea-db: "FALSE"
-    io.podman.annotations.privileged/gitea-server: "FALSE"
-    io.podman.annotations.publish-all/gitea-db: "FALSE"
-    io.podman.annotations.publish-all/gitea-server: "FALSE"
   creationTimestamp: "2023-02-08T22:30:09Z"
   labels:
     app: gitea
@@ -62,10 +46,10 @@ spec:
           valueFrom:
             secretKeyRef:
               name: gitea-secrets
-              key: gitea_db_password
+              key: gitea_postgres_password
               optional: false
       image: docker.io/library/postgres:bookworm
-      name: gitea-db
+      name: gitea-postgres
       ports:
         - containerPort: 2222
           hostPort: 2222
@@ -76,7 +60,7 @@ spec:
         runAsUser: 818
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: gitea-db-data-host
+          name: gitea-postgres-data-host
     - env:
         - name: GITEA__database__NAME
           value: gitea
@@ -86,7 +70,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: gitea-secrets
-              key: gitea_db_password
+              key: gitea_postgres_password
               optional: false
         - name: GITEA__database__DB_TYPE
           value: postgres
@@ -140,15 +124,15 @@ spec:
   restartPolicy: Never
   volumes:
     - hostPath:
-        path: /home/jordan/container-volumes/gitea-db-data
+        path: /home/core/container-volumes/gitea-postgres-data
         type: Directory
-      name: gitea-db-data-host
+      name: gitea-postgres-data-host
     - hostPath:
-        path: /home/jordan/container-volumes/gitea-server-data
+        path: /home/core/container-volumes/gitea-server-data
         type: Directory
       name: gitea-server-data-host
     - hostPath:
-        path: /home/jordan/container-volumes/gitea-server-config
+        path: /home/core/container-volumes/gitea-server-config
         type: Directory
       name: gitea-server-config-host
 status: {}

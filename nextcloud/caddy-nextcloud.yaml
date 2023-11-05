@@ -33,12 +33,6 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/caddy: registry
-    io.kubernetes.cri-o.TTY/caddy: "false"
-    io.podman.annotations.autoremove/caddy: "TRUE"
-    io.podman.annotations.cid-file/caddy: /run/user/1000/container-caddy.service.ctr-id
-    io.podman.annotations.init/caddy: "FALSE"
-    io.podman.annotations.privileged/caddy: "FALSE"
-    io.podman.annotations.publish-all/caddy: "FALSE"
   creationTimestamp: "2023-02-04T18:12:52Z"
   labels:
     app: caddy-pod
@@ -90,17 +84,17 @@ spec:
         - mountPath: /data/
           name: caddy-data-pvc
         - mountPath: /var/www/html/custom_apps
-          name: nextcloud-custom-apps-host-0
+          name: nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-data-host-1
+          name: nextcloud-data-host
         - mountPath: /var/www/html
-          name: nextcloud-app-host-4
+          name: nextcloud-app-host
         - mountPath: /var/www/html/config
-          name: nextcloud-config-host-5
+          name: nextcloud-config-host
   enableServiceLinks: false
   volumes:
     - hostPath:
-        path: /var/home/jordan/Projects/caddy-config
+        path: /home/core/Projects/caddy-config
         type: Directory
       name: caddy-config-host
     - name: caddy-config-pvc
@@ -110,18 +104,18 @@ spec:
       persistentVolumeClaim:
         claimName: caddy-data
     - hostPath:
-        path: /home/jordan/container-volumes/nextcloud-custom-apps
+        path: /home/core/container-volumes/nextcloud-custom-apps
         type: Directory
-      name: nextcloud-custom-apps-host-0
+      name: nextcloud-custom-apps-host
     - hostPath:
-        path: /home/jordan/container-volumes/nextcloud-data
+        path: /home/core/container-volumes/nextcloud-data
         type: Directory
-      name: nextcloud-data-host-1
+      name: nextcloud-data-host
     - hostPath:
-        path: /home/jordan/container-volumes/nextcloud-app
+        path: /home/core/container-volumes/nextcloud-app
         type: Directory
-      name: nextcloud-app-host-4
+      name: nextcloud-app-host
     - hostPath:
-        path: /home/jordan/container-volumes/nextcloud-config
+        path: /home/core/container-volumes/nextcloud-config
         type: Directory
-      name: nextcloud-config-host-5
+      name: nextcloud-config-host

@@ -143,10 +143,10 @@ spec:
       tty: true
       volumeMounts:
         - mountPath: /cert/omada.jwillikers.io.crt
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host-0
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host
           readOnly: true
         - mountPath: /cert/omada.jwillikers.io.key
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.key-host-1
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.key-host
           readOnly: true
         - mountPath: /opt/tplink/EAPController/logs
           name: omada-controller-logs-pvc
@@ -154,13 +154,13 @@ spec:
           name: omada-controller-data-pvc
   volumes:
     - hostPath:
-        path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.crt
+        path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.crt
         type: File
-      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host-0
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host
     - hostPath:
-        path: /home/jordan/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.key
+        path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.key
         type: File
-      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.key-host-1
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.key-host
     - name: omada-controller-logs-pvc
       persistentVolumeClaim:
         claimName: omada-controller-logs

@@ -18,8 +18,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    bind-mount-options: /var/home/core/container-volumes/icingadb-postgresql-data:Z
-    io.containers.autoupdate/icingadb-postgresql: registry
+    bind-mount-options: /var/home/core/container-volumes/icingadb-postgres-data:Z
+    io.containers.autoupdate/icingadb-postgres: registry
     io.containers.autoupdate/icingadb-redis: registry
     io.containers.autoupdate/icingadb-server: registry
   creationTimestamp: "2023-10-28T15:28:33Z"
@@ -54,10 +54,10 @@ spec:
           valueFrom:
             secretKeyRef:
               name: icingadb-secrets
-              key: icingadb_postgresql_password
+              key: icingadb_postgres_password
               optional: false
       image: docker.io/library/postgres:bookworm
-      name: icingadb-postgresql
+      name: icingadb-postgres
       securityContext:
         runAsGroup: 818
         runAsUser: 818
@@ -65,7 +65,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: icingadb-postgresql-data-pvc
+          name: icingadb-postgres-data-pvc
     - env:
         - name: ICINGADB_RETENTION_HISTORY-DAYS
           value: "30"
@@ -87,7 +87,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: icingadb-secrets
-              key: icingadb_postgresql_password
+              key: icingadb_postgres_password
               optional: false
       image: docker.io/icinga/icingadb:latest
       name: icingadb-server
@@ -97,6 +97,6 @@ spec:
     - name: icingadb-redis-data-pvc
       persistentVolumeClaim:
         claimName: icingadb-redis-data
-    - name: icingadb-postgresql-data-pvc
+    - name: icingadb-postgres-data-pvc
       persistentVolumeClaim:
-        claimName: icingadb-postgresql-data
+        claimName: icingadb-postgres-data

@@ -45,10 +45,10 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /config
-          name: home-assistant-config-host-0
+          name: home-assistant-config-host
   enableServiceLinks: false
   volumes:
     - hostPath:
-        path: /home/jordan/container-volumes/home-assistant-config
+        path: /home/core/container-volumes/home-assistant-config
         type: Directory
-      name: home-assistant-config-host-0
+      name: home-assistant-config-host
