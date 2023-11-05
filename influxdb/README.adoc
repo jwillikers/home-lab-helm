@@ -15,6 +15,15 @@ The {InfluxDB} pod provides a time-series database.
 
 == Usage
 
+The InfluxDB configuration is kept in the https://github.com/jwillikers/influxdb-config[influxdb-config] repository.
+
+. Clone the https://github.com/jwillikers/influxdb-config[influxdb-config] repository.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/influxdb-config.git
+----
+
 . Open the default InfluxDB port, 8086, in the firewall, since rootless Podman won't be able to open this for us.
 +
 [,sh]
