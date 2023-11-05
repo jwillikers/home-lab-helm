@@ -1,0 +1,69 @@
+= Eclipse Mosquitto
+:experimental:
+:keywords: eclipse home-assistant mosquitto mqtt podman
+:icons: font
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Eclipse-Mosquitto: https://mosquitto.org/[Eclipse Mosquitto]
+
+This pod provides an {Eclipse-Mosquitto} https://mqtt.org/[MQTT] server.
+
+== Usage
+
+The Eclipse Mosquitto configuration is kept in the https://github.com/jwillikers/eclipse-mosquitto-config[Eclipse Mosquitto Config] repository.
+
+. Clone the https://github.com/jwillikers/esphome-config[Eclipse Mosquitto Config] repository.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/eclipse-mosquitto-config.git
+----
+
+. Open the default Eclipse Mosquitto ports, 8123, in the firewall, since rootless Podman won't be able to open this for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-port=1883/tcp --permanent
+----
+
+. Reload the firewall rules that were just saved.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>> if using websockets.
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `eclipse-mosquitto.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network eclipse-mosquitto.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start Eclipse Mosquitto.
++
+[,sh]
+----
+systemctl --user start eclipse-mosquitto
+----
