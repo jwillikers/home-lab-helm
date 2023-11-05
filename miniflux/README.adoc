@@ -1,7 +1,7 @@
 = Miniflux
 :experimental:
 :icons: font
-:keywords: git gitea vcs version
+:keywords: feed miniflux read reader rss
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
