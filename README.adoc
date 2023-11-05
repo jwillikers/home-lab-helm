@@ -93,6 +93,7 @@ systemctl --user start esphome
 * <<certbot/README.adoc,Certbot>>
 * <<gitea/README.adoc,Gitea>>
 * <<icinga/README.adoc,Icinga>>
+* <<miniflux/README.adoc,Miniflux>>
 * <<minio/README.adoc,Minio>>
 * <<nextcloud/README.adoc,Nextcloud>>
 * <<nginx/README.adoc,NGINX>>
