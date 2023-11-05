@@ -11,7 +11,7 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 
-Kubernetes YAML and https://podman.io/[Podman] systemd configuration files for running my home containers.
+Kubernetes YAML and https://podman.io/[Podman] systemd configuration files for running my services at home.
 
 Everything is meant to be run rootless via Podman.
 The configuration is intended for systems using https://selinuxproject.org/page/Main_Page[SELinux].
@@ -21,84 +21,147 @@ https://caddyserver.com/[Caddy] is used on per-machine basis as a reverse-proxy 
 Caddy configuration files for these services are stored in the https://github.com/jwillikers/caddy-config[Caddy Config] repository.
 Anything that allows using a choice of database uses https://www.postgresql.org/[PostgreSQL].
 
-== Usage
+== Organization
 
-. Allow running the user's systemd services when the user is not logged in. 
+Why use Kubernetes YAML?
+Good question.
+It's standard.
+Kubernetes YAML isn't the equivalent of Docker Compose, but it accomplishes many of the same goals while being a common standard specification.
+It's a bit trickier to learn, but it also supports _pods_, which are an incredibly powerful construct when orchestrating containers.
+Plus, you can more easily scale up from Podman to full Kubernetes implementations. 
+
+As mentioned, this repository is meant to be run via Podman.
+The reason for this is approach is to reduce the overhead and complexity required for a full Kubernetes deployment.
+A minimalist approach like this makes a lot of sense for a self-hosted home lab which likely doesn't benefit as much from the redundancy and scalability provided by Kubernetes.
+That said, I still kind of want those features and very well might migrate to a real Kubernetes deployment in the future.
+
+To address scalability, this repository is organized in a modular fashion by service.
+Since Podman is used instead of a true Kubernetes implementation, the distribution of services across servers must be handled manually.
+Individual services can be deployed by symlinking the desired systemd files for the service to the appropriate directory to activate them.
+This configuration typically requires a dedicated reverse-proxy on each device which proxies connections from the host to the internal Podman networks on which the services are running.
+Configurations for the reverse-proxies are provided in a similar where individual configurations for each service can be activated individually.
+
+What about templates?
+Yeah, that comes back to minimalism and simplicity.
+I haven't figured out how I want to go about centralizing the configuration so that host names and what not are managed across all of the various configuration files.
+That's something that might just be addressed by moving things to a full Kubernetes configuration.
+For now, things are simply just hard-coded, which makes the configuration really easy to read at least.
+
+I use OVH to manage public DNS entries for my domain.
+I don't make any services accessible to the public internet, which requires me to use the DNS-01 ACME challenge to automatically provision TLS certificates.
+Plugins exist which automate this process for OVH.
+
+To simplify configuration and make it easy to move services to different devices, the DNS entries for each service use CNAME records which point to the host device.
+Two different domains are typically published for each service, one at `jwillikers.io` and another at `lan.jwillikers.io`.
+The former is accessible via Tailscale from both inside and outside the LAN.
+The latter is only available on the LAN.
+TLS certificates are acquired for both domains, allowing the use of TLS to access services over Tailscale and the local network.
+
+[TIP]
+====
+Don't mess with self-signed certificates.footnote:[_Everything_ will break.]
+====
+
+Tailscale is used to secure connections between individual devices while also allowing external connections to services.
+This requires no port-forwarding at the router level and is free up to a lot of devices.
+
+[TIP]
+====
+Disable key-expiry to reduce confusing troubleshooting sessions.
+You can manually replace keys instead without surprises.
+====
+
+== Create a Dedicated User
+
+These services are meant to be run under a user account dedicated to running rootless Podman containers.
+This should be a system account and should use the same user id and group id across systems to simplify permissions.
+
+. On rpm-ostree systems, the _systemd-journal_ group does not exist in the `/etc/group`, so it must be added.
 +
 [,sh]
 ----
-sudo loginctl enable-linger $USER
+echo $(getent group systemd-journal) | sudo tee -a /etc/group
 ----
 
-. If you want to get automatic updates, make sure to enable Podman's automatic update timer for the user.
+. Create a `core` system group.
++
+[,sh]
+----
+sudo groupadd --gid 818 --system core
+----
+
+. Create a primary user account named `core` for running containers with Podman.
++
+--
+[,sh]
+----
+sudo useradd \
+  --add-subids-for-system \
+  --comment "Primary account for running containers" \
+  --create-home \
+  --gid core \
+  --groups systemd-journal \
+  --shell /usr/sbin/nologin \
+  --system \
+  --uid 818 \
+  --user-group \
+  core
+----
+
+[TIP]
+====
+The `--root` flag can be used to create this user in the given chroot environment.
+====
+--
+
+. Automatically start the core user's session.
++
+[,sh]
+----
+sudo loginctl enable-linger core
+----
+
+. Open a shell as the `core` user with the following command.
+I prefer the fish shell, so I use that here, but substitute Bash, ZSH, etc. per your preference.
++
+[,sh]
+----
+sudo -H -u core fish -c 'cd; fish'
+----
+
+. Configure the `XDG_RUNTIME_DIR` environment variable for the user in order for sockets to be found correctly.
++
+[,sh]
+----
+set -Ux XDG_RUNTIME_DIR /run/user/(id -u)
+----
+
+. To get automatic updates, enable Podman's automatic update timer for the user.
 +
 [,sh]
 ----
 systemctl --user enable --now podman-auto-update.timer
 ----
 
-. Clone this repository.
+== Usage
+
+. Open a shell as the system user account for running the containers.
 +
 [,sh]
 ----
-git clone git@github.com:jwillikers/home-lab-helm.git
+sudo -H -u core fish -c 'cd; fish'
 ----
 
-. Change to the project directory.
+. Clone this repository to the `~/Projects` directory.
+The configurations rely on this repository being at this location.
+Sorry.
 +
 [,sh]
 ----
-cd home-lab-helm
+git -C ~/Projects clone git@github.com:jwillikers/home-lab-helm.git
 ----
 
-. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
-
-. Create the directory for Podman's systemd generator.
-+
-[,sh]
-----
-mkdir -p ~/.config/containers/systemd
-----
-
-. For any pods that require secrets, enter the secrets in the corresponding `-secrets.yaml` file.
-+
-[TIP]
-====
-You can generate a random password with the following command.
-
-[,sh]
-----
-tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
-----
-====
-
-. Import the secrets in Podman with the `podman play kube` command.
-+
-[,sh]
-----
-podman play kube esphome/esphome-secrets.yaml
-----
-
-. Symlink the `podman.network` and the desired '.kube' files to the `~/.config/containers/systemd/` directory.
-+
-[,sh]
-----
-ln --force --relative --symbolic podman.network esphome/esphome.kube ~/.config/containers/systemd/
-----
-
-. Load the newly added systemd units.
-+
-[,sh]
-----
-systemctl --user daemon-reload
-----
-
-. Start the desired units.
-+
-[,sh]
-----
-systemctl --user start esphome
-----
+. Now follow the instructions in the _README.adoc_ files for the desired services.
 
 == Services
 
