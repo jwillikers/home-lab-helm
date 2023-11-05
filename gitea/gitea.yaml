@@ -72,8 +72,8 @@ spec:
       resources: {}
       securityContext:
         capabilities: {}
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: gitea-db-data-host

@@ -31,8 +31,8 @@ spec:
     - image: docker.io/lncm/tor:latest
       name: bitcoin-core-tor
       securityContext:
-        runAsGroup: 977
-        runAsUser: 992
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -49,8 +49,8 @@ spec:
       image: docker.io/lncm/bitcoind:v25.1
       name: bitcoin-core-server
       securityContext:
-        runAsGroup: 977
-        runAsUser: 992
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -68,8 +68,8 @@ spec:
     - image: docker.io/getumbrel/electrs:v0.9.14
       name: electrs
       securityContext:
-        runAsGroup: 977
-        runAsUser: 992
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:

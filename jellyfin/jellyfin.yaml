@@ -48,8 +48,8 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        runAsGroup: 977
-        runAsUser: 992
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:

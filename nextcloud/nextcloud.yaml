@@ -71,8 +71,8 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -102,8 +102,8 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -191,8 +191,8 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       stdin: true

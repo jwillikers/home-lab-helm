@@ -28,75 +28,75 @@ metadata:
   name: icingadb
 spec:
   containers:
-  - args:
-    - redis-server
-    image: docker.io/library/redis:alpine
-    name: icingadb-redis
-    securityContext:
-      # The Redis user and group use the id 999.
-      runAsGroup: 999
-      runAsUser: 999
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /data
-      name: icingadb-redis-data-pvc
-  - args:
-    - postgres
-    env:
-    - name: POSTGRES_DB
-      value: icingadb
-    - name: POSTGRES_USER
-      value: icingadb
-    - name: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: icingadb-secrets
-          key: icingadb_postgresql_password
-          optional: false
-    image: docker.io/library/postgres:bookworm
-    name: icingadb-postgresql
-    securityContext:
-      runAsGroup: 387
-      runAsUser: 387
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /var/lib/postgresql/data
-      name: icingadb-postgresql-data-pvc
-  - env:
-    - name: ICINGADB_RETENTION_HISTORY-DAYS
-      value: "30"
-    - name: ICINGADB_DATABASE_TYPE
-      value: pgsql
-    - name: ICINGADB_DATABASE_PORT
-      value: "5432"
-    - name: ICINGADB_DATABASE_USER
-      value: icingadb
-    - name: ICINGADB_REDIS_HOST
-      value: localhost
-    - name: ICINGADB_REDIS_PORT
-      value: "6379"
-    - name: ICINGADB_DATABASE_HOST
-      value: localhost
-    - name: ICINGADB_DATABASE_DATABASE
-      value: icingadb
-    - name: ICINGADB_DATABASE_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: icingadb-secrets
-          key: icingadb_postgresql_password
-          optional: false
-    image: docker.io/icinga/icingadb:latest
-    name: icingadb-server
-    securityContext: {}
+    - args:
+        - redis-server
+      image: docker.io/library/redis:alpine
+      name: icingadb-redis
+      securityContext:
+        # The Redis user and group use the id 999.
+        runAsGroup: 999
+        runAsUser: 999
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data
+          name: icingadb-redis-data-pvc
+    - args:
+        - postgres
+      env:
+        - name: POSTGRES_DB
+          value: icingadb
+        - name: POSTGRES_USER
+          value: icingadb
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: icingadb-secrets
+              key: icingadb_postgresql_password
+              optional: false
+      image: docker.io/library/postgres:bookworm
+      name: icingadb-postgresql
+      securityContext:
+        runAsGroup: 818
+        runAsUser: 818
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: icingadb-postgresql-data-pvc
+    - env:
+        - name: ICINGADB_RETENTION_HISTORY-DAYS
+          value: "30"
+        - name: ICINGADB_DATABASE_TYPE
+          value: pgsql
+        - name: ICINGADB_DATABASE_PORT
+          value: "5432"
+        - name: ICINGADB_DATABASE_USER
+          value: icingadb
+        - name: ICINGADB_REDIS_HOST
+          value: localhost
+        - name: ICINGADB_REDIS_PORT
+          value: "6379"
+        - name: ICINGADB_DATABASE_HOST
+          value: localhost
+        - name: ICINGADB_DATABASE_DATABASE
+          value: icingadb
+        - name: ICINGADB_DATABASE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: icingadb-secrets
+              key: icingadb_postgresql_password
+              optional: false
+      image: docker.io/icinga/icingadb:latest
+      name: icingadb-server
+      securityContext: {}
   hostUsers: false
   volumes:
-  - name: icingadb-redis-data-pvc
-    persistentVolumeClaim:
-      claimName: icingadb-redis-data
-  - name: icingadb-postgresql-data-pvc
-    persistentVolumeClaim:
-      claimName: icingadb-postgresql-data
+    - name: icingadb-redis-data-pvc
+      persistentVolumeClaim:
+        claimName: icingadb-redis-data
+    - name: icingadb-postgresql-data-pvc
+      persistentVolumeClaim:
+        claimName: icingadb-postgresql-data

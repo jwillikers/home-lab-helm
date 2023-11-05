@@ -72,8 +72,8 @@ spec:
         - containerPort: 9090
           hostPort: 9090
       securityContext:
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       stdin: true

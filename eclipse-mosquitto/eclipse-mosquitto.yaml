@@ -53,8 +53,8 @@ spec:
           hostPort: 1883
       securityContext:
         capabilities: {}
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:

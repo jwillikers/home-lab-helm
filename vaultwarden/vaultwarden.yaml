@@ -53,8 +53,8 @@ spec:
           hostPort: 3012
       resources: {}
       securityContext:
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -103,8 +103,8 @@ spec:
       name: vaultwarden-server
       resources: {}
       securityContext:
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:

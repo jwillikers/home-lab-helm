@@ -27,144 +27,144 @@ metadata:
   name: icingaweb
 spec:
   containers:
-  - args:
-    - postgres
-    env:
-    - name: PGDATA
-      value: /var/lib/postgresql/data/pgdata
-    - name: POSTGRES_DB
-      value: icingaweb
-    - name: POSTGRES_USER
-      value: icingaweb
-    - name: POSTGRES_PASSWORD
-      valueFrom:
-        secretKeyRef:
-          name: icingaweb-secrets
-          key: icingaweb_postgresql_password
-          optional: false
-    image: docker.io/library/postgres:bookworm
-    name: icingaweb-postgresql
-    securityContext:
-      runAsGroup: 387
-      runAsUser: 387
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /var/lib/postgresql/data
-      name: icingaweb-postgresql-data-pvc
-  - args:
-    - bash
-    - -eo
-    - pipefail
-    - -c
-    - . /etc/apache2/envvars; exec apache2 -DFOREGROUND
-    env:
-    - name: APACHE_RUN_GROUP
-      # The GID used for runAsGroup.
-      value: 387
-    - name: APACHE_RUN_USER
-      # The UID used for runAsUser.
-      value: 387
-    - name: icingaweb.resources.icingaweb_db.dbname
-      value: icingaweb
-    - name: icingaweb.resources.icingadb.dbname
-      value: icingadb
-    - name: icingaweb.resources.icingadb.port
-      value: "5432"
-    - name: icingaweb.groups.icingaweb2.resource
-      value: icingaweb_db
-    - name: icingaweb.modules.icingadb.redis.redis1.host
-      value: icingadb.dns.podman
-    - name: icingaweb.resources.icingaweb_db.host
-      value: localhost
-    - name: icingaweb.resources.icingadb.username
-      value: icingadb
-    - name: icingaweb.resources.icingadb.db
-      value: pgsql
-    - name: icingaweb.modules.icingadb.commandtransports.icinga2.host
-      value: icinga.dns.podman
-    - name: icingaweb.roles.Administrators.permissions
-      value: '*'
-    - name: icingaweb.resources.icingaweb_db.username
-      value: icingaweb
-    - name: icingaweb.resources.icingaweb_db.type
-      value: db
-    - name: icingaweb.modules.icingadb.redis.redis1.port
-      value: "6379"
-    - name: icingaweb.authentication.icingaweb2.backend
-      value: db
-    - name: icingaweb.resources.icingadb.type
-      value: db
-    - name: icingaweb.resources.icingaweb_db.port
-      value: "5432"
-    - name: icingaweb.authentication.icingaweb2.resource
-      value: icingaweb_db
-    - name: icingaweb.modules.icingadb.commandtransports.icinga2.transport
-      value: api
-    - name: icingaweb.groups.icingaweb2.backend
-      value: db
-    - name: icingaweb.config.global.config_backend
-      value: db
-    - name: icingaweb.resources.icingaweb_db.db
-      value: pgsql
-    - name: icingaweb.modules.icingadb.commandtransports.icinga2.username
-      value: icingadb-web
-    - name: icingaweb.config.logging.log
-      value: php
-    - name: icingaweb.config.global.config_resource
-      value: icingaweb_db
-    - name: icingaweb.roles.Administrators.groups
-      value: Administrators
-    - name: icingaweb.resources.icingadb.host
-      value: icingadb.dns.podman
-    - name: icingaweb.modules.icingadb.config.icingadb.resource
-      value: icingadb
-    - name: icingaweb.enabledModules
-      value: icingadb
-    - name: icingaweb.roles.Administrators.users
-      value: icingaadmin
-    - name: icingaweb.resources.icingaweb_db.password
-      valueFrom:
-        secretKeyRef:
-          name: icingaweb-secrets
-          key: icingaweb_postgresql_password
-          optional: false
-    - name: icingaweb.passwords.icingaweb2.icingaadmin
-      valueFrom:
-        secretKeyRef:
-          name: icingaweb-secrets
-          key: icingaweb_admin_password
-          optional: false
-    - name: icingaweb.resources.icingadb.password
-      valueFrom:
-        secretKeyRef:
-          name: icingadb-secrets
-          key: icingadb_postgresql_password
-          optional: false
-    - name: icingaweb.modules.icingadb.commandtransports.icinga2.password
-      valueFrom:
-        secretKeyRef:
-          name: icingaweb-secrets
-          key: icinga_icingadb-web_api_user_password
-          optional: false
-    # todo Use the latest tag when Arm builds are available for it.
-    image: docker.io/icinga/icingaweb2:main
-    name: icingaweb-server
-    securityContext:
-      # todo Fix upstream image to allow running as the current user in the container. 
-      # runAsGroup: 387
-      # runAsUser: 387
-      seLinuxOptions:
-        type: spc_t
-    volumeMounts:
-    - mountPath: /data
-      name: icingaweb-server-data-pvc
+    - args:
+        - postgres
+      env:
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_DB
+          value: icingaweb
+        - name: POSTGRES_USER
+          value: icingaweb
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: icingaweb-secrets
+              key: icingaweb_postgresql_password
+              optional: false
+      image: docker.io/library/postgres:bookworm
+      name: icingaweb-postgresql
+      securityContext:
+        runAsGroup: 818
+        runAsUser: 818
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: icingaweb-postgresql-data-pvc
+    - args:
+        - bash
+        - -eo
+        - pipefail
+        - -c
+        - . /etc/apache2/envvars; exec apache2 -DFOREGROUND
+      env:
+        - name: APACHE_RUN_GROUP
+          # The GID used for runAsGroup.
+          value: 387
+        - name: APACHE_RUN_USER
+          # The UID used for runAsUser.
+          value: 387
+        - name: icingaweb.resources.icingaweb_db.dbname
+          value: icingaweb
+        - name: icingaweb.resources.icingadb.dbname
+          value: icingadb
+        - name: icingaweb.resources.icingadb.port
+          value: "5432"
+        - name: icingaweb.groups.icingaweb2.resource
+          value: icingaweb_db
+        - name: icingaweb.modules.icingadb.redis.redis1.host
+          value: icingadb.dns.podman
+        - name: icingaweb.resources.icingaweb_db.host
+          value: localhost
+        - name: icingaweb.resources.icingadb.username
+          value: icingadb
+        - name: icingaweb.resources.icingadb.db
+          value: pgsql
+        - name: icingaweb.modules.icingadb.commandtransports.icinga2.host
+          value: icinga.dns.podman
+        - name: icingaweb.roles.Administrators.permissions
+          value: "*"
+        - name: icingaweb.resources.icingaweb_db.username
+          value: icingaweb
+        - name: icingaweb.resources.icingaweb_db.type
+          value: db
+        - name: icingaweb.modules.icingadb.redis.redis1.port
+          value: "6379"
+        - name: icingaweb.authentication.icingaweb2.backend
+          value: db
+        - name: icingaweb.resources.icingadb.type
+          value: db
+        - name: icingaweb.resources.icingaweb_db.port
+          value: "5432"
+        - name: icingaweb.authentication.icingaweb2.resource
+          value: icingaweb_db
+        - name: icingaweb.modules.icingadb.commandtransports.icinga2.transport
+          value: api
+        - name: icingaweb.groups.icingaweb2.backend
+          value: db
+        - name: icingaweb.config.global.config_backend
+          value: db
+        - name: icingaweb.resources.icingaweb_db.db
+          value: pgsql
+        - name: icingaweb.modules.icingadb.commandtransports.icinga2.username
+          value: icingadb-web
+        - name: icingaweb.config.logging.log
+          value: php
+        - name: icingaweb.config.global.config_resource
+          value: icingaweb_db
+        - name: icingaweb.roles.Administrators.groups
+          value: Administrators
+        - name: icingaweb.resources.icingadb.host
+          value: icingadb.dns.podman
+        - name: icingaweb.modules.icingadb.config.icingadb.resource
+          value: icingadb
+        - name: icingaweb.enabledModules
+          value: icingadb
+        - name: icingaweb.roles.Administrators.users
+          value: icingaadmin
+        - name: icingaweb.resources.icingaweb_db.password
+          valueFrom:
+            secretKeyRef:
+              name: icingaweb-secrets
+              key: icingaweb_postgresql_password
+              optional: false
+        - name: icingaweb.passwords.icingaweb2.icingaadmin
+          valueFrom:
+            secretKeyRef:
+              name: icingaweb-secrets
+              key: icingaweb_admin_password
+              optional: false
+        - name: icingaweb.resources.icingadb.password
+          valueFrom:
+            secretKeyRef:
+              name: icingadb-secrets
+              key: icingadb_postgresql_password
+              optional: false
+        - name: icingaweb.modules.icingadb.commandtransports.icinga2.password
+          valueFrom:
+            secretKeyRef:
+              name: icingaweb-secrets
+              key: icinga_icingadb-web_api_user_password
+              optional: false
+      # todo Use the latest tag when Arm builds are available for it.
+      image: docker.io/icinga/icingaweb2:main
+      name: icingaweb-server
+      securityContext:
+        # todo Fix upstream image to allow running as the current user in the container.
+        # runAsGroup: 818
+        # runAsUser: 818
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data
+          name: icingaweb-server-data-pvc
   hostUsers: false
   hostname: icingaweb.jwillikers.io
   volumes:
-  - name: icingaweb-postgresql-data-pvc
-    persistentVolumeClaim:
-      claimName: icingaweb-postgresql-data
-  - name: icingaweb-server-data-pvc
-    persistentVolumeClaim:
-      claimName: icingaweb-server-data
+    - name: icingaweb-postgresql-data-pvc
+      persistentVolumeClaim:
+        claimName: icingaweb-postgresql-data
+    - name: icingaweb-server-data-pvc
+      persistentVolumeClaim:
+        claimName: icingaweb-server-data
