@@ -1,0 +1,65 @@
+= Vaultwarden
+:experimental:
+:icons: font
+:keywords: bitwarden password rust vault vaultwarden
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Vaultwarden: https://github.com/dani-garcia/vaultwarden[Vaultwarden]
+
+The {Vaultwarden} pod provides a Bitwarden-compatible server written in Rust.
+
+== Usage
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Fill in any missing secrets in the `vaultwarden-secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
+----
+====
+
+. Import the `vaultwarden-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube vaultwarden-secrets.yaml
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `vaultwarden.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network vaultwarden.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the Vaultwarden pod.
++
+[,sh]
+----
+systemctl --user start vaultwarden
+----
