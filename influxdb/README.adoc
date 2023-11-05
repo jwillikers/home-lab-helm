@@ -15,9 +15,9 @@ The {InfluxDB} pod provides a time-series database.
 
 == Usage
 
-The InfluxDB configuration is kept in the https://github.com/jwillikers/influxdb-config[influxdb-config] repository.
+The InfluxDB configuration is kept in the https://github.com/jwillikers/influxdb-config[InfluxDB config] repository.
 
-. Clone the https://github.com/jwillikers/influxdb-config[influxdb-config] repository.
+. Clone the https://github.com/jwillikers/influxdb-config[InfluxDB Config] repository.
 +
 [,sh]
 ----

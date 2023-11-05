@@ -17,6 +17,7 @@
         "compat",
         "dbname",
         "DFOREGROUND",
+        "dialout",
         "Djava",
         "electrs",
         "esphome",

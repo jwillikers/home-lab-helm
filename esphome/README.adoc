@@ -1,0 +1,94 @@
+= ESPHome
+:experimental:
+:icons: font
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:ESPHome: https://esphome.io[ESPHome]
+
+This pod provides an {ESPHome} server.
+
+== Usage
+
+The ESPHome configuration is kept in the https://github.com/jwillikers/esphome-config[ESPHome Config] repository.
+
+. Clone the https://github.com/jwillikers/esphome-config[ESPHome Config] repository.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/esphome-config.git
+----
+
+. Populate the secrets for the configuration in the `~/Projects/esphome-config/esphome/secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
+----
+====
+
+. Open the default ESPHome HTTP port, 6052, in the firewall, since rootless Podman won't be able to open this for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-port=6052/tcp --permanent
+----
+
+. Reload the firewall rules that were just saved.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+. On Fedora IoT, the _dialout_ group does not exist in the `/etc/group`, so it must be added.
++
+[,sh]
+----
+echo (getent group dialout) | sudo tee -a /etc/group
+----
+
+. Now add the user to the _dialout_ group to access serial devices without requiring superuser privileges from the rootless Podman instance.
++
+[,sh]
+----
+sudo usermod --append --groups dialout $USER
+----
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `esphome.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network esphome.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start ESPHome.
++
+[,sh]
+----
+systemctl --user start esphome
+----

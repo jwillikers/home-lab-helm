@@ -181,6 +181,7 @@ git -C ~/Projects clone git@github.com:jwillikers/home-lab-helm.git
 * <<bitcoin-core/README.adoc,Bitcoin Core>>
 * <<caddy/README.adoc,Caddy>>
 * <<certbot/README.adoc,Certbot>>
+* <<esphome/README.adoc,ESPHome>>
 * <<gitea/README.adoc,Gitea>>
 * <<icinga/README.adoc,Icinga>>
 * <<influxdb/README.adoc,InfluxDB>>
