@@ -1,0 +1,72 @@
+= Omada Controller
+:experimental:
+:icons: font
+:keywords: ap network omada router tp-link wifi wireless
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Omada: https://www.tp-link.com/us/omada-sdn/[Omada]
+:Omada-Software-Controller: https://www.tp-link.com/us/business-networking/omada-sdn-controller/omada-software-controller/[Omada Software Controller]
+
+{Omada} provides software-defined networking for https://www.tp-link.com/us/[TP-Link] products.
+The Omada Controller pod provides the {Omada-Software-Controller} using the https://github.com/mbentley/docker-omada-controller[mbentley/omada-controller] image.
+
+== Usage
+
+. Open the necessary ports in the firewall, since rootless Podman won't be able to open these for us.
++
+[,sh]
+----
+sudo firewall-cmd \
+  --add-port=8088/tcp \
+  --add-port=8043/tcp \
+  --add-port=8843/tcp \
+  --add-port=27001/udp \
+  --add-port=29810/udp \
+  --add-port=29811/tcp \
+  --add-port=29812/tcp \
+  --add-port=29813/tcp \
+  --add-port=29814/tcp \
+  --permanent
+----
+
+. Reload the firewall rules that were just saved.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `omada-controller.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network omada-controller.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the Omada controller.
++
+[,sh]
+----
+systemctl --user start omada-controller
+----

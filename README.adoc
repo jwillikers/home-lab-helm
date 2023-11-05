@@ -189,6 +189,7 @@ git -C ~/Projects clone git@github.com:jwillikers/home-lab-helm.git
 * <<minio/README.adoc,Minio>>
 * <<nextcloud/README.adoc,Nextcloud>>
 * <<nginx/README.adoc,NGINX>>
+* <<omada-controller/README.adoc,Omada Controller>>
 * <<vaultwarden/README.adoc,Vaultwarden>>
 
 == References
