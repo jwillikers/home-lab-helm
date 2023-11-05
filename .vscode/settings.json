@@ -7,6 +7,8 @@
         "automount",
         "autoupdate",
         "bitcoind",
+        "bitwarden",
+        "Btrbk",
         "btrfs",
         "Caddyfile",
         "certbot",

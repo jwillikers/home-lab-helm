@@ -71,6 +71,19 @@ Disable key-expiry to reduce confusing troubleshooting sessions.
 You can manually replace keys instead without surprises.
 ====
 
+Storage is managed via persistent volume claims and host mounts.
+The primary difference in how they are used here is based primarily on whether or not the data for the volume should be backed up.
+Persistent volume claims are used for data that is not backed up.
+Host mounts are used for mounting in configuration files provided by Git repositories in the `~/Projects` directory and for data that should be backed up under the `~/container-volumes` directory.
+
+For my backups, which use Btrbk, the `~/container-volumes` directory is a Btrfs subvolume.
+This allows for fast, consistent snapshots which are easily backed up to other devices using incremental Btrfs send and receive commands.
+Hourly backups are extremely helpful.
+In order to reduce storage consumption, only the volumes I find critical for restoration are mounted from the `~/container-volumes` directory.
+For example, I don't mind losing the InfluxDB database, so that uses a persistent volume claim.
+So adjust accordingly.
+Comprehensive backup strategies should probably incorporate database dumps and copies of the data stored in S3-compatible object storage.
+
 == Create a Dedicated User
 
 These services are meant to be run under a user account dedicated to running rootless Podman containers.
