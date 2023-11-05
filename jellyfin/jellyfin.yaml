@@ -48,30 +48,28 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        runAsGroup: 1000
-        runAsUser: 1000
+        runAsGroup: 977
+        runAsUser: 992
         seLinuxOptions:
           type: spc_t
       volumeMounts:
         - mountPath: /media
-          name: home-jordan-Media-host-0
+          name: media-host
           readOnly: true
         - mountPath: /config
-          name: jellyfin-config-host-1
+          name: jellyfin-config-pvc
         - mountPath: /cache
-          name: jellyfin-cache-host-2
+          name: jellyfin-cache-pvc
   enableServiceLinks: false
   hostUsers: false
   volumes:
     - hostPath:
-        path: /home/jordan/Media
+        path: /home/core/Media
         type: Directory
-      name: home-jordan-Media-host-0
-    - hostPath:
-        path: /home/jordan/container-volumes/jellyfin-config
-        type: Directory
-      name: jellyfin-config-host-1
-    - hostPath:
-        path: /home/jordan/container-volumes/jellyfin-cache
-        type: Directory
-      name: jellyfin-cache-host-2
+      name: media-host
+    - name: jellyfin-cache-pvc
+      persistentVolumeClaim:
+        claimName: jellyfin-config
+    - name: jellyfin-cache-pvc
+      persistentVolumeClaim:
+        claimName: jellyfin-config

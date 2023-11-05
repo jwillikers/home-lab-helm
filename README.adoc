@@ -23,6 +23,20 @@ Anything that allows using a choice of database uses https://www.postgresql.org/
 
 == Usage
 
+. Allow running the user's systemd services when the user is not logged in. 
++
+[,sh]
+----
+sudo loginctl enable-linger $USER
+----
+
+. If you want to get automatic updates, make sure to enable Podman's automatic update timer for the user.
++
+[,sh]
+----
+systemctl --user enable --now podman-auto-update.timer
+----
+
 . Clone this repository.
 +
 [,sh]
@@ -93,6 +107,7 @@ systemctl --user start esphome
 * <<certbot/README.adoc,Certbot>>
 * <<gitea/README.adoc,Gitea>>
 * <<icinga/README.adoc,Icinga>>
+* <<jellyfin/README.adoc,Jellyfin>>
 * <<miniflux/README.adoc,Miniflux>>
 * <<minio/README.adoc,Minio>>
 * <<nextcloud/README.adoc,Nextcloud>>
