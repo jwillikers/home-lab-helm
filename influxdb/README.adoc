@@ -1,0 +1,79 @@
+= InfluxDB
+:experimental:
+:icons: font
+:keywords: database influxdb time time-series
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:InfluxDB: https://www.influxdata.com/[InfluxDB]
+
+The {InfluxDB} pod provides a time-series database.
+
+== Usage
+
+. Open the default InfluxDB port, 8086, in the firewall, since rootless Podman won't be able to open this for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-port=8086/tcp --permanent
+----
+
+. Reload the firewall rules that were just saved.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Fill in any missing secrets in the `influxdb-secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
+----
+====
+
+. Import the `influxdb-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube influxdb-secrets.yaml
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `influxdb.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network influxdb.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the InfluxDB pod.
++
+[,sh]
+----
+systemctl --user start influxdb
+----

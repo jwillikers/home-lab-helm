@@ -183,6 +183,7 @@ git -C ~/Projects clone git@github.com:jwillikers/home-lab-helm.git
 * <<certbot/README.adoc,Certbot>>
 * <<gitea/README.adoc,Gitea>>
 * <<icinga/README.adoc,Icinga>>
+* <<influxdb/README.adoc,InfluxDB>>
 * <<jellyfin/README.adoc,Jellyfin>>
 * <<miniflux/README.adoc,Miniflux>>
 * <<minio/README.adoc,Minio>>
