@@ -137,18 +137,11 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 ----
 ====
 
-. Import the `icingadb-secrets.yaml` secrets in Podman with the `podman play kube` command.
+. Import the `gitea-secrets.yaml` secrets in Podman with the `podman play kube` command.
 +
 [,sh]
 ----
-podman play kube icingadb-secrets.yaml
-----
-
-. Import the `icingaweb-secrets.yaml` secrets in Podman with the `podman play kube` command.
-+
-[,sh]
-----
-podman play kube icingaweb-secrets.yaml
+podman play kube gitea-secrets.yaml
 ----
 
 . Load the newly added systemd units.
@@ -158,25 +151,9 @@ podman play kube icingaweb-secrets.yaml
 systemctl --user daemon-reload
 ----
 
-. Start the Icinga 2, Icinga DB, and Icinga Web 2 pods.
+. Start the Gitea pod.
 +
 [,sh]
 ----
-systemctl --user start icinga icingadb icingaweb
-----
-
-== Validate
-
-Use the following Podman command to validate the Icinga configuration.
-
-[,sh]
-----
-podman run \
-  --interactive \
-  --rm \
-  --tty \
-  --volume icinga-data:/data:Z \
-  --volume ~/Projects/icinga-config/etc/icinga2:/data/etc/icinga2:ro,Z \
-  docker.io/icinga/icinga2:latest \
-  icinga2 daemon --validate
+systemctl --user start gitea
 ----
