@@ -10,11 +10,6 @@ metadata:
     app: vaultwarden
   name: vaultwarden
 spec:
-  ports:
-    - name: "3012"
-      nodePort: 31949
-      port: 3012
-      targetPort: 3012
   selector:
     app: vaultwarden
   type: NodePort
@@ -48,9 +43,6 @@ spec:
               optional: false
       image: docker.io/library/postgres:bookworm
       name: vaultwarden-postgres
-      ports:
-        - containerPort: 3012
-          hostPort: 3012
       resources: {}
       securityContext:
         runAsGroup: 818
