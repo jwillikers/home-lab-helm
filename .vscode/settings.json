@@ -60,6 +60,7 @@
         "pgdata",
         "pgsql",
         "pipefail",
+        "proxied",
         "rclone",
         "satoshi",
         "semanage",

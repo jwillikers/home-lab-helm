@@ -14,21 +14,33 @@ endif::[]
 :Electrum: https://electrum.org/[Electrum]
 :Tor: https://www.torproject.org/[Tor]
 
-The Bitcoin Core pod bundles together essential for running a Bitcoin node, including the {Bitcoin-Core} server, the {Tor} service, and the {electrs} implementation of the {Electrum} wallet.
+The Bitcoin Core pod bundles together essentials for running a Bitcoin node, including the {Bitcoin-Core} server, the {Tor} service, and the {electrs} implementation of the {Electrum} wallet.
 
 == Usage
 
 The Bitcoin Core chart uses the configuration provided by the https://github.com/jwillikers/bitcoin-core-config[Bitcoin Core Config] repository.
 
+[CAUTION]
+====
+Mixing the Bitcoin Node with other services increases the attack surface.
+Use a dedicated device for this.
+====
+
 . Verify that the deployment will have enough disk space.
 I recommend at least 1 TB at this point in time.
-If using a separate disk, I recommend mounting the user's 
+If using a separate disk, I recommend putting the dedicated container user's entire home directory on that disk.
 
 . Follow the <<../nginx/README.adoc,instructions for NGINX>>.
 +
 [NOTE]
 ====
 The `electrs.conf` file proxies the RPC port for the electrs wallet.
+For added security, the port is only proxied over the Tailscale network.
+This port should be further locked down by an access control list.
+
+Another option is to create a direct Wireguard connection between the node and any devices that should have access to the `electrs` server.
+
+Or, you know, just use an SSH tunnel.footnote:[But that feels so old school now.]
 ====
 
 . Create the `~/Projects` directory.
