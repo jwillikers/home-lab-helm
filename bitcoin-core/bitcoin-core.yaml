@@ -65,7 +65,7 @@ spec:
         - mountPath: /run/tor
           name: bitcoin-core-tor-run-pvc
           readOnly: true
-    - image: docker.io/getumbrel/electrs:v0.9.14
+    - image: docker.io/getumbrel/electrs:v0.10.1
       name: electrs
       securityContext:
         runAsGroup: 818
