@@ -35,11 +35,11 @@ net.ipv4.ip_unprivileged_port_start=80
 sudo sysctl --system
 ----
 
-. Open the default HTTP and HTTPS ports, 80 and 443 respectively, as well as port 50002 in the firewall, since rootless Podman won't be able to open this for us.
+. Open the default HTTP and HTTPS ports, 80 and 443 respectively, since rootless Podman won't be able to open these for us.
 +
 [,sh]
 ----
-sudo firewall-cmd --add-service=http --add-service=https --add-port=50002 --permanent
+sudo firewall-cmd --add-service=http --add-service=https --permanent
 ----
 
 . Reload the new firewall rules.

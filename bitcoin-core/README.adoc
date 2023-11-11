@@ -19,35 +19,68 @@ The Bitcoin Core pod bundles together essentials for running a Bitcoin node, inc
 == Usage
 
 The Bitcoin Core chart uses the configuration provided by the https://github.com/jwillikers/bitcoin-core-config[Bitcoin Core Config] repository.
+In order to isolate the Bitcoin Core node, it uses a dedicated systemd network and uses a special NGINX configuration that only exposes the electrs port on a dedicated WireGuard interface.
+It's still probably a good idea to relegate this node to its own dedicated hardware.
 
 [CAUTION]
-====
-Mixing the Bitcoin Node with other services increases the attack surface.
-Use a dedicated device for this.
-====
+----
+Despite all of the precautions taken to protect this Bitcoin Core node, use a cold wallet and _don't_ store funds in a hot wallet directly on the node.
+----
 
 . Verify that the deployment will have enough disk space.
 I recommend at least 1 TB at this point in time.
 If using a separate disk, I recommend putting the dedicated container user's entire home directory on that disk.
 
-. Follow the <<../nginx/README.adoc,instructions for NGINX>>.
+. Follow the <<../certbot/README.adoc,Certbot Configuration>> instructions.
+TLS certificates are handled by the Certbot container.
+
+. Create a dedicated firewall zone for the electrs service.
 +
-[NOTE]
-====
-The `electrs.conf` file proxies the RPC port for the electrs wallet.
-For added security, the port is only proxied over the Tailscale network.
-This port should be further locked down by an access control list.
+[,sh]
+----
+sudo firewall-cmd --new-zone=electrs --permanent
+----
 
-Another option is to create a direct Wireguard connection between the node and any devices that should have access to the `electrs` server.
+. Move the WireGuard interface, `wg0` here, to the `electrs` zone.
++
+[,sh]
+----
+sudo firewall-cmd --add-interface=wg0 --zone=electrs --permanent
+----
 
-Or, you know, just use an SSH tunnel.footnote:[But that feels so old school now.]
-====
+. Open TCP port 50002 for the `electrs` zone.
++
+[,sh]
+----
+sudo firewall-cmd --add-port=50002/tcp --zone=electrs --permanent
+----
+
+. Reload the new firewall rules.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
 
 . Create the `~/Projects` directory.
 +
 [,sh]
 ----
 mkdir -p ~/Projects
+----
+
+. Clone the NGINX Config repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/nginx-config.git
+----
+
+. Symlink the `electrs.conf` file from the `sites-available` subdirectory to the `sites-enabled` subdirectory to enable it.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/nginx-config/sites-available/electrs.conf ~/Projects/nginx-config/sites-enabled/electrs.conf
 ----
 
 . Clone the Bitcoin Core Config repository under the `~/Projects` directory.
@@ -64,16 +97,16 @@ git -C ~/Projects clone https://github.com/jwillikers/bitcoin-core-config.git
 mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
-. Symlink the `podman.network` and `bitcoin-core.kube` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `bitcoin-core.network`, `bitcoin-core-nginx.kube`, and `bitcoin-core.kube` files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic ../podman.network bitcoin-core.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic bitcoin-core.network bitcoin-core-nginx.kube bitcoin-core.kube ~/.config/containers/systemd/
 ----
 
-. Symlink the `podman.network` and `bitcoin-core.kube` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `remove-bitcoin-onion-private-key.service` and `remove-bitcoin-onion-private-key.timer` files to the `~/.config/systemd/user/` directory.
 This timer will remove the `onion_v3_private_key`, forcing the Bitcoin Core node to generate a new one.
-This preserves anonymity by not using a consistent node.
+This preserves anonymity by forcing Tor to generate a new key.
 +
 [,sh]
 ----
@@ -101,9 +134,9 @@ sudo chmod 0700 /home/core/.local/share/containers/storage/volumes/bitcoin-core-
 systemctl --user daemon-reload
 ----
 
-. Start the Bitcoin Core pod.
+. Start the Bitcoin Core NGINX instance and the Bitcoin Core pod.
 +
 [,sh]
 ----
-systemctl --user start bitcoin-core
+systemctl --user start bitcoin-core-nginx bitcoin-core
 ----

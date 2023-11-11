@@ -16,14 +16,14 @@ metadata:
   name: nginx-pod
 spec:
   ports:
-  - name: "80"
-    nodePort: 32214
-    port: 80
-    targetPort: 80
-  - name: "443"
-    nodePort: 30860
-    port: 443
-    targetPort: 443
+  - name: "50002"
+    nodePort: 32685
+    port: 50002
+    targetPort: 50002
+  - name: "50002"
+    nodePort: 30771
+    port: 50002
+    targetPort: 50002
   selector:
     app: nginx-pod
   type: NodePort
@@ -50,8 +50,10 @@ spec:
     image: docker.io/library/nginx:latest
     name: nginx
     ports:
-    - containerPort: 80
-    - containerPort: 443
+    - containerPort: 50002
+      hostIP: 192.0.2.1
+    - containerPort: 50002
+      hostIP: fd42:42:42::1
     securityContext:
       seLinuxOptions:
         type: spc_t
