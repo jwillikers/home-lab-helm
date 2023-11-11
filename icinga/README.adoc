@@ -128,8 +128,8 @@ podman run \
   --network systemd-podman \
   --rm \
   --tty \
+  --userns keep-id \
   --volume icinga-data:/data:Z \
-  --volume ~/Projects/icinga-config/etc/icinga2:/data/etc/icinga2:ro,Z \
   docker.io/icinga/icinga2:latest \
   icinga2 node wizard
 ----
