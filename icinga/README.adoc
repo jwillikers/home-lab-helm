@@ -155,6 +155,8 @@ Use the following Podman command to validate the Icinga configuration.
 [,sh]
 ----
 podman run \
+  --env ICINGA_MASTER=1 \
+  --hostname icinga.jwillikers.io \
   --interactive \
   --rm \
   --tty \
