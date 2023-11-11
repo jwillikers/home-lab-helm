@@ -117,6 +117,23 @@ podman play kube icingadb-secrets.yaml
 podman play kube icingaweb-secrets.yaml
 ----
 
+. Initialize Icinga.
++
+[,sh]
+----
+podman run \
+  --env ICINGA_MASTER=1 \
+  --hostname icinga.jwillikers.io \
+  --interactive \
+  --network systemd-podman \
+  --rm \
+  --tty \
+  --volume icinga-data:/data:Z \
+  --volume ~/Projects/icinga-config/etc/icinga2:/data/etc/icinga2:ro,Z \
+  docker.io/icinga/icinga2:latest \
+  icinga2 node wizard
+----
+
 . Load the newly added systemd units.
 +
 [,sh]
