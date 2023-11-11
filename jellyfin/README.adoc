@@ -140,10 +140,10 @@ mkdir ~/media
 ./etc/fstab
 [source]
 ----
-s3fs#media /var/home/core/media fuse defaults,_netdev,uid=977,gid=992,compat_dir,nodev,noexec,nofail,noatime,noauto,nosuid,user,x-systemd.automount,x-systemd.idle-timeout=5min,allow_other,use_path_request_style,passwd_file=/etc/passwd-s3fs,url=https://minio.jwillikers.io,context="system_u:object_r:container_file_t:s0" 0 0
+s3fs#media /var/home/core/media fuse defaults,_netdev,uid=818,gid=818,compat_dir,nodev,noexec,nofail,noatime,noauto,nosuid,user,x-systemd.automount,x-systemd.idle-timeout=5min,allow_other,use_path_request_style,passwd_file=/etc/passwd-s3fs,url=https://minio.jwillikers.io,context="system_u:object_r:container_file_t:s0" 0 0
 ----
 
-This mounts the S3 bucket from a MinIO server for use by a particular user, user id 977 and group id 992, and relabels the SELinux context of the directory so that it can be used in containers.
+This mounts the S3 bucket from a MinIO server for use by a particular user, user id 818 and group id 818, and relabels the SELinux context of the directory so that it can be used in containers.
 This allows one to mount any of the bucket directories or files in a rootless Podman container.
 This is handy for applications that don't yet support using S3-compatible object storage directly.
 Additionally, a systemd automount is configured to automatically mount the volume on-demand and unmount it when it has been idle for 5 minutes.

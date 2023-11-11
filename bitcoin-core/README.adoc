@@ -138,5 +138,5 @@ systemctl --user daemon-reload
 +
 [,sh]
 ----
-systemctl --user start bitcoin-core-nginx bitcoin-core
+systemctl --user start bitcoin-core bitcoin-core-nginx
 ----
