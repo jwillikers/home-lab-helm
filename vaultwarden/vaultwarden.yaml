@@ -18,7 +18,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/vaultwarden-postgres: registry
+    io.containers.autoupdate/vaultwarden-postgresql: registry
     io.containers.autoupdate/vaultwarden-server: registry
   creationTimestamp: "2023-04-21T17:53:56Z"
   labels:
@@ -39,10 +39,10 @@ spec:
           valueFrom:
             secretKeyRef:
               name: vaultwarden-secrets
-              key: vaultwarden_postgres_password
+              key: vaultwarden_postgresql_password
               optional: false
       image: docker.io/library/postgres:bookworm
-      name: vaultwarden-postgres
+      name: vaultwarden-postgresql
       resources: {}
       securityContext:
         runAsGroup: 818
@@ -51,7 +51,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: vaultwarden-postgres-data-host
+          name: vaultwarden-postgresql-data-host
     - args:
         - /start.sh
       env:
@@ -107,9 +107,9 @@ spec:
   restartPolicy: Never
   volumes:
     - hostPath:
-        path: /home/core/container-volumes/vaultwarden-postgres-data
+        path: /home/core/container-volumes/vaultwarden-postgresql-data
         type: Directory
-      name: vaultwarden-postgres-data-host
+      name: vaultwarden-postgresql-data-host
     - hostPath:
         path: /home/core/container-volumes/vaultwarden-data
         type: Directory

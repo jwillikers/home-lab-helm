@@ -18,7 +18,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/miniflux-postgres: registry
+    io.containers.autoupdate/miniflux-postgresql: registry
     io.containers.autoupdate/miniflux-server: registry
   creationTimestamp: "2023-04-21T20:14:20Z"
   labels:
@@ -39,10 +39,10 @@ spec:
           valueFrom:
             secretKeyRef:
               name: miniflux-secrets
-              key: miniflux_postgres_password
+              key: miniflux_postgresql_password
               optional: false
       image: docker.io/library/postgres:bookworm
-      name: miniflux-postgres
+      name: miniflux-postgresql
       resources: {}
       securityContext:
         runAsGroup: 818
@@ -51,7 +51,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
-          name: miniflux-postgres-data
+          name: miniflux-postgresql-data
     - env:
         - name: RUN_MIGRATIONS
           value: "1"
@@ -82,7 +82,7 @@ spec:
   restartPolicy: Never
   volumes:
     - hostPath:
-        path: /home/core/container-volumes/miniflux-postgres-data
+        path: /home/core/container-volumes/miniflux-postgresql-data
         type: Directory
-      name: miniflux-postgres-data-host
+      name: miniflux-postgresql-data-host
 status: {}
