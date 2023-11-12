@@ -130,38 +130,6 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 podman play kube nextcloud-secrets.yaml
 ----
 
-. Create the `nextcloud_postgresql_password` secret.
-Replace `****` with the secret value.
-+
-[,sh]
-----
-printf "%s" "****" | podman secret create nextcloud_postgresql_password - 
-----
-
-. Create the `nextcloud_admin_password` secret.
-Replace `****` with the secret value.
-+
-[,sh]
-----
-printf "%s" "****" | podman secret create nextcloud_admin_password - 
-----
-
-. Create the `nextcloud_s3_key` secret.
-Replace `****` with the secret value.
-+
-[,sh]
-----
-printf "%s" "****" | podman secret create nextcloud_s3_key -
-----
-
-. Create the `nextcloud_s3_secret` secret.
-Replace `****` with the secret value.
-+
-[,sh]
-----
-printf "%s" "****" | podman secret create nextcloud_s3_secret -
-----
-
 . Load the newly added systemd units.
 +
 [,sh]
