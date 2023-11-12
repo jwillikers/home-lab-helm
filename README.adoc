@@ -117,7 +117,6 @@ sudo useradd \
   --shell /usr/sbin/nologin \
   --system \
   --uid 818 \
-  --user-group \
   core
 ----
 
@@ -163,6 +162,13 @@ systemctl --user enable --now podman-auto-update.timer
 [,sh]
 ----
 sudo -H -u core fish -c 'cd; fish'
+----
+
+. Create the `~/Projects` directory.
++
+[,sh]
+----
+mkdir ~/Projects
 ----
 
 . Clone this repository to the `~/Projects` directory.
