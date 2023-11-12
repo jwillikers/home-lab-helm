@@ -177,7 +177,7 @@ Sorry.
 +
 [,sh]
 ----
-git -C ~/Projects clone git@github.com:jwillikers/home-lab-helm.git
+git -C ~/Projects clone https://github.com/jwillikers/home-lab-helm.git
 ----
 
 . Now follow the instructions in the _README.adoc_ files for the desired services.
