@@ -113,20 +113,6 @@ This preserves anonymity by forcing Tor to generate a new key.
 ln --force --relative --symbolic remove-bitcoin-onion-private-key.* ~/.config/systemd/user/
 ----
 
-. Create the volume for the Tor run directory.
-+
-[,sh]
-----
-podman volume create bitcoin-core-tor-run
-----
-
-. Restrict the permissions for this volume to make Tor happy.
-+
-[,sh]
-----
-sudo chmod 0700 /home/core/.local/share/containers/storage/volumes/bitcoin-core-tor-run/_data
-----
-
 . Load the newly added systemd units.
 +
 [,sh]

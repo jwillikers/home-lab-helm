@@ -27,6 +27,16 @@ metadata:
     app: bitcoin-core
   name: bitcoin-core
 spec:
+  initContainers:
+    - name: init-tor-run-directory
+      image: docker.io/alpine:latest
+      command: ["sh", "-c", "chmod 0700 /run/tor"]
+      securityContext:
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /run/tor
+          name: bitcoin-core-tor-run-pvc
   containers:
     - image: docker.io/lncm/tor:latest
       name: bitcoin-core-tor
