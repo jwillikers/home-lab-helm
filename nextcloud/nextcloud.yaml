@@ -221,7 +221,7 @@ spec:
       persistentVolumeClaim:
         claimName: nextcloud-server-data
     - hostPath:
-        path: /home/core/Projects/nextcloud-config/entrypoint-hooks.d/pre-installation
+        path: /home/core/Projects/nextcloud-config/docker-entrypoint-hooks.d/pre-installation
         type: Directory
       name: nextcloud-config-docker-entrypoint-hooks.d-pre-installation-host
     - hostPath:
