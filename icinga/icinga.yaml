@@ -51,8 +51,6 @@ spec:
     volumeMounts:
     - mountPath: /data
       name: icinga-data-pvc
-    - mountPath: /run/icinga2
-      name: icinga-run-pvc
     - mountPath: /data/etc/icinga2
       name: icinga-config-host
       readOnly: True
@@ -61,9 +59,6 @@ spec:
   - name: icinga-data-pvc
     persistentVolumeClaim:
       claimName: icinga-data
-  - name: icinga-run-pvc
-    persistentVolumeClaim:
-      claimName: icinga-run
   - hostPath:
       path: /home/core/Projects/icinga-config/etc/icinga2
       type: Directory
