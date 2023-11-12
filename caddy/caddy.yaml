@@ -45,6 +45,11 @@ spec:
       sysctls:
       - name: net.ipv4.ip_unprivileged_port_start
         value: "80"
+      # https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes
+      - name: net.core.rmem_max
+        value: "2500000"
+      - name: net.core.wmem_max
+        value: "2500000"
       seLinuxOptions:
         type: spc_t
     env:
