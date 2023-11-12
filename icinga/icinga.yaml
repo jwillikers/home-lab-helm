@@ -24,6 +24,7 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/icinga: registry
+    bind-mount-options: /home/core/Projects/icinga-config/etc:Z
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
     app: icinga-pod
