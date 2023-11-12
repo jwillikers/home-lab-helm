@@ -42,13 +42,6 @@ The `caddy-nextcloud.kube` file should be used instead of the `caddy.kube` file 
 This uses the appropriate configuration to mount the Nextcloud directories in order to proxy the site via _FastCGI_.
 ====
 
-. Create the `~/Projects` directory.
-+
-[,sh]
-----
-mkdir -p ~/Projects
-----
-
 . Clone the Nextcloud Config repository under the `~/Projects` directory.
 +
 [,sh]

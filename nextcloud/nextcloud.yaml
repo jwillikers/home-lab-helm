@@ -41,7 +41,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: nextcloud-redis-host
+          name: nextcloud-redis-data-pvc
     - args:
         - postgres
       env:
@@ -165,7 +165,7 @@ spec:
         - mountPath: /var/www/html/custom_apps
           name: nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-data-host
+          name: nextcloud-server-data-pvc
         - mountPath: /docker-entrypoint-hooks.d/pre-installation
           name: nextcloud-config-docker-entrypoint-hooks.d-pre-installation-host
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
@@ -199,7 +199,7 @@ spec:
         - mountPath: /var/www/html/custom_apps
           name: nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-data-host
+          name: nextcloud-server-data-pvc
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
           name: nextcloud-config-redis-session.ini-host
         - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
@@ -217,10 +217,9 @@ spec:
         path: /home/core/container-volumes/nextcloud-custom-apps
         type: Directory
       name: nextcloud-custom-apps-host
-    - hostPath:
-        path: /home/core/container-volumes/nextcloud-data
-        type: Directory
-      name: nextcloud-data-host
+    - name: nextcloud-server-data-pvc
+      persistentVolumeClaim:
+        claimName: nextcloud-server-data
     - hostPath:
         path: /home/core/Projects/nextcloud-config/entrypoint-hooks.d/pre-installation
         type: Directory
@@ -241,10 +240,9 @@ spec:
         path: /home/core/container-volumes/nextcloud-config
         type: Directory
       name: nextcloud-config-host
-    - hostPath:
-        path: /home/core/container-volumes/nextcloud-redis
-        type: Directory
-      name: nextcloud-redis-host
+    - name: nextcloud-redis-data-pvc
+      persistentVolumeClaim:
+        claimName: nextcloud-redis-data
     - hostPath:
         path: /home/core/container-volumes/nextcloud-postgresql-data
         type: Directory
