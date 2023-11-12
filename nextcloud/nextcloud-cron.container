@@ -10,7 +10,7 @@ Group=818
 Image=docker.io/library/nextcloud:fpm
 Label=io.containers.autoupdate=registry
 Network=podman.network
-PodmanArgs=--pod=nextcloud-pod
+PodmanArgs=--pod=nextcloud
 PodmanArgs=--health-cmd='nc -z "$POSTGRES_HOST" 5432 || exit 0; if ! nc -z localhost 9000 || nc -z localhost 7867; then exit 1; fi'
 PodmanArgs=--health-interval=1m
 PodmanArgs=--health-start-period=3m
