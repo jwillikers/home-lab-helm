@@ -56,18 +56,18 @@ git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
-. Symlink the `caddy-nextcloud.kube`, `podman.network`, and `nextcloud.kube` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `caddy-nextcloud.kube`, `podman.network`, `nextcloud.kube`, and `nextcloud-cron.container` files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
 ----
 
-. Symlink the `nextcloud-cron.service` and `nextcloud-cron.timer` files to the `~/.config/systemd/user/` directory.
+. Symlink the `nextcloud-cron.timer` file to the `~/.config/systemd/user/` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic nextcloud-cron.service nextcloud-cron.timer ~/.config/systemd/user/
+ln --force --relative --symbolic nextcloud-cron.timer ~/.config/systemd/user/
 ----
 
 . Create a `nextcloud` bucket in MinIO.
@@ -128,6 +128,38 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 [,sh]
 ----
 podman play kube nextcloud-secrets.yaml
+----
+
+. Create the `nextcloud_postgresql_password` secret.
+Replace `****` with the secret value.
++
+[,sh]
+----
+printf "%s" "****" | podman secret create nextcloud_postgresql_password - 
+----
+
+. Create the `nextcloud_admin_password` secret.
+Replace `****` with the secret value.
++
+[,sh]
+----
+printf "%s" "****" | podman secret create nextcloud_admin_password - 
+----
+
+. Create the `nextcloud_s3_key` secret.
+Replace `****` with the secret value.
++
+[,sh]
+----
+printf "%s" "****" | podman secret create nextcloud_s3_key -
+----
+
+. Create the `nextcloud_s3_secret` secret.
+Replace `****` with the secret value.
++
+[,sh]
+----
+printf "%s" "****" | podman secret create nextcloud_s3_secret -
 ----
 
 . Load the newly added systemd units.
