@@ -20,7 +20,7 @@ Volume=%h/container-volumes/nextcloud-app:/var/www/html:z
 Volume=%h/container-volumes/nextcloud-config:/var/www/html/config:z
 Volume=%h/container-volumes/nextcloud-custom-apps:/var/www/html/custom_apps:z
 Volume=%h/container-volumes/nextcloud-server-data:/var/www/html/data:z
-Volume=%h/Projects/nextcloud-config/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:z
+Volume=%h/Projects/nextcloud-config/etc/php/conf.d/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:z
 Volume=%h/Projects/nextcloud-config/z-www-overrides.conf:/usr/local/etc/php-fpm.d/z-www-overrides.conf:z
 
 [Service]
