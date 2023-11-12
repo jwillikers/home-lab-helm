@@ -8,51 +8,15 @@ kind: Pod
 metadata:
   annotations:
     bind-mount-options: /home/core/container-volumes/nextcloud-app:z
+    bind-mount-options/nextcloud-nextcloud-imaginary: /home/core/container-volumes/nextcloud-app:z
+    bind-mount-options/nextcloud-nextcloud-postgresql: /home/core/container-volumes/nextcloud-app:z
+    bind-mount-options/nextcloud-nextcloud-redis: /home/core/container-volumes/nextcloud-app:z
+    bind-mount-options/nextcloud-nextcloud-server: /home/core/container-volumes/nextcloud-app:z
     io.containers.autoupdate/nextcloud-cron: registry
     io.containers.autoupdate/nextcloud-postgresql: registry
     io.containers.autoupdate/nextcloud-imaginary: registry
     io.containers.autoupdate/nextcloud-redis: registry
     io.containers.autoupdate/nextcloud-server: registry
-    io.kubernetes.cri-o.ContainerType/nextcloud-cron: container
-    io.kubernetes.cri-o.ContainerType/nextcloud-postgresql: container
-    io.kubernetes.cri-o.ContainerType/nextcloud-imaginary: container
-    io.kubernetes.cri-o.ContainerType/nextcloud-redis: container
-    io.kubernetes.cri-o.ContainerType/nextcloud-server: container
-    io.kubernetes.cri-o.SandboxID/nextcloud-cron: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
-    io.kubernetes.cri-o.SandboxID/nextcloud-postgresql: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
-    io.kubernetes.cri-o.SandboxID/nextcloud-imaginary: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
-    io.kubernetes.cri-o.SandboxID/nextcloud-redis: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
-    io.kubernetes.cri-o.SandboxID/nextcloud-server: 863e3c8f72f66908068282a455c2ed81e7cf006878076eeeab1d4fc9d3fdad0
-    io.kubernetes.cri-o.TTY/nextcloud-cron: "false"
-    io.kubernetes.cri-o.TTY/nextcloud-postgresql: "false"
-    io.kubernetes.cri-o.TTY/nextcloud-imaginary: "false"
-    io.kubernetes.cri-o.TTY/nextcloud-redis: "false"
-    io.kubernetes.cri-o.TTY/nextcloud-server: "true"
-    io.podman.annotations.autoremove/nextcloud-cron: "TRUE"
-    io.podman.annotations.autoremove/nextcloud-postgresql: "TRUE"
-    io.podman.annotations.autoremove/nextcloud-imaginary: "TRUE"
-    io.podman.annotations.autoremove/nextcloud-redis: "TRUE"
-    io.podman.annotations.autoremove/nextcloud-server: "TRUE"
-    io.podman.annotations.cid-file/nextcloud-cron: /run/user/1000/container-nextcloud-cron.service.ctr-id
-    io.podman.annotations.cid-file/nextcloud-postgresql: /run/user/1000/container-nextcloud-postgresql.service.ctr-id
-    io.podman.annotations.cid-file/nextcloud-imaginary: /run/user/1000/container-nextcloud-imaginary.service.ctr-id
-    io.podman.annotations.cid-file/nextcloud-redis: /run/user/1000/container-nextcloud-redis.service.ctr-id
-    io.podman.annotations.cid-file/nextcloud-server: /run/user/1000/container-nextcloud-server.service.ctr-id
-    io.podman.annotations.init/nextcloud-cron: "FALSE"
-    io.podman.annotations.init/nextcloud-postgresql: "FALSE"
-    io.podman.annotations.init/nextcloud-imaginary: "FALSE"
-    io.podman.annotations.init/nextcloud-redis: "FALSE"
-    io.podman.annotations.init/nextcloud-server: "FALSE"
-    io.podman.annotations.privileged/nextcloud-cron: "FALSE"
-    io.podman.annotations.privileged/nextcloud-postgresql: "FALSE"
-    io.podman.annotations.privileged/nextcloud-imaginary: "FALSE"
-    io.podman.annotations.privileged/nextcloud-redis: "FALSE"
-    io.podman.annotations.privileged/nextcloud-server: "FALSE"
-    io.podman.annotations.publish-all/nextcloud-cron: "FALSE"
-    io.podman.annotations.publish-all/nextcloud-postgresql: "FALSE"
-    io.podman.annotations.publish-all/nextcloud-imaginary: "FALSE"
-    io.podman.annotations.publish-all/nextcloud-redis: "FALSE"
-    io.podman.annotations.publish-all/nextcloud-server: "FALSE"
   creationTimestamp: "2023-02-04T18:08:13Z"
   labels:
     app: nextcloud
