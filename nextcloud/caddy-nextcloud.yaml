@@ -96,7 +96,7 @@ spec:
         - mountPath: /var/www/html/custom_apps
           name: nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-data-host
+          name: nextcloud-server-data-host
         - mountPath: /var/www/html
           name: nextcloud-app-host
         - mountPath: /var/www/html/config
@@ -118,9 +118,9 @@ spec:
         type: Directory
       name: nextcloud-custom-apps-host
     - hostPath:
-        path: /home/core/container-volumes/nextcloud-data
+        path: /home/core/container-volumes/nextcloud-server-data
         type: Directory
-      name: nextcloud-data-host
+      name: nextcloud-server-data-host
     - hostPath:
         path: /home/core/container-volumes/nextcloud-app
         type: Directory
