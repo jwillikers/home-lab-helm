@@ -74,8 +74,8 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        runAsGroup: 818
-        runAsUser: 818
+        runAsGroup: 0
+        runAsUser: 0
         seLinuxOptions:
           type: spc_t
         sysctls:

@@ -42,6 +42,8 @@ spec:
   - image: quay.io/jwillikers/caddy-ovh:latest
     name: caddy
     securityContext:
+      runAsGroup: 0
+      runAsUser: 0
       sysctls:
       - name: net.ipv4.ip_unprivileged_port_start
         value: "80"
