@@ -6,7 +6,7 @@ RequiresMountsFor=%h/container-volumes/influxdb-data %h/container-volumes/influx
 [Kube]
 Yaml=%h/Projects/home-lab-helm/influxdb/influxdb.yaml
 Network=podman.network
-RemapUsers=keep-id
+UserNS=keep-id
 
 [Service]
 Restart=always

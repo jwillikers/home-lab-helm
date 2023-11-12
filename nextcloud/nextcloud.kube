@@ -5,7 +5,7 @@ Before=local-fs.target
 [Kube]
 Yaml=%h/Projects/home-lab-helm/nextcloud/nextcloud.yaml
 Network=podman.network
-RemapUsers=keep-id
+UserNS=keep-id
 
 [Service]
 Restart=always

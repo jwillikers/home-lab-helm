@@ -6,7 +6,7 @@ RequiresMountsFor=%h/container-volumes/miniflux-db-data
 [Kube]
 Yaml=%h/Projects/home-lab-helm/miniflux/miniflux.yaml
 Network=podman.network
-RemapUsers=keep-id
+UserNS=keep-id
 
 [Service]
 Restart=always

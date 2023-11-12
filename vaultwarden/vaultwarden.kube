@@ -6,7 +6,7 @@ RequiresMountsFor=%t/containers %h/container-volumes/vaultwarden-data %h/contain
 [Kube]
 Yaml=%h/Projects/home-lab-helm/vaultwarden/vaultwarden.yaml
 Network=podman.network
-RemapUsers=keep-id
+UserNS=keep-id
 
 [Service]
 Restart=always

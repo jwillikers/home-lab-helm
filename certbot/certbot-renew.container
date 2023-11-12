@@ -12,7 +12,7 @@ Exec=renew \
     --noninteractive
 Image=docker.io/certbot/dns-ovh:latest
 Label=io.containers.autoupdate=registry
-RemapUsers=keep-id
+UserNS=keep-id
 Volume=%h/.config/certbot/ovh-credentials.ini:/etc/letsencrypt/ovh-credentials.ini:ro,Z
 Volume=certbot-certificates:/etc/letsencrypt:z
 Volume=certbot-data:/var/lib/letsencrypt:Z

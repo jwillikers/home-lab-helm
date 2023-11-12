@@ -6,7 +6,7 @@ RequiresMountsFor=%h/container-volumes
 [Kube]
 Yaml=%h/Projects/home-lab-helm/bitcoin-core/bitcoin-core.yaml
 Network=bitcoin-core.network
-RemapUsers=keep-id
+UserNS=keep-id
 
 [Service]
 Restart=always

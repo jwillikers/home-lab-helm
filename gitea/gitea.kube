@@ -7,7 +7,7 @@ RequiresMountsFor=%h/container-volumes/gitea-db-data %h/container-volumes/gitea-
 Yaml=%h/Projects/home-lab-helm/gitea/gitea.yaml
 Network=podman.network
 # UserNS=keep-id
-RemapUsers=keep-id
+UserNS=keep-id
 
 [Service]
 Restart=always

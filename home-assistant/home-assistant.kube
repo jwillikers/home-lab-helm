@@ -6,7 +6,7 @@ RequiresMountsFor=%h/container-volumes/home-assistant-data
 [Kube]
 Yaml=%h/Projects/home-lab-helm/home-assistant/home-assistant.yaml
 Network=podman.network
-RemapUsers=keep-id
+UserNS=keep-id
 
 [Service]
 Restart=always
