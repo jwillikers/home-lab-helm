@@ -24,12 +24,23 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/icinga: registry
+    io.containers.autoupdate/init-icinga-run-directory: registry
     bind-mount-options: /home/core/Projects/icinga-config/etc:Z
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
     app: icinga-pod
   name: icinga-pod
 spec:
+  initContainers:
+    - name: init-icinga-run-directory
+      image: docker.io/alpine:latest
+      command: ["sh", "-c", "chmod 0700 /run/icinga2"]
+      securityContext:
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /run/icinga2
+          name: icinga-run-pvc
   containers:
   - args:
     - icinga2
@@ -54,11 +65,16 @@ spec:
     - mountPath: /data/etc/icinga2
       name: icinga-config-host
       readOnly: True
+    - mountPath: /run/icinga2
+      name: icinga-run-pvc
   hostname: icinga.jwillikers.io
   volumes:
   - name: icinga-data-pvc
     persistentVolumeClaim:
       claimName: icinga-data
+  - name: icinga-run-pvc
+    persistentVolumeClaim:
+      claimName: icinga-run
   - hostPath:
       path: /home/core/Projects/icinga-config/etc/icinga2
       type: Directory
