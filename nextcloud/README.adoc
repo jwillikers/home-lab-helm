@@ -137,11 +137,11 @@ podman play kube nextcloud-secrets.yaml
 systemctl --user daemon-reload
 ----
 
-. Start the Nextcloud pod.
+. Start the Caddy Nextcloud and Nextcloud pods.
 +
 [,sh]
 ----
-systemctl --user start nextcloud
+systemctl --user start caddy-nextcloud nextcloud
 ----
 
 . Wait for the installation of the Nextcloud container to complete.
