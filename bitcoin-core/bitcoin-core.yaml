@@ -22,6 +22,7 @@ metadata:
     io.containers.autoupdate/bitcoin-core-server: registry
     io.containers.autoupdate/bitcoin-core-tor: registry
     io.containers.autoupdate/electrs: registry
+    io.containers.autoupdate/init-tor-run-directory: registry
   creationTimestamp: "2023-10-26T23:53:35Z"
   labels:
     app: bitcoin-core
