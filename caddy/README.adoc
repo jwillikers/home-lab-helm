@@ -83,13 +83,6 @@ podman play kube caddy-secrets.yaml
 
 == Usage
 
-. Create the `~/Projects` directory.
-+
-[,sh]
-----
-mkdir -p ~/Projects
-----
-
 . Clone the Caddy Config repository under the `~/Projects` directory.
 +
 [,sh]
