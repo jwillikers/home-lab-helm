@@ -9,7 +9,6 @@ Exec=/usr/local/bin/php -f /var/www/html/cron.php
 Group=818
 Image=docker.io/library/nextcloud:fpm
 Label=io.containers.autoupdate=registry
-Network=podman.network
 PodmanArgs=--pod=nextcloud
 Environment=NEXTCLOUD_ADMIN_USER=admin
 Environment=NEXTCLOUD_TRUSTED_DOMAINS=cloud.jwillikers.io
