@@ -1,6 +1,8 @@
 [Unit]
 Description=Icinga DB
 Before=local-fs.target
+Requires=icinga.service
+
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/icinga/icingadb.yaml

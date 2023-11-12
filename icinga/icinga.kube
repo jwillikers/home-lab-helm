@@ -1,6 +1,7 @@
 [Unit]
 Description=Icinga2 monitoring server container
 Before=local-fs.target
+Requires=icingadb.service
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/icinga/icinga.yaml
