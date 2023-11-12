@@ -61,6 +61,7 @@
         "pgsql",
         "pipefail",
         "proxied",
+        "quic",
         "rclone",
         "rmem",
         "satoshi",

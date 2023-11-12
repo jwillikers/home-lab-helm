@@ -27,6 +27,18 @@ The system must be configured for Caddy to receive HTTP and HTTPS connections.
 net.ipv4.ip_unprivileged_port_start=80
 ----
 
+. Increase the UDP buffer sizes for https://github.com/quic-go/quic-go[quic-go].
+This is documented in the https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes[UDP Buffer Sizes page] in the quic-go GitHub Wiki.
++
+./etc/sysctl.d/99-increase-max-udp-buffer-size.conf
+[source]
+----
+; Increase the max UDP buffer size to 2.5 MiB for quic-go.
+; https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes
+net.core.rmem_max=2500000
+net.core.wmem_max=2500000
+----
+
 . Load the new sysctl configuration.
 +
 [,sh]
