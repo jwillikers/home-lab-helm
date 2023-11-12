@@ -77,6 +77,14 @@ spec:
           readOnly: true
     - image: docker.io/getumbrel/electrs:v0.10.1
       name: electrs
+      env:
+        - name: ELECTRS_COOKIE_FILE
+          value: /data/.bitcoin/.cookie
+        - name: ELECTRS_ELECTRUM_RPC_ADDR
+          value: "0.0.0.0:50001"
+        - name: ELECTRS_LOG_FILTERS
+          # Use DEBUG instead of INFO to enable debug logging output.
+          value: INFO
       securityContext:
         runAsGroup: 818
         runAsUser: 818
@@ -85,9 +93,6 @@ spec:
       volumeMounts:
         - mountPath: /data/db
           name: electrs-data-pvc
-        - mountPath: /etc/electrs/config.toml
-          name: bitcoin-core-config-electrs-config.toml-host
-          readOnly: true
         - mountPath: /data/.bitcoin
           name: bitcoin-core-server-data-pvc
           readOnly: true
@@ -96,10 +101,6 @@ spec:
     - name: bitcoin-core-server-data-pvc
       persistentVolumeClaim:
         claimName: bitcoin-core-server-data
-    - hostPath:
-        path: /var/home/core/Projects/bitcoin-core-config/electrs/config.toml
-        type: File
-      name: bitcoin-core-config-electrs-config.toml-host
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf
         type: File
