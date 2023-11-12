@@ -165,7 +165,7 @@ spec:
         - mountPath: /var/www/html/custom_apps
           name: nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-server-data-pvc
+          name: nextcloud-server-data-host
         - mountPath: /docker-entrypoint-hooks.d/pre-installation
           name: nextcloud-config-docker-entrypoint-hooks.d-pre-installation-host
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
@@ -199,7 +199,7 @@ spec:
         - mountPath: /var/www/html/custom_apps
           name: nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-server-data-pvc
+          name: nextcloud-server-data-host
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
           name: nextcloud-config-redis-session.ini-host
         - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
@@ -217,9 +217,10 @@ spec:
         path: /home/core/container-volumes/nextcloud-custom-apps
         type: Directory
       name: nextcloud-custom-apps-host
-    - name: nextcloud-server-data-pvc
-      persistentVolumeClaim:
-        claimName: nextcloud-server-data
+    - hostPath:
+        path: /home/core/container-volumes/nextcloud-server-data
+        type: Directory
+      name: nextcloud-server-data-host
     - hostPath:
         path: /home/core/Projects/nextcloud-config/docker-entrypoint-hooks.d/pre-installation
         type: Directory
