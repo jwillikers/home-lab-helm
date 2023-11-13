@@ -14,7 +14,8 @@ endif::[]
 
 The {Nextcloud} pod uses the Nextcloud PHP-FPM container image.
 Redis provides image caching, and imaginary handles image previews. 
-Background jobs are carried out by a separate container which is executed every five minutes by a systemd timer.
+Background maintenance jobs are carried out by a separate container which is executed every five minutes by a systemd timer.
+A container for running https://github.com/nextcloud/previewgenerator[Preview Generator] to generate file and image previews at specific intervals is provided as well.
 
 == Usage
 
@@ -56,18 +57,18 @@ git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
-. Symlink the `caddy-nextcloud.kube`, `podman.network`, `nextcloud.kube`, and `nextcloud-cron.container` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `caddy-nextcloud.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, and `nextcloud-cron-previewgenerator.container` files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube nextcloud-cron.container ~/.config/containers/systemd/
+ln --force --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube nextcloud-cron.container nextcloud-cron-previewgenerator.container ~/.config/containers/systemd/
 ----
 
-. Symlink the `nextcloud-cron.timer` file to the `~/.config/systemd/user/` directory.
+. Symlink the `nextcloud-cron.timer` and `nextcloud-cron-previewgenerator.timer` files to the `~/.config/systemd/user/` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic nextcloud-cron.timer ~/.config/systemd/user/
+ln --force --relative --symbolic nextcloud-cron.timer nextcloud-cron-previewgenerator.timer ~/.config/systemd/user/
 ----
 
 . Create a `nextcloud` bucket in MinIO.
@@ -150,7 +151,7 @@ systemctl --user start caddy-nextcloud nextcloud
 +
 [,sh]
 ----
-systemctl --user enable --now nextcloud-cron.timer
+systemctl --user enable --now nextcloud-cron.timer nextcloud-cron-previewgenerator.timer
 ----
 
 == Maintenance

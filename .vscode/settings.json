@@ -61,6 +61,7 @@
         "pgdata",
         "pgsql",
         "pipefail",
+        "previewgenerator",
         "proxied",
         "quic",
         "rclone",
