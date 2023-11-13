@@ -39,6 +39,18 @@ metadata:
   name: caddy-pod
 spec:
   automountServiceAccountToken: false
+  initContainers:
+    - name: chown-volumes
+      image: docker.io/alpine:latest
+      command: ["sh", "-c", "chown -R 818:818 /data /config"]
+      securityContext:
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /config/
+          name: caddy-config-pvc
+        - mountPath: /data/
+          name: caddy-data-pvc
   containers:
     - image: quay.io/jwillikers/caddy-ovh:latest
       name: caddy
@@ -74,8 +86,8 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        runAsGroup: 0
-        runAsUser: 0
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
         sysctls:
