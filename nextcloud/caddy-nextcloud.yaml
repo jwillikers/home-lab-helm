@@ -8,6 +8,34 @@
 # has the right permissions to access the volumes added.
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.podman.io/uid: 818
+    volume.podman.io/gid: 818
+  name: caddy-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.podman.io/uid: 818
+    volume.podman.io/gid: 818
+  name: caddy-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+---
+apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: "2023-02-04T18:12:52Z"
@@ -39,24 +67,6 @@ metadata:
   name: caddy-pod
 spec:
   automountServiceAccountToken: false
-  initContainers:
-    - name: chown-volumes
-      image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown -R 818:818 /data /config"]
-      securityContext:
-        capabilities:
-          drop: ["all"]
-          add: ["CHOWN"]
-        runAsGroup: 0
-        runAsUser: 0
-        runAsNonRoot: false
-        seLinuxOptions:
-          type: spc_t
-      volumeMounts:
-        - mountPath: /config/
-          name: caddy-config-pvc
-        - mountPath: /data/
-          name: caddy-data-pvc
   containers:
     - image: quay.io/jwillikers/caddy-ovh:latest
       name: caddy
