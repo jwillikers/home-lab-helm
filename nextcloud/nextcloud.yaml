@@ -117,6 +117,8 @@ spec:
           value: nextcloud
         - name: POSTGRES_DB
           value: nextcloud
+        - name: PHP_MEMORY_LIMIT
+          value: 1024M
         - name: SMTP_PASSWORD
           valueFrom:
             secretKeyRef:
