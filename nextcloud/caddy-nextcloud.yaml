@@ -8,6 +8,34 @@
 # has the right permissions to access the volumes added.
 ---
 apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.podman.io/uid: 818
+    volume.podman.io/gid: 818
+  name: caddy-config
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Mi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  annotations:
+    volume.podman.io/uid: 818
+    volume.podman.io/gid: 818
+  name: caddy-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Mi
+---
+apiVersion: v1
 kind: Service
 metadata:
   creationTimestamp: "2023-02-04T18:12:52Z"
