@@ -48,7 +48,7 @@ spec:
               name: gitea-secrets
               key: gitea_postgresql_password
               optional: false
-      image: docker.io/library/postgres:bookworm
+      image: docker.io/library/postgres:latest
       name: gitea-postgresql
       ports:
         - containerPort: 2222

@@ -30,7 +30,7 @@ spec:
   containers:
     - args:
         - redis-server
-      image: docker.io/library/redis:alpine
+      image: docker.io/library/redis:latest
       name: icingadb-redis
       securityContext:
         # The Redis user and group use the id 999.
@@ -56,7 +56,7 @@ spec:
               name: icingadb-secrets
               key: icingadb_postgresql_password
               optional: false
-      image: docker.io/library/postgres:bookworm
+      image: docker.io/library/postgres:latest
       name: icingadb-postgresql
       securityContext:
         runAsGroup: 818
