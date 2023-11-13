@@ -50,6 +50,7 @@
         "nologin",
         "noninteractive",
         "nosuid",
+        "nproc",
         "OBJECTSTORE",
         "Omada",
         "oneshot",

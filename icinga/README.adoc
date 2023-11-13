@@ -46,6 +46,22 @@ sudo firewall-cmd --add-port=5665/tcp --permanent
 sudo firewall-cmd --reload
 ----
 
+. Increase the process limits for the core user in the `/etc/security/limits.d/icinga.conf` file.
++
+./etc/security/limits.d/core-nproc.conf
+[source]
+----
+core soft nproc 250000
+core hard nproc 500000
+----
+
+. Reboot for the limits to take effect.
++
+[,sh]
+----
+sudo systemctl reboot
+----
+
 . Create the `~/Projects` directory.
 +
 [,sh]

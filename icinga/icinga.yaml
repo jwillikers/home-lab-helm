@@ -23,8 +23,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/icinga: registry
     bind-mount-options: /home/core/Projects/icinga-config/etc:Z
+    io.containers.autoupdate/icinga: registry
+    io.podman.annotations.ulimit: nproc=250000:500000
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
     app: icinga-pod
