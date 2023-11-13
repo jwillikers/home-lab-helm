@@ -44,6 +44,12 @@ spec:
       image: docker.io/alpine:latest
       command: ["sh", "-c", "chown -R 818:818 /data /config"]
       securityContext:
+        capabilities:
+          drop: ["all"]
+          add: ["CHOWN"]
+        runAsGroup: 0
+        runAsUser: 0
+        runAsNonRoot: false
         seLinuxOptions:
           type: spc_t
       volumeMounts:
