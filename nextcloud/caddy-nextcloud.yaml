@@ -81,9 +81,9 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
-        - mountPath: /config/
+        - mountPath: /config
           name: caddy-config-pvc
-        - mountPath: /data/
+        - mountPath: /data
           name: caddy-data-pvc
   containers:
     - image: quay.io/jwillikers/caddy-ovh:latest
@@ -133,11 +133,11 @@ spec:
           - name: net.core.wmem_max
             value: "2500000"
       volumeMounts:
-        - mountPath: /etc/caddy/
+        - mountPath: /etc/caddy
           name: caddy-config-host
-        - mountPath: /config/
+        - mountPath: /config
           name: caddy-config-pvc
-        - mountPath: /data/
+        - mountPath: /data
           name: caddy-data-pvc
         - mountPath: /var/www/html/custom_apps
           name: nextcloud-custom-apps-host
