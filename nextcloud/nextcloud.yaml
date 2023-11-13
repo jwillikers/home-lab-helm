@@ -179,7 +179,7 @@ spec:
           name: nextcloud-config-host
     - args:
         - -concurrency
-        - "20"
+        - "100"
       env:
         - name: PORT
           value: "8088"
