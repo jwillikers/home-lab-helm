@@ -70,7 +70,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown -R 818:818 /data /config"]
+      command: ["sh", "-c", "chown 818:818 /data /config"]
       securityContext:
         capabilities:
           drop: ["all"]

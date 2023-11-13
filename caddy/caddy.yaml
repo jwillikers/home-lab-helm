@@ -15,8 +15,6 @@ metadata:
     volume.podman.io/gid: 818
   name: caddy-config
 spec:
-  accessModes:
-    - ReadWriteOnce
   resources:
     requests:
       storage: 5Mi
@@ -29,8 +27,6 @@ metadata:
     volume.podman.io/gid: 818
   name: caddy-data
 spec:
-  accessModes:
-    - ReadWriteOnce
   resources:
     requests:
       storage: 50Mi
@@ -69,7 +65,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown -R 818:818 /data /config"]
+      command: ["sh", "-c", "chown 818:818 /data /config"]
       securityContext:
         capabilities:
           drop: ["all"]
@@ -80,9 +76,9 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
-        - mountPath: /config/
+        - mountPath: /config
           name: caddy-config-pvc
-        - mountPath: /data/
+        - mountPath: /data
           name: caddy-data-pvc
   containers:
   - image: quay.io/jwillikers/caddy-ovh:latest
@@ -90,6 +86,7 @@ spec:
     securityContext:
       runAsGroup: 818
       runAsUser: 818
+      runAsNonRoot: true
       sysctls:
       - name: net.ipv4.ip_unprivileged_port_start
         value: "80"
@@ -127,11 +124,11 @@ spec:
     - containerPort: 443
       hostPort: 443
     volumeMounts:
-    - mountPath: /etc/caddy/
+    - mountPath: /etc/caddy
       name: caddy-config-host
-    - mountPath: /config/
+    - mountPath: /config
       name: caddy-config-pvc
-    - mountPath: /data/
+    - mountPath: /data
       name: caddy-data-pvc
   volumes:
   - hostPath:
