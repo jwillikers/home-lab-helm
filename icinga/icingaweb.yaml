@@ -148,7 +148,7 @@ spec:
               key: icinga_icingadb-web_api_user_password
               optional: false
       # todo Use the latest tag when Arm builds are available for it.
-      image: docker.io/icinga/icingaweb2:main
+      image: docker.io/icinga/icingaweb2:latest
       name: icingaweb-server
       securityContext:
         # todo Fix upstream image to allow running as the current user in the container.
