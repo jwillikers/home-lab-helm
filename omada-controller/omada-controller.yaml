@@ -153,7 +153,7 @@ spec:
         - mountPath: /opt/tplink/EAPController/logs
           name: omada-controller-logs-pvc
         - mountPath: /opt/tplink/EAPController/data
-          name: omada-controller-data-pvc
+          name: omada-controller-data-host
   volumes:
     - hostPath:
         path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.crt
@@ -166,6 +166,7 @@ spec:
     - name: omada-controller-logs-pvc
       persistentVolumeClaim:
         claimName: omada-controller-logs
-    - name: omada-controller-data-pvc
-      persistentVolumeClaim:
-        claimName: omada-controller-data
+    - hostPath:
+        path: /home/core/container-volumes/omada-controller-data
+        type: Directory
+      name: omada-controller-data-host
