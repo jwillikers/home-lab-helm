@@ -33,6 +33,22 @@ metadata:
     app: icingaweb
   name: icingaweb
 spec:
+  initContainers:
+    - name: chown-volumes
+      image: docker.io/alpine:latest
+      command: ["sh", "-c", "chown 818:818 /data"]
+      securityContext:
+        capabilities:
+          drop: ["all"]
+          add: ["CHOWN"]
+        runAsGroup: 0
+        runAsUser: 0
+        runAsNonRoot: false
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data
+          name: icingaweb-server-data-pvc
   containers:
     - args:
         - postgres
