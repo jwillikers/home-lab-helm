@@ -10,6 +10,8 @@ UserNS=keep-id
 
 [Service]
 Restart=always
+TimeoutStartSec=15min
+TimeoutStopSec=15min
 
 [Install]
 WantedBy=multi-user.target default.target

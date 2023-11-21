@@ -8,8 +8,8 @@ Network=podman.network
 
 [Service]
 Restart=on-failure
-TimeoutStartSec=infinity
-TimeoutStopSec=1000
+TimeoutStartSec=15min
+TimeoutStopSec=15min
 
 [Install]
 WantedBy=multi-user.target default.target
