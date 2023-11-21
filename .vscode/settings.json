@@ -47,6 +47,7 @@
         "nodev",
         "noexec",
         "nofail",
+        "nofile",
         "nologin",
         "noninteractive",
         "nosuid",
