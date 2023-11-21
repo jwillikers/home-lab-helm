@@ -85,6 +85,10 @@ spec:
         - "/opt/tplink/EAPController/lib/*::/opt/tplink/EAPController/properties:"
         - com.tplink.smb.omada.starter.OmadaLinuxMain
       env:
+        - name: PGID
+          value: "818"
+        - name: PUID
+          value: "818"
         - name: PORT_UPGRADE_V1
           value: "29813"
         - name: TZ
@@ -118,6 +122,8 @@ spec:
       image: docker.io/mbentley/omada-controller:latest
       name: omada-controller
       securityContext:
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       ports:
