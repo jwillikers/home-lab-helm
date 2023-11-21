@@ -69,11 +69,11 @@ core hard nproc 4096
 sudo systemctl reboot
 ----
 
-. Create the directory for Podman's systemd generator.
+. Create the directory for Podman's systemd generator and the directory for backups.
 +
 [,sh]
 ----
-mkdir -p ~/.config/containers/systemd
+mkdir -p ~/.config/containers/systemd ~/container-volumes/omada-controller-backups
 ----
 
 . Symlink the `podman.network` and `omada-controller.kube` files to the `~/.config/containers/systemd/` directory.

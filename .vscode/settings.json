@@ -4,6 +4,7 @@
         "alnum",
         "authcookie",
         "AUTHTYPE",
+        "autobackup",
         "automount",
         "autoupdate",
         "bitcoind",
