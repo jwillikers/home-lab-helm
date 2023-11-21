@@ -18,7 +18,6 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    bind-mount-options: /var/home/core/container-volumes/icingaweb-server-run:Z
     io.containers.autoupdate/icingaweb-postgresql: registry
     io.containers.autoupdate/icingaweb-server: registry
   creationTimestamp: "2023-10-28T17:59:08Z"
@@ -147,7 +146,6 @@ spec:
               name: icingaweb-secrets
               key: icinga_icingadb-web_api_user_password
               optional: false
-      # todo Use the latest tag when Arm builds are available for it.
       image: docker.io/icinga/icingaweb2:latest
       name: icingaweb-server
       securityContext:
