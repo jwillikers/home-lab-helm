@@ -84,10 +84,10 @@ spec:
       env:
         - name: APACHE_RUN_GROUP
           # The GID used for runAsGroup.
-          value: 387
+          value: 818
         - name: APACHE_RUN_USER
           # The UID used for runAsUser.
-          value: 387
+          value: 818
         - name: icingaweb.resources.icingaweb_db.dbname
           value: icingaweb
         - name: icingaweb.resources.icingadb.dbname
