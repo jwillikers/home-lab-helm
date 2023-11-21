@@ -36,7 +36,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown 818:818 /data"]
+      command: ["sh", "-c", "chown 818:818 /data /var/run/apache2"]
       securityContext:
         capabilities:
           drop: ["all"]
@@ -49,6 +49,8 @@ spec:
       volumeMounts:
         - mountPath: /data
           name: icingaweb-server-data-pvc
+        - mountPath: /var/run/apache2
+          name: icingaweb-apache-run-pvc
   containers:
     - args:
         - postgres
@@ -180,6 +182,8 @@ spec:
       volumeMounts:
         - mountPath: /data
           name: icingaweb-server-data-pvc
+        - mountPath: /var/run/apache2
+          name: icingaweb-apache-run-pvc
   hostUsers: false
   hostname: icingaweb.jwillikers.io
   volumes:
@@ -189,3 +193,6 @@ spec:
     - name: icingaweb-server-data-pvc
       persistentVolumeClaim:
         claimName: icingaweb-server-data
+    - name: icingaweb-apache-run-pvc
+      persistentVolumeClaim:
+        claimName: icingaweb-apache-run
