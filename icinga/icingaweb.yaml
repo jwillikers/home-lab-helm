@@ -8,7 +8,7 @@ metadata:
   annotations:
     volume.podman.io/uid: 818
     volume.podman.io/gid: 818
-  name: icingaweb-server-data-pvc
+  name: icingaweb-server-data
 ---
 apiVersion: v1
 kind: Service
