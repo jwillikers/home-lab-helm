@@ -43,6 +43,32 @@ sudo firewall-cmd --reload
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
+. Configure the process and file limits for the core user in the `/etc/security/limits.d/core.conf` file.
++
+--
+[NOTE]
+====
+The limits below are minimums, and can be set higher.
+To check the currently configured limits, use `ulimit -u` for the number of processes available to the current user and `ulimit -n` for the number of open file descriptors.
+====
+
+./etc/security/limits.d/core.conf
+[source]
+----
+core soft nofile 4096
+core hard nofile 8192
+core soft nproc 2048
+core hard nproc 4096
+----
+--
+
+. Reboot for the limits to take effect.
++
+[,sh]
+----
+sudo systemctl reboot
+----
+
 . Create the directory for Podman's systemd generator.
 +
 [,sh]

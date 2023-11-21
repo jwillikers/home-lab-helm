@@ -46,9 +46,9 @@ sudo firewall-cmd --add-port=5665/tcp --permanent
 sudo firewall-cmd --reload
 ----
 
-. Increase the process limits for the core user in the `/etc/security/limits.d/icinga.conf` file.
+. Increase the process limits for the core user in the `/etc/security/limits.d/core.conf` file.
 +
-./etc/security/limits.d/core-nproc.conf
+./etc/security/limits.d/core.conf
 [source]
 ----
 core soft nproc 250000
