@@ -141,8 +141,6 @@ spec:
         - containerPort: 29810
           hostPort: 29810
           protocol: UDP
-      stdin: true
-      tty: true
       volumeMounts:
         - mountPath: /cert/omada.jwillikers.io.crt
           name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host
