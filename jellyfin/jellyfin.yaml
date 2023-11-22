@@ -24,16 +24,10 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/jellyfin: registry
-    io.kubernetes.cri-o.TTY/jellyfin: "false"
-    io.podman.annotations.autoremove/jellyfin: "TRUE"
-    io.podman.annotations.cid-file/jellyfin: /run/user/1000/container-jellyfin.service.ctr-id
-    io.podman.annotations.init/jellyfin: "FALSE"
-    io.podman.annotations.privileged/jellyfin: "FALSE"
-    io.podman.annotations.publish-all/jellyfin: "FALSE"
   creationTimestamp: "2023-02-03T22:25:50Z"
   labels:
-    app: jellyfin-pod
-  name: jellyfin-pod
+    app: jellyfin
+  name: jellyfin
 spec:
   automountServiceAccountToken: false
   containers:
@@ -56,20 +50,22 @@ spec:
         - mountPath: /media
           name: media-host
           readOnly: true
-        - mountPath: /config
-          name: jellyfin-config-pvc
         - mountPath: /cache
-          name: jellyfin-cache-pvc
+          name: jellyfin-cache-host
+        - mountPath: /config
+          name: jellyfin-config-host
   enableServiceLinks: false
   hostUsers: false
   volumes:
     - hostPath:
-        path: /home/core/Media
+        path: /home/core/media
         type: Directory
       name: media-host
-    - name: jellyfin-cache-pvc
-      persistentVolumeClaim:
-        claimName: jellyfin-config
-    - name: jellyfin-cache-pvc
-      persistentVolumeClaim:
-        claimName: jellyfin-config
+    - hostPath:
+        path: /home/core/container-volumes/jellyfin-cache
+        type: Directory
+      name: jellyfin-cache-host
+    - hostPath:
+        path: /home/core/container-volumes/jellyfin-config
+        type: Directory
+      name: jellyfin-config-host

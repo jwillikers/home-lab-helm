@@ -65,7 +65,7 @@ podman run \
   --userns keep-id \
   --volume minio-client-config:/.mc:Z \
   quay.io/minio/mc:latest \
-  mb jwillikers/minio
+  mb jwillikers/media
 ----
 
 . Upload media to the Minio instance.
@@ -100,7 +100,7 @@ podman run \
   --volume minio-client-config:/.mc:Z \
   --volume ./jellyfin-minio-policy.json:/jellyfin-minio-policy.json:Z \
   quay.io/minio/mc:latest \
-  admin user svcacct add --description "Jellyfin media server" --name "Jellyfin" --policy "jellyfin-minio-policy.json" jwillikers jordan
+  admin user svcacct add --description "Jellyfin media server" --name "Jellyfin" --policy "jellyfin-minio-policy.json" jwillikers core
 Access Key: XXXXXXXXXXXXXXXXXXXX
 Secret Key: ****************************************
 Expiration: no-expiry
@@ -171,6 +171,13 @@ sudo systemd-mount /var/home/core/media
 ----
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Symlink the `jellyfin.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/jellyfin.caddyfile ~/Projects/caddy-config/sites-enabled/
+----
 
 . Create the directory for Podman's systemd generator.
 +

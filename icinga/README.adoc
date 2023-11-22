@@ -32,6 +32,13 @@ It is recommend to run Icinga 2 and Icinga DB on the same machine to reduce late
 . Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
+. Symlink the `icinga.caddyfile` and `icingaweb.caddyfile` files to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/{icinga,icingaweb}.caddyfile ~/Projects/caddy-config/sites-enabled/
+----
+
 . Open the necessary ports in the firewall, since rootless Podman won't be able to open these for us.
 +
 [,sh]

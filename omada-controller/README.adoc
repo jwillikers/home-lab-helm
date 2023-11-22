@@ -43,6 +43,13 @@ sudo firewall-cmd --reload
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
+. Symlink the `omada-controller.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/omada-controller.caddyfile ~/Projects/caddy-config/sites-enabled/
+----
+
 . Configure the process and file limits for the core user in the `/etc/security/limits.d/core.conf` file.
 +
 --

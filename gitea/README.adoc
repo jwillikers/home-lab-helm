@@ -25,6 +25,13 @@ Follow the steps in the <<../minio/README.adoc,Minio README>>.
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
+. Symlink the `gitea.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/gitea.caddyfile ~/Projects/caddy-config/sites-enabled/gitea.caddyfile
+----
+
 . Allow rootless containers to publish to ports 80 and 443 by lowering the starting port for the range of unprivileged ports.
 +
 ./etc/sysctl.d/99-lower-unprivileged_port_start.conf

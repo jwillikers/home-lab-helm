@@ -40,6 +40,13 @@ sudo firewall-cmd --reload
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
+. Symlink the `influxdb.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/influxdb.caddyfile ~/Projects/caddy-config/sites-enabled/
+----
+
 . Fill in any missing secrets in the `influxdb-secrets.yaml` file.
 +
 [TIP]

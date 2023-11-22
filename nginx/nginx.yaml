@@ -55,8 +55,6 @@ spec:
     securityContext:
       seLinuxOptions:
         type: spc_t
-    stdin: true
-    tty: true
     volumeMounts:
     - mountPath: /etc/nginx
       name: nginx-config-host

@@ -78,15 +78,13 @@ spec:
         runAsUser: 818
         seLinuxOptions:
           type: spc_t
-      stdin: true
-      tty: true
       volumeMounts:
         - mountPath: /etc/influxdb2/config.yml
           name: influxdb-config-config.yml-host
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
         - mountPath: /etc/influxdb2
-          name: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288-pvc
+          name: influxdb-config-pvc
   enableServiceLinks: false
   hostUsers: false
   volumes:
@@ -97,6 +95,7 @@ spec:
     - name: influxdb-data-pvc
       persistentVolumeClaim:
         claimName: influxdb-data
-    - name: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288-pvc
+    # todo Can this be removed? I don't think it is used at all.
+    - name: influxdb-config-pvc
       persistentVolumeClaim:
-        claimName: f808e8b2bb7f7205a9bbc01ce0672ddd26576e053157b38fdc9e08e02b500288
+        claimName: influxdb-config

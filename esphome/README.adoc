@@ -60,10 +60,17 @@ echo (getent group dialout) | sudo tee -a /etc/group
 +
 [,sh]
 ----
-sudo usermod --append --groups dialout $USER
+sudo usermod --append --groups dialout core
 ----
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Symlink the `esphome.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/esphome.caddyfile ~/Projects/caddy-config/sites-enabled/esphome.caddyfile
+----
 
 . Create the directory for Podman's systemd generator.
 +

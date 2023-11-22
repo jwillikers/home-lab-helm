@@ -43,6 +43,13 @@ The `caddy-nextcloud.kube` file should be used instead of the `caddy.kube` file 
 This uses the appropriate configuration to mount the Nextcloud directories in order to proxy the site via _FastCGI_.
 ====
 
+. Symlink the `nextcloud.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/nextcloud.caddyfile ~/Projects/caddy-config/sites-enabled/
+----
+
 . Clone the Nextcloud Config repository under the `~/Projects` directory.
 +
 [,sh]

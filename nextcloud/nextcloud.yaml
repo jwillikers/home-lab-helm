@@ -162,8 +162,6 @@ spec:
         runAsUser: 818
         seLinuxOptions:
           type: spc_t
-      stdin: true
-      tty: true
       volumeMounts:
         - mountPath: /var/www/html/custom_apps
           name: nextcloud-custom-apps-host

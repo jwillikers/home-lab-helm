@@ -76,8 +76,6 @@ spec:
         runAsUser: 818
         seLinuxOptions:
           type: spc_t
-      stdin: true
-      tty: true
       volumeMounts:
         - mountPath: /data
           name: home-core-s3-host

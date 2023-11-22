@@ -17,6 +17,13 @@ The {MinIO} pod provides S3-compatible object storage.
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
+. Symlink the `minio.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/minio.caddyfile ~/Projects/caddy-config/sites-enabled/
+----
+
 . Open the necessary ports in the firewall, since rootless Podman won't be able to open these for us.
 +
 [,sh]
