@@ -35,6 +35,22 @@ metadata:
   name: influxdb
 spec:
   automountServiceAccountToken: false
+  initContainers:
+    - name: chown-volumes
+      image: docker.io/alpine:latest
+      command: ["sh", "-c", "chown 818:818 /var/lib/influxdb2"]
+      securityContext:
+        capabilities:
+          drop: ["all"]
+          add: ["CHOWN"]
+        runAsGroup: 0
+        runAsUser: 0
+        runAsNonRoot: false
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/influxdb2
+          name: influxdb-data-pvc
   containers:
     - args:
         - influxd
@@ -68,6 +84,8 @@ spec:
           hostPort: 8086
       securityContext:
         capabilities: {}
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
