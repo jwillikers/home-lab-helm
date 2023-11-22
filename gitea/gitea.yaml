@@ -11,11 +11,11 @@ metadata:
     app: gitea
   name: gitea
 spec:
-  # ports:
-  #   - name: "2222"
-  #     nodePort: 30341
-  #     port: 2222
-  #     targetPort: 2222
+  ports:
+    - name: "2222"
+      nodePort: 30341
+      port: 2222
+      targetPort: 2222
   selector:
     app: gitea
   type: NodePort
@@ -50,9 +50,9 @@ spec:
               optional: false
       image: docker.io/library/postgres:latest
       name: gitea-postgresql
-      # ports:
-      #   - containerPort: 2222
-      #     hostPort: 2222
+      ports:
+        - containerPort: 2222
+          hostPort: 2222
       resources: {}
       securityContext:
         capabilities: {}
