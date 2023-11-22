@@ -17,8 +17,10 @@ The {Vaultwarden} pod provides a Bitwarden-compatible server written in Rust.
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
+// todo Note about special characters for Postgresql password.
 . Fill in any missing secrets in the `vaultwarden-secrets.yaml` file.
 +
+--
 [TIP]
 ====
 You can generate a random password with the following command.
@@ -28,6 +30,12 @@ You can generate a random password with the following command.
 tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 ----
 ====
+
+[NOTE]
+====
+Avoid special characters for the PostgreSQL password to avoid having to escape special characters in the PostgreSQL URL.
+====
+--
 
 . Import the `vaultwarden-secrets.yaml` secrets in Podman with the `podman play kube` command.
 +

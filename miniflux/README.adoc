@@ -33,6 +33,7 @@ ln --force --relative --symbolic ../podman.network miniflux.kube ~/.config/conta
 
 . Fill in any missing secrets in the `miniflux-secrets.yaml` file.
 +
+--
 [TIP]
 ====
 You can generate a random password with the following command.
@@ -42,6 +43,12 @@ You can generate a random password with the following command.
 tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 ----
 ====
+
+[NOTE]
+====
+Avoid special characters for the PostgreSQL password to avoid having to escape special characters in the PostgreSQL URL.
+====
+--
 
 . Import the `miniflux-secrets.yaml` secrets in Podman with the `podman play kube` command.
 +

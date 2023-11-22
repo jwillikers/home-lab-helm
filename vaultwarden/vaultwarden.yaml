@@ -83,7 +83,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: vaultwarden-secrets
-              key: vaultwarden_database_url
+              key: vaultwarden_postgresql_url
               optional: false
         - name: SMTP_PASSWORD
           valueFrom:

@@ -63,7 +63,7 @@ spec:
           valueFrom:
             secretKeyRef:
               name: miniflux-secrets
-              key: miniflux_database_url
+              key: miniflux_postgresql_url
               optional: false
         - name: ADMIN_PASSWORD
           valueFrom:
