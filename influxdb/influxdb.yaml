@@ -74,7 +74,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /etc/influxdb2
-          name: influxdb-config-config.yml-host
+          name: influxdb-config-host
           readOnly: true
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
