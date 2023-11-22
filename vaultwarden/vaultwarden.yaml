@@ -101,7 +101,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: vaultwarden-data-host
+          name: vaultwarden-server-data-host
   hostUsers: false
   hostname: vaultwarden
   restartPolicy: Never
@@ -111,7 +111,7 @@ spec:
         type: Directory
       name: vaultwarden-postgresql-data-host
     - hostPath:
-        path: /home/core/container-volumes/vaultwarden-data
+        path: /home/core/container-volumes/vaultwarden-server-data
         type: Directory
-      name: vaultwarden-data-host
+      name: vaultwarden-server-data-host
 status: {}
