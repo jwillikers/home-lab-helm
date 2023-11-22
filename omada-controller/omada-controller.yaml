@@ -156,11 +156,11 @@ spec:
           name: omada-controller-backups-host
   volumes:
     - hostPath:
-        path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.crt
+        path: /home/core/.local/share/containers/storage/volumes/caddy-data/_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.crt
         type: File
       name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.crt-host
     - hostPath:
-        path: /home/core/container-volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.key
+        path: /home/core/.local/share/containers/storage/volumes/caddy-data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.key
         type: File
       name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-omada.jwillikers.io-omada.jwillikers.io.key-host
     - name: omada-controller-logs-pvc
