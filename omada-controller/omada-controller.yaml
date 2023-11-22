@@ -14,8 +14,8 @@ metadata:
     io.podman.annotations.ulimit: nproc=2048:4096,nofile=4096:8192
   creationTimestamp: "2023-02-20T20:18:08Z"
   labels:
-    app: omada-controller-pod
-  name: omada-controller-pod
+    app: omada-controller
+  name: omada-controller
 spec:
   ports:
     - name: "8043"
@@ -57,7 +57,7 @@ spec:
       protocol: UDP
       targetPort: 29810
   selector:
-    app: omada-controller-pod
+    app: omada-controller
   type: NodePort
 ---
 apiVersion: v1
@@ -67,8 +67,8 @@ metadata:
     io.containers.autoupdate/omada-controller: registry
   creationTimestamp: "2023-02-20T20:18:08Z"
   labels:
-    app: omada-controller-pod
-  name: omada-controller-pod
+    app: omada-controller
+  name: omada-controller
 spec:
   containers:
     - args:

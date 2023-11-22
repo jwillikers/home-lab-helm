@@ -12,11 +12,11 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-09T01:09:01Z"
   labels:
-    app: home-assistant-pod
-  name: home-assistant-pod
+    app: home-assistant
+  name: home-assistant
 spec:
   selector:
-    app: home-assistant-pod
+    app: home-assistant
   type: NodePort
 ---
 apiVersion: v1
@@ -24,16 +24,10 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/home-assistant: registry
-    io.kubernetes.cri-o.TTY/home-assistant: "false"
-    io.podman.annotations.autoremove/home-assistant: "TRUE"
-    io.podman.annotations.cid-file/home-assistant: /run/user/1000/container-home-assistant.service.ctr-id
-    io.podman.annotations.init/home-assistant: "FALSE"
-    io.podman.annotations.privileged/home-assistant: "FALSE"
-    io.podman.annotations.publish-all/home-assistant: "FALSE"
   creationTimestamp: "2023-02-09T01:09:01Z"
   labels:
-    app: home-assistant-pod
-  name: home-assistant-pod
+    app: home-assistant
+  name: home-assistant
 spec:
   automountServiceAccountToken: false
   containers:

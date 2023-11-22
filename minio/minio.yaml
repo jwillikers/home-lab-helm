@@ -12,8 +12,8 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-04T15:25:42Z"
   labels:
-    app: minio-pod
-  name: minio-pod
+    app: minio
+  name: minio
 spec:
   ports:
     - name: "9000"
@@ -25,7 +25,7 @@ spec:
       port: 9090
       targetPort: 9090
   selector:
-    app: minio-pod
+    app: minio
   type: NodePort
 ---
 apiVersion: v1
@@ -36,8 +36,8 @@ metadata:
     io.containers.autoupdate/minio: registry
   creationTimestamp: "2023-02-04T15:25:42Z"
   labels:
-    app: minio-pod
-  name: minio-pod
+    app: minio
+  name: minio
 spec:
   containers:
     - args:

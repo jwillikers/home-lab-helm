@@ -12,11 +12,11 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-03T22:25:50Z"
   labels:
-    app: jellyfin-pod
-  name: jellyfin-pod
+    app: jellyfin
+  name: jellyfin
 spec:
   selector:
-    app: jellyfin-pod
+    app: jellyfin
   type: NodePort
 ---
 apiVersion: v1

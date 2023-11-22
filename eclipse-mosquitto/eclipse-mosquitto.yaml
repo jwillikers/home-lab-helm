@@ -12,8 +12,8 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-09T01:10:11Z"
   labels:
-    app: eclipse-mosquitto-pod
-  name: eclipse-mosquitto-pod
+    app: eclipse-mosquitto
+  name: eclipse-mosquitto
 spec:
   ports:
     - name: "1883"
@@ -21,7 +21,7 @@ spec:
       port: 1883
       targetPort: 1883
   selector:
-    app: eclipse-mosquitto-pod
+    app: eclipse-mosquitto
   type: NodePort
 ---
 apiVersion: v1
@@ -29,16 +29,10 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/eclipse-mosquitto: registry
-    io.kubernetes.cri-o.TTY/eclipse-mosquitto: "false"
-    io.podman.annotations.autoremove/eclipse-mosquitto: "TRUE"
-    io.podman.annotations.cid-file/eclipse-mosquitto: /run/user/1000/container-eclipse-mosquitto.service.ctr-id
-    io.podman.annotations.init/eclipse-mosquitto: "FALSE"
-    io.podman.annotations.privileged/eclipse-mosquitto: "FALSE"
-    io.podman.annotations.publish-all/eclipse-mosquitto: "FALSE"
   creationTimestamp: "2023-02-09T01:10:11Z"
   labels:
-    app: eclipse-mosquitto-pod
-  name: eclipse-mosquitto-pod
+    app: eclipse-mosquitto
+  name: eclipse-mosquitto
 spec:
   automountServiceAccountToken: false
   containers:

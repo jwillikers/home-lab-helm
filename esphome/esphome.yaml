@@ -12,11 +12,11 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-09T01:09:10Z"
   labels:
-    app: esphome-pod
-  name: esphome-pod
+    app: esphome
+  name: esphome
 spec:
   selector:
-    app: esphome-pod
+    app: esphome
   type: NodePort
 ---
 apiVersion: v1
@@ -24,16 +24,10 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/esphome: registry
-    io.kubernetes.cri-o.TTY/esphome: "false"
-    io.podman.annotations.autoremove/esphome: "TRUE"
-    io.podman.annotations.cid-file/esphome: /run/user/1000/container-esphome.service.ctr-id
-    io.podman.annotations.init/esphome: "FALSE"
-    io.podman.annotations.privileged/esphome: "FALSE"
-    io.podman.annotations.publish-all/esphome: "FALSE"
   creationTimestamp: "2023-02-09T01:09:10Z"
   labels:
-    app: esphome-pod
-  name: esphome-pod
+    app: esphome
+  name: esphome
 spec:
   automountServiceAccountToken: false
   containers:

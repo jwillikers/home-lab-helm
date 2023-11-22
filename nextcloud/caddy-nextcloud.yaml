@@ -40,8 +40,8 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-04T18:12:52Z"
   labels:
-    app: caddy-pod
-  name: caddy-pod
+    app: caddy
+  name: caddy
 spec:
   ports:
     - name: "80"
@@ -53,7 +53,7 @@ spec:
       port: 443
       targetPort: 443
   selector:
-    app: caddy-pod
+    app: caddy
   type: NodePort
 ---
 apiVersion: v1
@@ -63,8 +63,8 @@ metadata:
     io.containers.autoupdate/caddy: registry
   creationTimestamp: "2023-02-04T18:12:52Z"
   labels:
-    app: caddy-pod
-  name: caddy-pod
+    app: caddy
+  name: caddy
 spec:
   automountServiceAccountToken: false
   initContainers:

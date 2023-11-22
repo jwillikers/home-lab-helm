@@ -12,8 +12,8 @@ kind: Service
 metadata:
   creationTimestamp: "2023-02-09T01:03:34Z"
   labels:
-    app: influxdb-pod
-  name: influxdb-pod
+    app: influxdb
+  name: influxdb
 spec:
   ports:
     - name: "8086"
@@ -21,7 +21,7 @@ spec:
       port: 8086
       targetPort: 8086
   selector:
-    app: influxdb-pod
+    app: influxdb
   type: NodePort
 ---
 apiVersion: v1
@@ -29,16 +29,10 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/influxdb: registry
-    io.kubernetes.cri-o.TTY/influxdb: "true"
-    io.podman.annotations.autoremove/influxdb: "TRUE"
-    io.podman.annotations.cid-file/influxdb: /run/user/1000/container-influxdb.service.ctr-id
-    io.podman.annotations.init/influxdb: "FALSE"
-    io.podman.annotations.privileged/influxdb: "FALSE"
-    io.podman.annotations.publish-all/influxdb: "FALSE"
   creationTimestamp: "2023-02-09T01:03:34Z"
   labels:
-    app: influxdb-pod
-  name: influxdb-pod
+    app: influxdb
+  name: influxdb
 spec:
   automountServiceAccountToken: false
   containers:
