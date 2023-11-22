@@ -17,20 +17,6 @@ The {Miniflux} pod provides a simple RSS feed reader.
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
-. Create the directory for Podman's systemd generator.
-+
-[,sh]
-----
-mkdir -p ~/.config/containers/systemd
-----
-
-. Symlink the `podman.network` and `miniflux.kube` files to the `~/.config/containers/systemd/` directory.
-+
-[,sh]
-----
-ln --force --relative --symbolic ../podman.network miniflux.kube ~/.config/containers/systemd/
-----
-
 . Fill in any missing secrets in the `miniflux-secrets.yaml` file.
 +
 --
@@ -55,6 +41,20 @@ Avoid special characters for the PostgreSQL password to avoid having to escape s
 [,sh]
 ----
 podman play kube miniflux-secrets.yaml
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir -p ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `miniflux.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network miniflux.kube ~/.config/containers/systemd/
 ----
 
 . Load the newly added systemd units.

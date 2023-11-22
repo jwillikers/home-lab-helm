@@ -17,7 +17,6 @@ The {Vaultwarden} pod provides a Bitwarden-compatible server written in Rust.
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
-// todo Note about special characters for Postgresql password.
 . Fill in any missing secrets in the `vaultwarden-secrets.yaml` file.
 +
 --
