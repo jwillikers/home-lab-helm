@@ -158,21 +158,42 @@ systemctl --user daemon-reload
 systemctl --user start gitea
 ----
 
-
 == SSH Container Passthrough
 
-./etc/sudoers.d/10-git-gitea-shell
-[,sudoers]
+[,sh]
 ----
-git meerkat.jwillikers.io = (core) NOPASSWD: /usr/bin/podman exec -i --env SSH_ORIGINAL_COMMAND="$SSH_ORIGINAL_COMMAND" gitea-gitea-server sh "$@"
+sudo setsebool -P sshd_launch_containers on
 ----
+
+[,sh]
+----
+systemctl --user start podman.socket
+----
+
+// ./etc/sudoers.d/10-git-gitea-shell
+// [,sudoers]
+// ----
+// git meerkat.jwillikers.io = (core) NOPASSWD: /usr/bin/podman exec -i --env SSH_ORIGINAL_COMMAND="$SSH_ORIGINAL_COMMAND" gitea-gitea-server sh "$@"
+// ----
 
 ./usr/local/bin/gitea-shell
 [,sh]
 ----
 #!/usr/bin/env sh
-/usr/bin/sudo -H -u core /usr/bin/podman exec -i --env SSH_ORIGINAL_COMMAND="$SSH_ORIGINAL_COMMAND" gitea-gitea-server sh "$@"
+/usr/bin/podman --connection unix:///var/run/user/$(id -u core)/podman/podman.sock exec --env SSH_ORIGINAL_COMMAND="$SSH_ORIGINAL_COMMAND" --interactive gitea-gitea-server sh "$@"
 ----
+
+sudo groupadd --system core-podman
+
+systemctl --user edit podman.socket
+
+[,sh]
+----
+[Socket]
+SocketGroup=core-podman
+----
+
+sudo usermod -aG core-podman core
 
 [,sh]
 ----
@@ -182,9 +203,10 @@ sudo chmod +x /usr/local/bin/gitea-shell
 [,sh]
 ----
 sudo useradd \
+  --create-home \
   --comment "Account for accessing the Gitea container via SSH" \
-  --no-create-home \
   --shell /usr/local/bin/gitea-shell \
+  --groups core-podman \
   --system \
   git
 ----
@@ -193,11 +215,47 @@ sudo useradd \
 [,sh]
 ----
 Match User git
-  AuthorizedKeysCommandUser git
-  AuthorizedKeysCommand /usr/bin/sudo -H -u core /usr/bin/podman exec -i gitea-gitea-server /usr/local/bin/gitea keys -e git -u %u -t %t -k %k
+  AuthorizedKeysCommandUser core
+  AuthorizedKeysCommand /usr/bin/podman exec -i gitea-gitea-server /usr/local/bin/gitea keys -e git -u %u -t %t -k %k
 ----
 
 [,sh]
 ----
 sudo systemctl restart sshd
+----
+
+sudo rpm-ostree install audit
+
+
+[,sh]
+----
+sudo ausearch -m avc -ts recent -i
+\----
+type=AVC msg=audit(11/22/2023 11:10:33.535:307) : avc:  denied  { execute } for  pid=2734 comm=sshd name=podman dev="sda3" ino=3747621 scontext=system_u:system_r:sshd_t:s0-s0:c0.c1023 tcontext=system_u:object_r:container_runtime_exec_t:s0 tclass=file permissive=0
+----
+
+[,sh]
+----
+echo "type=AVC msg=audit(11/22/2023 11:10:33.535:307) : avc:  denied  { execute } for  pid=2734 comm=sshd name=podman dev="sda3" ino=3747621 scontext=system_u:system_r:sshd_t:s0-s0:c0.c1023 tcontext=system_u:object_r:container_runtime_exec_t:s0 tclass=file permissive=0" | audit2allow -m sshd-gitea-container-authorized-keys-command > sshd-gitea-container-authorized-keys-command.te
+----
+
+# create a module from the .te file
+
+[,sh]
+----
+checkmodule -M -m -o sshd-gitea-container-authorized-keys-command.mod sshd-gitea-container-authorized-keys-command.te
+----
+
+# package it
+
+[,sh]
+----
+semodule_package -o sshd-gitea-container-authorized-keys-command.pp -m sshd-gitea-container-authorized-keys-command.mod
+----
+
+# install it
+
+[,sh]
+----
+sudo semodule -i sshd-gitea-container-authorized-keys-command.pp
 ----
