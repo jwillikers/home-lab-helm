@@ -198,6 +198,7 @@ This section describes how to use the MinIO Client container.
 
 Configure the MinIO client to access the MinIO server as `minio`.
 This alias will be used by subsequent `mc` commands.
+The `Access Key` can be a username and the `Secret Key` can be that user's password.
 
 [,sh]
 ----
@@ -233,11 +234,13 @@ podman run \
   --userns keep-id \
   --volume minio-client-config:/.mc:Z \
   quay.io/minio/mc:latest \
-  admin user add jwillikers jordan
+  admin user add jwillikers core
 Enter Secret Key: 
 ----
 
 === Create a Group
+
+Create the `core` group and add the `core` user to it.
 
 [,sh]
 ----
@@ -251,8 +254,10 @@ podman run \
   --volume minio-client-config:/.mc:Z \
   --volume ./nextcloud-policy.json:/:Z \
   quay.io/minio/mc:latest \
-  admin group add jwillikers nextcloud jordan
+  admin group add jwillikers core core
 ----
+
+// todo Attach the readwrite policy to the core group
 
 === Create an Access Token
 

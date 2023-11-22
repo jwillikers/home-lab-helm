@@ -51,6 +51,7 @@
         "nofile",
         "nologin",
         "noninteractive",
+        "NOPASSWD",
         "nosuid",
         "nproc",
         "OBJECTSTORE",
