@@ -89,6 +89,9 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
+        - mountPath: /etc/influxdb2/config.yml
+          name: influxdb-config-host
+          readOnly: true
         - mountPath: /etc/influxdb2
           name: influxdb-config-host
         - mountPath: /var/lib/influxdb2
@@ -97,7 +100,11 @@ spec:
   hostUsers: false
   volumes:
     - hostPath:
-        path: /home/core/Projects/influxdb-config/etc/influxdb2
+        path: /home/core/Projects/influxdb-config/etc/influxdb2/config.yml
+        type: File
+      name: influxdb-config-host
+    - hostPath:
+        path: /home/core/container-volumes/influxdb-config
         type: Directory
       name: influxdb-config-host
     - name: influxdb-data-pvc
