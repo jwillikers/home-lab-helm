@@ -12,10 +12,10 @@ metadata:
   name: gitea
 spec:
   ports:
-    - name: "2222"
+    - name: "22"
       nodePort: 30341
-      port: 2222
-      targetPort: 2222
+      port: 22
+      targetPort: 22
   selector:
     app: gitea
   type: NodePort
@@ -52,7 +52,7 @@ spec:
       name: gitea-postgresql
       ports:
         - containerPort: 2222
-          hostPort: 2222
+          hostPort: 22
       resources: {}
       securityContext:
         capabilities: {}
