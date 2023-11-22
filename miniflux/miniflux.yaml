@@ -75,8 +75,6 @@ spec:
       name: miniflux-server
       resources: {}
       securityContext:
-        runAsGroup: 818
-        runAsUser: 818
         seLinuxOptions:
           type: spc_t
   hostUsers: false
