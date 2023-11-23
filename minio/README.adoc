@@ -28,7 +28,7 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/minio.c
 +
 [,sh]
 ----
-sudo firewall-cmd --add-port=9000/tcp --add-port=9001/tcp  --permanent
+sudo firewall-cmd --add-port=9000/tcp --add-port=9001/tcp --permanent
 ----
 
 . Reload the firewall rules that were just saved.
@@ -38,11 +38,11 @@ sudo firewall-cmd --add-port=9000/tcp --add-port=9001/tcp  --permanent
 sudo firewall-cmd --reload
 ----
 
-. Create the `~/s3` data directory for MinIO to serve.
+. Create, restore, or mount the `~/container-volumes/minio-data` data directory for MinIO to serve.
 +
 [,sh]
 ----
-mkdir ~/s3
+mkdir -p ~/container-volumes/minio-data
 ----
 
 . Create the directory for Podman's systemd generator.
