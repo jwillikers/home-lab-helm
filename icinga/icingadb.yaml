@@ -92,6 +92,7 @@ spec:
       image: docker.io/icinga/icingadb:latest
       name: icingadb-server
       securityContext: {}
+  enableServiceLinks: false
   hostUsers: false
   volumes:
     - name: icingadb-redis-data-pvc

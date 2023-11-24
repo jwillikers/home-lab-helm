@@ -91,6 +91,7 @@ spec:
         - mountPath: /root/.minio/certs/minio.lan.jwillikers.io/private.key
           name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-minio.lan.jwillikers.io-minio.lan.jwillikers.io.key-host
           readOnly: true
+  enableServiceLinks: false
   hostUsers: false
   volumes:
     - hostPath:

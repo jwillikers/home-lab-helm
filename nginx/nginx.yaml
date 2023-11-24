@@ -62,6 +62,8 @@ spec:
     - mountPath: /etc/nginx/ssl
       name: certbot-certificates-pvc
       readOnly: true
+  enableServiceLinks: false
+  hostUsers: false
   volumes:
   - hostPath:
       path: /var/home/core/Projects/nginx-config

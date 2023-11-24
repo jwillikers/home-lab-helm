@@ -130,6 +130,8 @@ spec:
       name: caddy-config-pvc
     - mountPath: /data
       name: caddy-data-pvc
+  enableServiceLinks: false
+  hostUsers: false
   volumes:
   - hostPath:
       path: /home/core/Projects/caddy-config

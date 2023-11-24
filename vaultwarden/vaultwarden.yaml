@@ -102,8 +102,9 @@ spec:
       volumeMounts:
         - mountPath: /data
           name: vaultwarden-server-data-host
-  hostUsers: false
+  enableServiceLinks: false
   hostname: vaultwarden
+  hostUsers: false
   volumes:
     - hostPath:
         path: /home/core/container-volumes/vaultwarden-postgresql-data

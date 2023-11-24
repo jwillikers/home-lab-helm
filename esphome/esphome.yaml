@@ -46,6 +46,7 @@ spec:
         - mountPath: /config/.esphome
           name: esphome-cache-pvc
   enableServiceLinks: false
+  hostUsers: false
   volumes:
     - hostPath:
         path: /home/core/Projects/esphome-config

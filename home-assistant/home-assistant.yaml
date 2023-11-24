@@ -41,6 +41,7 @@ spec:
         - mountPath: /config
           name: home-assistant-config-host
   enableServiceLinks: false
+  hostUsers: false
   volumes:
     - hostPath:
         path: /home/core/container-volumes/home-assistant-config

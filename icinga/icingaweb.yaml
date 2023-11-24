@@ -184,6 +184,7 @@ spec:
           name: icingaweb-server-data-pvc
         - mountPath: /var/run/apache2
           name: icingaweb-apache-run-pvc
+  enableServiceLinks: false
   hostUsers: false
   hostname: icingaweb.jwillikers.io
   volumes:

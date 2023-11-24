@@ -56,6 +56,8 @@ spec:
       name: icinga-config-host
       readOnly: True
   hostname: icinga.jwillikers.io
+  enableServiceLinks: false
+  hostUsers: false
   volumes:
   - name: icinga-data-pvc
     persistentVolumeClaim:
