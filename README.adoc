@@ -110,6 +110,7 @@ sudo groupadd --gid 818 --system core
 ----
 sudo useradd \
   --add-subids-for-system \
+  --btrfs-subvolume-home \
   --comment "Primary account for running containers" \
   --create-home \
   --gid core \
