@@ -95,7 +95,6 @@ spec:
           type: spc_t
   hostUsers: false
   hostname: miniflux
-  restartPolicy: Never
   volumes:
     - hostPath:
         path: /home/core/container-volumes/miniflux-postgresql-data
