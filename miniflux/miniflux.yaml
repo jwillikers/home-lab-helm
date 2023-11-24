@@ -52,14 +52,6 @@ spec:
       volumeMounts:
         - mountPath: /var/lib/postgresql/data
           name: miniflux-postgresql-data-host
-        - mountPath: /bin/wait-until-ready.sh
-          name: miniflux-postgresql-wait-until-ready-script-host
-      # https://starkandwayne.com/blog/how-to-know-when-your-postgres-service-is-ready/
-      lifecycle:
-      postStart:
-        exec:
-          command:
-          - /bin/wait-until-ready.sh
     - env:
         - name: RUN_MIGRATIONS
           value: "1"
@@ -93,8 +85,4 @@ spec:
         path: /home/core/container-volumes/miniflux-postgresql-data
         type: Directory
       name: miniflux-postgresql-data-host
-    - hostPath:
-        path: /home/core/Projects/home-lab-helm/miniflux/wait-until-ready.sh
-        type: File
-      name: miniflux-postgresql-wait-until-ready-script-host
 status: {}
