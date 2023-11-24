@@ -58,6 +58,9 @@ spec:
               optional: false
       image: docker.io/library/postgres:latest
       name: icingadb-postgresql
+      preStop:
+        exec:
+          command: ["/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast"]
       securityContext:
         runAsGroup: 818
         runAsUser: 818
