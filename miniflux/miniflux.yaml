@@ -86,7 +86,7 @@ spec:
           command:
           - miniflux
           - -healthcheck
-          - http://localhost:8080/healthcheck
+          - auto
         initialDelaySeconds: 5
         periodSeconds: 5
       resources: {}
