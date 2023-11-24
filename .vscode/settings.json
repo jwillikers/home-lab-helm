@@ -27,6 +27,7 @@
         "esphome",
         "getent",
         "gitea",
+        "healthcheck",
         "heapdump",
         "hprof",
         "icingaadmin",

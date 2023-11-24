@@ -43,9 +43,16 @@ spec:
               optional: false
       image: docker.io/library/postgres:latest
       name: miniflux-postgresql
-      preStop:
+      lifecycle:
+        preStop:
+          exec:
+            command: ["/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast"]
+      livenessProbe:
         exec:
-          command: ["/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast"]
+          command:
+          - pg_isready -U "$POSTGRES_USER"
+          initialDelaySeconds: 30
+          periodSeconds: 10
       resources: {}
       securityContext:
         runAsGroup: 818
@@ -76,6 +83,14 @@ spec:
               optional: false
       image: ghcr.io/miniflux/miniflux:latest-distroless
       name: miniflux-server
+      livenessProbe:
+        exec:
+          command:
+          - miniflux
+          - -healthcheck
+          - http://localhost:8080/healthcheck
+        initialDelaySeconds: 5
+        periodSeconds: 5
       resources: {}
       securityContext:
         seLinuxOptions:
