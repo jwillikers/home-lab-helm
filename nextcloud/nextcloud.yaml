@@ -60,9 +60,6 @@ spec:
               optional: false
       image: docker.io/library/postgres:latest
       name: nextcloud-postgresql
-      preStop:
-        exec:
-          command: ["/usr/local/bin/pg_ctl stop -D /var/lib/postgresql/data -w -t 60 -m fast"]
       resources: {}
       securityContext:
         capabilities:
