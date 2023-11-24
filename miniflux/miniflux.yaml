@@ -79,7 +79,7 @@ spec:
               name: miniflux-secrets
               key: miniflux_admin_password
               optional: false
-      image: ghcr.io/miniflux/miniflux:latest
+      image: ghcr.io/miniflux/miniflux:latest-distroless
       name: miniflux-server
       resources: {}
       securityContext:

@@ -21,6 +21,7 @@
         "dbname",
         "DFOREGROUND",
         "dialout",
+        "distroless",
         "Djava",
         "electrs",
         "esphome",
