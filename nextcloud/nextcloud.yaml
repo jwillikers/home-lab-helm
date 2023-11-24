@@ -212,7 +212,6 @@ spec:
   enableServiceLinks: false
   hostUsers: false
   hostname: nextcloud
-  restartPolicy: Never
   volumes:
     - hostPath:
         path: /home/core/container-volumes/nextcloud-custom-apps
