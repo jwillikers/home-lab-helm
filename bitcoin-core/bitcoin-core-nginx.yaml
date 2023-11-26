@@ -12,8 +12,8 @@ kind: Service
 metadata:
   creationTimestamp: "2023-11-03T21:45:22Z"
   labels:
-    app: nginx-pod
-  name: nginx-pod
+    app: nginx
+  name: nginx
 spec:
   ports:
   - name: "50002"
@@ -25,7 +25,7 @@ spec:
     port: 50002
     targetPort: 50002
   selector:
-    app: nginx-pod
+    app: nginx
   type: NodePort
 ---
 apiVersion: v1
@@ -36,8 +36,8 @@ metadata:
     io.containers.autoupdate/nginx: registry
   creationTimestamp: "2023-11-03T21:45:22Z"
   labels:
-    app: nginx-pod
-  name: nginx-pod
+    app: nginx
+  name: nginx
 spec:
   containers:
   - args:

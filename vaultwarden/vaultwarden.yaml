@@ -42,7 +42,7 @@ spec:
               key: vaultwarden_postgresql_password
               optional: false
       image: docker.io/library/postgres:latest
-      name: vaultwarden-postgresql
+      name: postgresql
       resources: {}
       securityContext:
         runAsGroup: 818
@@ -92,7 +92,7 @@ spec:
               key: vaultwarden_smtp_password
               optional: false
       image: quay.io/vaultwarden/server:latest
-      name: vaultwarden-server
+      name: vaultwarden
       resources: {}
       securityContext:
         runAsGroup: 818

@@ -40,7 +40,7 @@ spec:
           name: bitcoin-core-tor-run-pvc
   containers:
     - image: docker.io/lncm/tor:latest
-      name: bitcoin-core-tor
+      name: tor
       securityContext:
         runAsGroup: 818
         runAsUser: 818

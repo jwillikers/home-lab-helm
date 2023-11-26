@@ -42,7 +42,7 @@ spec:
               key: miniflux_postgresql_password
               optional: false
       image: docker.io/library/postgres:latest
-      name: miniflux-postgresql
+      name: postgresql
       livenessProbe:
         exec:
           command:
@@ -80,7 +80,7 @@ spec:
               key: miniflux_admin_password
               optional: false
       image: ghcr.io/miniflux/miniflux:latest-distroless
-      name: miniflux-server
+      name: miniflux
       livenessProbe:
         exec:
           command:

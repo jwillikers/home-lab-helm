@@ -65,7 +65,7 @@ spec:
         - name: MINIO_SITE_REGION
           value: us-east-1
       image: quay.io/minio/minio:latest
-      name: minio-server
+      name: minio
       ports:
         - containerPort: 9000
           hostPort: 9000

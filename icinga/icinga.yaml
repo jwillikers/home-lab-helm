@@ -12,11 +12,11 @@ kind: Service
 metadata:
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
-    app: icinga-pod
-  name: icinga-pod
+    app: icinga
+  name: icinga
 spec:
   selector:
-    app: icinga-pod
+    app: icinga
   type: NodePort
 ---
 apiVersion: v1
@@ -28,8 +28,8 @@ metadata:
     io.podman.annotations.ulimit: nproc=250000:500000
   creationTimestamp: "2023-08-13T17:48:30Z"
   labels:
-    app: icinga-pod
-  name: icinga-pod
+    app: icinga
+  name: icinga
 spec:
   containers:
   - args:

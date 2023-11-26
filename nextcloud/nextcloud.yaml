@@ -27,7 +27,7 @@ spec:
     - args:
         - redis-server
       image: docker.io/library/redis:latest
-      name: nextcloud-redis
+      name: redis
       resources: {}
       securityContext:
         capabilities:
@@ -59,7 +59,7 @@ spec:
               key: nextcloud_postgresql_password
               optional: false
       image: docker.io/library/postgres:latest
-      name: nextcloud-postgresql
+      name: postgresql
       resources: {}
       securityContext:
         capabilities:
@@ -150,7 +150,7 @@ spec:
               key: nextcloud_s3_key
               optional: false
       image: docker.io/library/nextcloud:fpm
-      name: nextcloud-server
+      name: nextcloud
       resources: {}
       securityContext:
         capabilities:
@@ -184,7 +184,7 @@ spec:
         - name: PORT
           value: "8088"
       image: docker.io/nextcloud/aio-imaginary:latest
-      name: nextcloud-imaginary
+      name: imaginary
       resources: {}
       securityContext:
         capabilities:
