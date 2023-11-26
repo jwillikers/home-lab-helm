@@ -64,18 +64,29 @@ git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
-. Symlink the `caddy-nextcloud.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, and `nextcloud-cron-previewgenerator.container` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `caddy-nextcloud.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, `nextcloud-app-update.container`, and `nextcloud-preview-generate.container` files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic ../podman.network caddy-nextcloud.kube nextcloud.kube nextcloud-cron.container nextcloud-cron-previewgenerator.container ~/.config/containers/systemd/
+ln --force --relative --symbolic \
+  ../podman.network \
+  caddy-nextcloud.kube \
+  nextcloud.kube \
+  nextcloud-app-update.container \
+  nextcloud-cron.container \
+  nextcloud-preview-generate.container \
+  ~/.config/containers/systemd/
 ----
 
-. Symlink the `nextcloud-cron.timer` and `nextcloud-cron-previewgenerator.timer` files to the `~/.config/systemd/user/` directory.
+. Symlink the `nextcloud-cron.timer`, `nextcloud-app-update.timer`, and `nextcloud-preview-generate.timer` files to the `~/.config/systemd/user/` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic nextcloud-cron.timer nextcloud-cron-previewgenerator.timer ~/.config/systemd/user/
+ln --force --relative --symbolic \
+  nextcloud-cron-app-update.timer \
+  nextcloud-cron.timer \
+  nextcloud-cron-previewgenerator.timer \
+  ~/.config/systemd/user/
 ----
 
 . Create a `nextcloud` bucket in MinIO.
@@ -158,7 +169,7 @@ systemctl --user start caddy-nextcloud nextcloud
 +
 [,sh]
 ----
-systemctl --user enable --now nextcloud-cron.timer nextcloud-cron-previewgenerator.timer
+systemctl --user enable --now nextcloud-cron.timer nextcloud-app-update.timer nextcloud-preview-generate.timer
 ----
 
 == Maintenance
