@@ -4,8 +4,8 @@ Before=local-fs.target
 After=nextcloud.service
 
 [Container]
-ContainerName=nextcloud-cron
-Exec=/usr/local/bin/php -f /var/www/html/cron.php
+ContainerName=nextcloud-cron-preview-generator
+Exec=/var/www/html/occ preview:pre-generate
 Group=818
 Image=docker.io/library/nextcloud:fpm
 Label=io.containers.autoupdate=registry
