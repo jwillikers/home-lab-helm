@@ -178,21 +178,21 @@ Update Nextcloud and any apps by running `occ upgrade` in the container.
 
 [,sh]
 ----
-podman exec --tty nextcloud-nextcloud-server ./occ upgrade
+podman exec --tty nextcloud-nextcloud ./occ upgrade
 ----
 
 To generate missing indices, use the following command.
 
 [,sh]
 ----
-podman exec --tty nextcloud-nextcloud-server ./occ db:add-missing-indices
+podman exec --tty nextcloud-nextcloud ./occ db:add-missing-indices
 ----
 
 Use the command `occ maintenance:mode --off` to disable maintenance mode.
 
 [,sh]
 ----
-podman exec --tty nextcloud-nextcloud-server ./occ maintenance:mode --off
+podman exec --tty nextcloud-nextcloud ./occ maintenance:mode --off
 ----
 
 == References

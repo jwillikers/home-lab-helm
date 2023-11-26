@@ -8,7 +8,7 @@ metadata:
   annotations:
     volume.podman.io/uid: 818
     volume.podman.io/gid: 818
-  name: icingaweb-server-data
+  name: icingaweb-icingaweb-data
 ---
 apiVersion: v1
 kind: Service
@@ -26,8 +26,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/icingaweb-postgresql: registry
-    io.containers.autoupdate/icingaweb-server: registry
+    io.containers.autoupdate/postgresql: registry
+    io.containers.autoupdate/icingaweb: registry
   creationTimestamp: "2023-10-28T17:59:08Z"
   labels:
     app: icingaweb
@@ -48,7 +48,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: icingaweb-server-data-pvc
+          name: icingaweb-icingaweb-data-pvc
         - mountPath: /var/run/apache2
           name: icingaweb-apache-run-pvc
   containers:
@@ -181,7 +181,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: icingaweb-server-data-pvc
+          name: icingaweb-icingaweb-data-pvc
         - mountPath: /var/run/apache2
           name: icingaweb-apache-run-pvc
   enableServiceLinks: false
@@ -191,9 +191,9 @@ spec:
     - name: icingaweb-postgresql-data-pvc
       persistentVolumeClaim:
         claimName: icingaweb-postgresql-data
-    - name: icingaweb-server-data-pvc
+    - name: icingaweb-icingaweb-data-pvc
       persistentVolumeClaim:
-        claimName: icingaweb-server-data
+        claimName: icingaweb-icingaweb-data
     - name: icingaweb-apache-run-pvc
       persistentVolumeClaim:
         claimName: icingaweb-apache-run

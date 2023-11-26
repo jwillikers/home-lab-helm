@@ -24,8 +24,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/gitea-postgresql: registry
-    io.containers.autoupdate/gitea-server: registry
+    io.containers.autoupdate/postgresql: registry
+    io.containers.autoupdate/gitea: registry
   creationTimestamp: "2023-02-08T22:30:09Z"
   labels:
     app: gitea
@@ -109,7 +109,7 @@ spec:
         - name: GITEA__storage__STORAGE_TYPE
           value: minio
       image: docker.io/gitea/gitea:latest-rootless
-      name: gitea-server
+      name: gitea
       resources: {}
       securityContext:
         capabilities: {}
@@ -119,9 +119,9 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/lib/gitea
-          name: gitea-server-data-host
+          name: gitea-gitea-data-host
         - mountPath: /etc/gitea
-          name: gitea-server-config-host
+          name: gitea-gitea-config-host
   enableServiceLinks: false
   hostUsers: false
   hostname: gitea
@@ -131,11 +131,11 @@ spec:
         type: Directory
       name: gitea-postgresql-data-host
     - hostPath:
-        path: /home/core/container-volumes/gitea-server-data
+        path: /home/core/container-volumes/gitea-gitea-data
         type: Directory
-      name: gitea-server-data-host
+      name: gitea-gitea-data-host
     - hostPath:
-        path: /home/core/container-volumes/gitea-server-config
+        path: /home/core/container-volumes/gitea-gitea-config
         type: Directory
-      name: gitea-server-config-host
+      name: gitea-gitea-config-host
 status: {}

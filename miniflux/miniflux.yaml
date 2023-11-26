@@ -18,8 +18,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    io.containers.autoupdate/miniflux-postgresql: registry
-    io.containers.autoupdate/miniflux-server: registry
+    io.containers.autoupdate/postgresql: registry
+    io.containers.autoupdate/miniflux: registry
   creationTimestamp: "2023-04-21T20:14:20Z"
   labels:
     app: miniflux

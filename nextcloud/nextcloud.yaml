@@ -7,16 +7,15 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    bind-mount-options: /home/core/container-volumes/nextcloud-app:z
-    bind-mount-options/nextcloud-nextcloud-imaginary: /home/core/container-volumes/nextcloud-app:z
-    bind-mount-options/nextcloud-nextcloud-postgresql: /home/core/container-volumes/nextcloud-app:z
-    bind-mount-options/nextcloud-nextcloud-redis: /home/core/container-volumes/nextcloud-app:z
-    bind-mount-options/nextcloud-nextcloud-server: /home/core/container-volumes/nextcloud-app:z
-    io.containers.autoupdate/nextcloud-cron: registry
-    io.containers.autoupdate/nextcloud-postgresql: registry
-    io.containers.autoupdate/nextcloud-imaginary: registry
-    io.containers.autoupdate/nextcloud-redis: registry
-    io.containers.autoupdate/nextcloud-server: registry
+    bind-mount-options: /home/core/container-volumes/nextcloud-nextcloud-app:z
+    bind-mount-options/imaginary: /home/core/container-volumes/nextcloud-nextcloud-app:z
+    bind-mount-options/postgresql: /home/core/container-volumes/nextcloud-app:z
+    bind-mount-options/redis: /home/core/container-volumes/nextcloud-nextcloud-app:z
+    bind-mount-options/nextcloud: /home/core/container-volumes/nextcloud-nextcloud-app:z
+    io.containers.autoupdate/postgresql: registry
+    io.containers.autoupdate/imaginary: registry
+    io.containers.autoupdate/redis: registry
+    io.containers.autoupdate/nextcloud: registry
   creationTimestamp: "2023-02-04T18:08:13Z"
   labels:
     app: nextcloud
@@ -164,17 +163,17 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/www/html/custom_apps
-          name: nextcloud-custom-apps-host
+          name: nextcloud-nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-server-data-host
+          name: nextcloud-nextcloud-data-host
         - mountPath: /docker-entrypoint-hooks.d/pre-installation
-          name: nextcloud-config-docker-entrypoint-hooks.d-pre-installation-host
+          name: nextcloud-nextcloud-docker-entrypoint-hooks.d-pre-installation-host
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
-          name: nextcloud-config-redis-session.ini-host
+          name: nextcloud-nextcloud-redis-session.ini-host
         - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
-          name: nextcloud-config-z-www-overrides.conf-host
+          name: nextcloud-nextcloud-z-www-overrides.conf-host
         - mountPath: /var/www/html
-          name: nextcloud-app-host
+          name: nextcloud-nextcloud-app-host
         - mountPath: /var/www/html/config
           name: nextcloud-config-host
     - args:
@@ -198,15 +197,15 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /var/www/html/custom_apps
-          name: nextcloud-custom-apps-host
+          name: nextcloud-nextcloud-custom-apps-host
         - mountPath: /var/www/html/data
-          name: nextcloud-server-data-host
+          name: nextcloud-nextcloud-data-host
         - mountPath: /usr/local/etc/php/conf.d/redis-session.ini
-          name: nextcloud-config-redis-session.ini-host
+          name: nextcloud-nextcloud-redis-session.ini-host
         - mountPath: /usr/local/etc/php-fpm.d/z-www-overrides.conf
-          name: nextcloud-config-z-www-overrides.conf-host
+          name: nextcloud-nextcloud-z-www-overrides.conf-host
         - mountPath: /var/www/html
-          name: nextcloud-app-host
+          name: nextcloud-nextcloud-app-host
         - mountPath: /var/www/html/config
           name: nextcloud-config-host
   enableServiceLinks: false
@@ -214,33 +213,33 @@ spec:
   hostname: nextcloud
   volumes:
     - hostPath:
-        path: /home/core/container-volumes/nextcloud-custom-apps
+        path: /home/core/container-volumes/nextcloud-nextcloud-custom-apps
         type: Directory
-      name: nextcloud-custom-apps-host
+      name: nextcloud-nextcloud-custom-apps-host
     - hostPath:
-        path: /home/core/container-volumes/nextcloud-server-data
+        path: /home/core/container-volumes/nextcloud-nextcloud-data
         type: Directory
-      name: nextcloud-server-data-host
+      name: nextcloud-nextcloud-data-host
     - hostPath:
         path: /home/core/Projects/nextcloud-config/docker-entrypoint-hooks.d/pre-installation
         type: Directory
-      name: nextcloud-config-docker-entrypoint-hooks.d-pre-installation-host
+      name: nextcloud-nextcloud-docker-entrypoint-hooks.d-pre-installation-host
     - hostPath:
         path: /home/core/Projects/nextcloud-config/etc/php/conf.d/redis-session.ini
         type: File
-      name: nextcloud-config-redis-session.ini-host
+      name: nextcloud-nextcloud-redis-session.ini-host
     - hostPath:
         path: /home/core/Projects/nextcloud-config/etc/php-fpm.d/z-www-overrides.conf
         type: File
-      name: nextcloud-config-z-www-overrides.conf-host
+      name: nextcloud-nextcloud-z-www-overrides.conf-host
     - hostPath:
-        path: /home/core/container-volumes/nextcloud-app
+        path: /home/core/container-volumes/nextcloud-nextcloud-app
         type: Directory
-      name: nextcloud-app-host
+      name: nextcloud-nextcloud-app-host
     - hostPath:
-        path: /home/core/container-volumes/nextcloud-config
+        path: /home/core/container-volumes/nextcloud-nextcloud-config
         type: Directory
-      name: nextcloud-config-host
+      name: nextcloud-nextcloud-config-host
     - name: nextcloud-redis-data-pvc
       persistentVolumeClaim:
         claimName: nextcloud-redis-data

@@ -1,7 +1,7 @@
 [Unit]
 Description=Gitea Git server
 Before=local-fs.target
-RequiresMountsFor=%h/container-volumes/gitea-postgresql-data %h/container-volumes/gitea-server-data %h/container-volumes/gitea-server-config
+RequiresMountsFor=%h/container-volumes/gitea-postgresql-data %h/container-volumes/gitea-gitea-data %h/container-volumes/gitea-gitea-config
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/gitea/gitea.yaml

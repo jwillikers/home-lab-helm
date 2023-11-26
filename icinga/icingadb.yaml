@@ -19,9 +19,9 @@ kind: Pod
 metadata:
   annotations:
     bind-mount-options: /var/home/core/container-volumes/icingadb-postgresql-data:Z
-    io.containers.autoupdate/icingadb-postgresql: registry
-    io.containers.autoupdate/icingadb-redis: registry
-    io.containers.autoupdate/icingadb-server: registry
+    io.containers.autoupdate/postgresql: registry
+    io.containers.autoupdate/redis: registry
+    io.containers.autoupdate/icingadb: registry
   creationTimestamp: "2023-10-28T15:28:33Z"
   labels:
     app: icingadb

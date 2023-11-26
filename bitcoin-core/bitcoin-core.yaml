@@ -18,9 +18,9 @@ apiVersion: v1
 kind: Pod
 metadata:
   annotations:
-    bind-mount-options: /var/home/core/container-volumes/bitcoin-core-server-data:z
-    io.containers.autoupdate/bitcoin-core-server: registry
-    io.containers.autoupdate/bitcoin-core-tor: registry
+    bind-mount-options: /var/home/core/container-volumes/bitcoin-core-bitcoin-core-data:z
+    io.containers.autoupdate/bitcoin-core: registry
+    io.containers.autoupdate/tor: registry
     io.containers.autoupdate/electrs: registry
     io.containers.autoupdate/init-tor-run-directory: registry
   creationTimestamp: "2023-10-26T23:53:35Z"
@@ -48,7 +48,7 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /etc/tor
-          name: bitcoin-core-config-tor-host
+          name: bitcoin-core-tor-config-host
           readOnly: true
         - mountPath: /var/lib/tor
           name: bitcoin-core-tor-data-pvc
@@ -66,12 +66,12 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /.bitcoin
-          name: bitcoin-core-server-data-pvc
+          name: bitcoin-core-bitcoin-core-data-pvc
         - mountPath: /.bitcoin/bitcoin.conf
-          name: bitcoin-core-config-bitcoin-bitcoin.conf-host
+          name: bitcoin-core-bitcoin-core-bitcoin.conf-host
           readOnly: true
         - mountPath: /.bitcoin/bitcoin.conf.d
-          name: bitcoin-core-config-bitcoin-bitcoin.conf.d-host
+          name: bitcoin-core-bitcoin-core-bitcoin.conf.d-host
           readOnly: true
         - mountPath: /run/tor
           name: bitcoin-core-tor-run-pvc
@@ -85,37 +85,37 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /data/db
-          name: electrs-data-pvc
+          name: bitcoin-core-electrs-data-pvc
         - mountPath: /etc/electrs/config.toml
-          name: bitcoin-core-config-electrs-config.toml-host
+          name: bitcoin-core-electrs-config.toml-host
           readOnly: true
         - mountPath: /data/.bitcoin
-          name: bitcoin-core-server-data-pvc
+          name: bitcoin-core-bitcoin-core-data-pvc
           readOnly: true
   hostUsers: false
   volumes:
-    - name: bitcoin-core-server-data-pvc
+    - name: bitcoin-core-bitcoin-core-data-pvc
       persistentVolumeClaim:
-        claimName: bitcoin-core-server-data
+        claimName: bitcoin-core-bitcoin-core-data
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/electrs/config.toml
         type: File
-      name: bitcoin-core-config-electrs-config.toml-host
+      name: bitcoin-core-electrs-config.toml-host
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf
         type: File
-      name: bitcoin-core-config-bitcoin-bitcoin.conf-host
+      name: bitcoin-core-bitcoin-core-bitcoin.conf-host
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/bitcoin/bitcoin.conf.d
         type: Directory
-      name: bitcoin-core-config-bitcoin-bitcoin.conf.d-host
-    - name: electrs-data-pvc
+      name: bitcoin-core-bitcoin-core-bitcoin.conf.d-host
+    - name: bitcoin-core-electrs-data-pvc
       persistentVolumeClaim:
-        claimName: electrs-data
+        claimName: bitcoin-core-electrs-data
     - hostPath:
         path: /var/home/core/Projects/bitcoin-core-config/tor
         type: Directory
-      name: bitcoin-core-config-tor-host
+      name: bitcoin-core-tor-config-host
     - name: bitcoin-core-tor-data-pvc
       persistentVolumeClaim:
         claimName: bitcoin-core-tor-data
