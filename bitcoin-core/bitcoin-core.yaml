@@ -58,7 +58,7 @@ spec:
         - -zmqpubrawblock=tcp://0.0.0.0:28332
         - -zmqpubrawtx=tcp://0.0.0.0:28333
       image: docker.io/lncm/bitcoind:v25.1
-      name: bitcoin-core-server
+      name: bitcoin-core
       securityContext:
         runAsGroup: 818
         runAsUser: 818
