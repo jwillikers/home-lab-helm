@@ -27,6 +27,7 @@
         "esphome",
         "getent",
         "gitea",
+        "GROUPNAME",
         "healthcheck",
         "heapdump",
         "hprof",
