@@ -118,8 +118,6 @@ spec:
       image: docker.io/mbentley/omada-controller:latest
       name: omada-controller
       securityContext:
-        runAsGroup: 818
-        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       ports:
