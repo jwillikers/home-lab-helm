@@ -172,6 +172,8 @@ spec:
           name: omada-controller-logs-pvc
         - mountPath: /opt/tplink/EAPController/data
           name: omada-controller-data-pvc
+        - mountPath: /opt/tplink/EAPController/properties
+          name: omada-controller-properties-pvc
         - mountPath: /opt/tplink/EAPController/data/autobackup
           name: omada-controller-backups-host
         - mountPath: /etc/group
