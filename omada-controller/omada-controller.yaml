@@ -84,6 +84,10 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
+        - mountPath: /etc/group
+          name: omada-controller-group-host
+        - mountPath: /etc/passwd
+          name: omada-controller-passwd-host
         - mountPath: /opt/tplink/EAPController/logs
           name: omada-controller-logs-pvc
         - mountPath: /opt/tplink/EAPController/data
@@ -138,6 +142,8 @@ spec:
       image: docker.io/mbentley/omada-controller:latest
       name: omada-controller
       securityContext:
+        runAsGroup: 508
+        runAsUser: 508
         seLinuxOptions:
           type: spc_t
       ports:
