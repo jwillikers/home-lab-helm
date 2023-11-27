@@ -175,7 +175,7 @@ spec:
         - mountPath: /var/www/html
           name: nextcloud-nextcloud-app-host
         - mountPath: /var/www/html/config
-          name: nextcloud-config-host
+          name: nextcloud-nextcloud-config-host
     - args:
         - -concurrency
         - "100"
@@ -207,7 +207,7 @@ spec:
         - mountPath: /var/www/html
           name: nextcloud-nextcloud-app-host
         - mountPath: /var/www/html/config
-          name: nextcloud-config-host
+          name: nextcloud-nextcloud-config-host
   enableServiceLinks: false
   hostUsers: false
   hostname: nextcloud
