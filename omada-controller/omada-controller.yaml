@@ -155,7 +155,12 @@ spec:
         - mountPath: /opt/tplink/EAPController/data/autobackup
           name: omada-controller-backups-host
   enableServiceLinks: false
-  hostUsers: false
+  # todo Enable hostUsers.
+  #
+  # Currently, it results in the following error message.
+  # Error: creating container storage: not enough unused IDs in user namespace
+  #
+  # hostUsers: false
   volumes:
     - hostPath:
         path: /home/core/.local/share/containers/storage/volumes/caddy-data/_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/omada.jwillikers.io/omada.jwillikers.io.crt
