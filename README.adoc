@@ -127,6 +127,61 @@ The `--root` flag can be used to create this user in the given chroot environmen
 ====
 --
 
+. Verify that the new `core` user has entries in `/etc/subuid` and `/etc/subgid`.
+If for some reason, there are no subuid and subgid ranges for the user, follow these steps.
+I don't know why this happens, but it does sometimes.
++
+[NOTE]
+====
+These commands use the fish shell because I can never remember how to math in Bash.footnote:[Or anything else in Bash for that matter.]
+====
+
+.. Calculate the first value for the next subuid allotment.
++
+--
+If `/etc/subuid` is empty, use 100,000 as the initial value.
+
+[,sh]
+----
+set new_subuid 100000
+----
+
+Otherwise, use the following function to calculate the next available subuid range.
+
+[,sh]
+----
+set new_subuid (math (tail -1 /etc/subuid | awk -F ":" '{print $2}') + 65536)
+----
+--
+
+.. Calculate the first value for the next subuid allotment.
++
+--
+If `/etc/subgid` is empty, use 100,000 as the initial value.
+
+[,sh]
+----
+set new_subgid 100000
+----
+
+Otherwise, use the following function to calculate the next available subgid range.
+
+[,sh]
+----
+set new_subgid (math (tail -1 /etc/subgid | awk -F ":" '{print $2}') + 65536)
+----
+--
+ 
+.. Configure the `core` user with the calculated subuid and subgid ranges.
++
+[,sh]
+----
+sudo usermod \
+  --add-subuids $new_subuid-(math $new_subuid + 65535) \
+  --add-subgids $new_subgid-(math $new_subgid + 65535) \
+  core
+----
+
 . Automatically start the core user's session.
 +
 [,sh]
