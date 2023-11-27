@@ -118,6 +118,8 @@ spec:
       image: docker.io/mbentley/omada-controller:latest
       name: omada-controller
       securityContext:
+        runAsGroup: 508
+        runAsUser: 508
         seLinuxOptions:
           type: spc_t
       ports:
