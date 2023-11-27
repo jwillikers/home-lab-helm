@@ -5,7 +5,6 @@ Before=local-fs.target
 [Kube]
 Yaml=%h/Projects/home-lab-helm/omada-controller/omada-controller.yaml
 Network=podman.network
-UserNS=keep-id
 
 [Service]
 Restart=on-failure
