@@ -15,7 +15,8 @@ endif::[]
 The {Nextcloud} pod uses the Nextcloud PHP-FPM container image.
 Redis provides image caching, and imaginary handles image previews. 
 Background maintenance jobs are carried out by a separate container which is executed every five minutes by a systemd timer.
-A container for running https://github.com/nextcloud/previewgenerator[Preview Generator] to generate file and image previews at specific intervals is provided as well.
+There are also a couple of systemd timers and containers for running some specific tasks at regular intervals.
+These are for automatically updating apps and generating file and image previews with https://github.com/nextcloud/previewgenerator[Preview Generator].
 
 == Usage
 
@@ -35,13 +36,8 @@ Follow the steps in the <<../minio/README.adoc,Minio README>>.
 
 . Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
 
-. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
-+
-[NOTE]
-====
-The `caddy-nextcloud.kube` file should be used instead of the `caddy.kube` file on the host running Nextcloud.
-This uses the appropriate configuration to mount the Nextcloud directories in order to proxy the site via _FastCGI_.
-====
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>, using the `caddy.kube` in this directory instead of the `caddy/caddy.kube` file.
+This file uses the appropriate configuration to mount the Nextcloud directories in order to proxy the site via _FastCGI_.
 
 . Symlink the `nextcloud.caddyfile` file to the `sites-enabled` directory.
 +
@@ -64,13 +60,13 @@ git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
-. Symlink the `caddy-nextcloud.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, `nextcloud-app-update.container`, and `nextcloud-preview-generate.container` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `caddy.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, `nextcloud-app-update.container`, and `nextcloud-preview-generate.container` files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
 ln --force --relative --symbolic \
   ../podman.network \
-  caddy-nextcloud.kube \
+  caddy.kube \
   nextcloud.kube \
   nextcloud-app-update.container \
   nextcloud-cron.container \
@@ -160,7 +156,7 @@ systemctl --user daemon-reload
 +
 [,sh]
 ----
-systemctl --user start caddy-nextcloud nextcloud
+systemctl --user start caddy nextcloud
 ----
 
 . Wait for the installation of the Nextcloud container to complete.
@@ -174,13 +170,6 @@ systemctl --user enable --now nextcloud-cron.timer nextcloud-app-update.timer ne
 
 == Maintenance
 
-Update Nextcloud and any apps by running `occ upgrade` in the container.
-
-[,sh]
-----
-podman exec --tty nextcloud-nextcloud ./occ upgrade
-----
-
 To generate missing indices, use the following command.
 
 [,sh]
@@ -193,6 +182,13 @@ Use the command `occ maintenance:mode --off` to disable maintenance mode.
 [,sh]
 ----
 podman exec --tty nextcloud-nextcloud ./occ maintenance:mode --off
+----
+
+Update Nextcloud and any apps by running `occ upgrade` in the container.
+
+[,sh]
+----
+podman exec --tty nextcloud-nextcloud ./occ upgrade
 ----
 
 == References
