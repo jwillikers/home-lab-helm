@@ -73,7 +73,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown -R 508:508 /opt/tplink"]
+      command: ["sh", "-c", "chown -R 508:508 /opt/tplink/EAPController/properties"]
       securityContext:
         capabilities:
           drop: ["all"]
@@ -88,6 +88,8 @@ spec:
           name: omada-controller-logs-pvc
         - mountPath: /opt/tplink/EAPController/data
           name: omada-controller-data-pvc
+        - mountPath: /opt/tplink/EAPController/properties
+          name: omada-controller-properties-pvc
   containers:
     - args:
         - /usr/bin/java
@@ -201,6 +203,9 @@ spec:
     - name: omada-controller-data-pvc
       persistentVolumeClaim:
         claimName: omada-controller-data
+    - name: omada-controller-properties-pvc
+      persistentVolumeClaim:
+        claimName: omada-controller-properties
     - hostPath:
         path: /home/core/container-volumes/omada-controller-backups
         type: Directory
