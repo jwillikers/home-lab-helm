@@ -9,7 +9,7 @@ metadata:
   annotations:
     bind-mount-options: /home/core/container-volumes/nextcloud-nextcloud-app:z
     bind-mount-options/imaginary: /home/core/container-volumes/nextcloud-nextcloud-app:z
-    bind-mount-options/postgresql: /home/core/container-volumes/nextcloud-app:z
+    bind-mount-options/postgresql: /home/core/container-volumes/nextcloud-nextcloud-app:z
     bind-mount-options/redis: /home/core/container-volumes/nextcloud-nextcloud-app:z
     bind-mount-options/nextcloud: /home/core/container-volumes/nextcloud-nextcloud-app:z
     io.containers.autoupdate/postgresql: registry
