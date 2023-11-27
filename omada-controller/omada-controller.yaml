@@ -142,6 +142,8 @@ spec:
       image: docker.io/mbentley/omada-controller:latest
       name: omada-controller
       securityContext:
+        runAsGroup: 508
+        runAsUser: 508
         seLinuxOptions:
           type: spc_t
       ports:
@@ -180,6 +182,8 @@ spec:
           name: omada-controller-properties-pvc
         - mountPath: /opt/tplink/EAPController/data/autobackup
           name: omada-controller-backups-host
+        - mountPath: /entrypoint.sh
+          name: omada-controller-entrypoint.sh-host
         - mountPath: /etc/group
           name: omada-controller-group-host
         - mountPath: /etc/passwd
@@ -187,6 +191,10 @@ spec:
   enableServiceLinks: false
   hostUsers: false
   volumes:
+    - hostPath:
+        path: /home/core/Projects/home-lab-helm/omada-controller/entrypoint.sh
+        type: File
+      name: omada-controller-entrypoint.sh-host
     - hostPath:
         path: /home/core/Projects/home-lab-helm/omada-controller/group
         type: File
