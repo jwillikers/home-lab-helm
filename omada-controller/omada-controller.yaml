@@ -70,6 +70,24 @@ metadata:
     app: omada-controller
   name: omada-controller
 spec:
+  initContainers:
+    - name: chown-volumes
+      image: docker.io/alpine:latest
+      command: ["sh", "-c", "chown -R 508:508 /opt/tplink"]
+      securityContext:
+        capabilities:
+          drop: ["all"]
+          add: ["CHOWN"]
+        runAsGroup: 0
+        runAsUser: 0
+        runAsNonRoot: false
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /opt/tplink/EAPController/logs
+          name: omada-controller-logs-pvc
+        - mountPath: /opt/tplink/EAPController/data
+          name: omada-controller-data-pvc
   containers:
     - args:
         - /usr/bin/java
