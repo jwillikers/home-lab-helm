@@ -72,17 +72,25 @@ You can manually replace keys instead without surprises.
 ====
 
 Storage is managed via persistent volume claims and host mounts.
-The primary difference in how they are used here is based primarily on whether or not the data for the volume should be backed up.
-Persistent volume claims are used for data that is not backed up.
-Host mounts are used for mounting in configuration files provided by Git repositories in the `~/Projects` directory and for data that should be backed up under the `~/container-volumes` directory.
+The primary difference in how they are used is based primarily on whether or not the data for the volume should be backed up.
+Persistent volume claims are used for ephemeral data that is _not_ backed up, which includes things like caches and less important persistent data.
+Host mounts are used for mounting in configuration files provided by Git repositories, which are things under the `~/Projects` directory, and for important data that should be backed up, which resides under the `~/container-volumes` directory.
+
+Both persistent volume claims and mounted volumes in the `~/container-volumes` directory follow a consistent naming scheme that mirrors the name of the Podman containers.
+These volumes are named according to the pod and container to which they belong.
+The naming scheme is `pod-container-name`, where dashes separate the different components.
+As an example, the data directory for the vaultwarden container in the vaultwarden pod is named `vaultwarden-vaultwarden-data`.
+The data directory for the PostgreSQL container in the pod is named `vaultwarden-postgresql-data`.
+Pods with a single container may omit the container name for brevity.
 
 For my backups, which use Btrbk, the `~/container-volumes` directory is a Btrfs subvolume.
 This allows for fast, consistent snapshots which are easily backed up to other devices using incremental Btrfs send and receive commands.
-Hourly backups are extremely helpful.
+Hourly backups are _extremely_ helpful.
 In order to reduce storage consumption, only the volumes I find critical for restoration are mounted from the `~/container-volumes` directory.
-For example, I don't mind losing the InfluxDB database, so that uses a persistent volume claim.
-So adjust accordingly.
-Comprehensive backup strategies should probably incorporate database dumps and copies of the data stored in S3-compatible object storage.
+For example, I don't mind losing the InfluxDB database, so that uses a persistent volume claim instead.
+So, be sure to adjust the volumes according to your own needs.
+My Btrbk backup configuration can be found in the https://github.com/jwillikers/btrbk-config[btrbk Config] directory if you're interested.
+Comprehensive backup strategies should probably incorporate database dumps and copies of the data stored in S3-compatible object storage like MinIO.
 
 == Create a Dedicated User
 
