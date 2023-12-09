@@ -280,7 +280,7 @@ podman run \
   --volume minio-client-config:/.mc:Z \
   --volume ./nextcloud-policy.json:/nextcloud-policy.json:Z \
   quay.io/minio/mc:latest \
-  admin user svcacct add --description "Nextcloud server storage backend" --name "Nextcloud" --policy "nextcloud-policy.json" jwillikers jordan
+  admin user svcacct add --description "Nextcloud server storage backend" --name "Nextcloud" --policy "nextcloud-policy.json" jwillikers core
 Access Key: XXXXXXXXXXXXXXXXXXXX
 Secret Key: ****************************************
 Expiration: no-expiry
@@ -292,7 +292,7 @@ mc admin policy create jwillikers.io minimal-write minimal-write-policy.json
 
 === Attach a Policy
 
-mc admin policy attach jwillikers readonly --user jordan
+mc admin policy attach jwillikers readonly --user core
 mc admin policy attach jwillikers readonly --group users
 
 === Create a Bucket

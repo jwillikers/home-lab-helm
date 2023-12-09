@@ -116,7 +116,7 @@ podman run \
   --volume minio-client-config:/.mc:Z \
   --volume ./nextcloud-minio-policy.json:/nextcloud-minio-policy.json:Z \
   quay.io/minio/mc:latest \
-  admin user svcacct add --description "Nextcloud server storage backend" --name "Nextcloud" --policy "nextcloud-minio-policy.json" jwillikers jordan
+  admin user svcacct add --description "Nextcloud server storage backend" --name "Nextcloud" --policy "nextcloud-minio-policy.json" jwillikers core
 Access Key: XXXXXXXXXXXXXXXXXXXX
 Secret Key: ****************************************
 Expiration: no-expiry
