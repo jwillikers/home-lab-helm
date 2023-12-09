@@ -57,7 +57,8 @@ spec:
       readOnly: True
   hostname: icinga.jwillikers.io
   enableServiceLinks: false
-  hostUsers: false
+  # todo Disable hostUsers and add UserNS=keep-id to icinga.kube when possible.
+  # hostUsers: false
   volumes:
   - name: icinga-data-pvc
     persistentVolumeClaim:
