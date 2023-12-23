@@ -6,7 +6,6 @@ RequiresMountsFor=%h/Projects/esphome-config
 [Kube]
 Yaml=%h/Projects/home-lab-helm/esphome/esphome.yaml
 Network=podman.network
-UserNS=keep-id
 
 [Service]
 Restart=always
