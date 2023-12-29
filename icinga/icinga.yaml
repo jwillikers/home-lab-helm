@@ -42,7 +42,7 @@ spec:
       value: "1"
     - name: HOSTNAME
       value: icinga.jwillikers.io
-    image: docker.io/icinga/icinga2:latest
+    image: quay.io/jwillikers/icinga-manubulon:latest
     name: icinga
     securityContext:
       capabilities:
