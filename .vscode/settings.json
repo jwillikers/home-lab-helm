@@ -61,6 +61,7 @@
         "NOPASSWD",
         "nosuid",
         "nproc",
+        "Nushell",
         "OBJECTSTORE",
         "Omada",
         "oneshot",

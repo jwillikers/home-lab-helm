@@ -1,4 +1,4 @@
-= ESPHome
+= Home Assistant
 :experimental:
 :icons: font
 ifdef::env-github[]
@@ -8,9 +8,9 @@ ifdef::env-github[]
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
-:ESPHome: https://esphome.io[ESPHome]
+:Home-Assistant: https://www.home-assistant.io/[Home Assistant]
 
-This pod provides an {ESPHome} server.
+This pod provides a {Home Assistant} server.
 
 == Usage
 
@@ -21,13 +21,6 @@ The ESPHome configuration is kept in the https://github.com/jwillikers/esphome-c
 [,sh]
 ----
 git -C ~/Projects clone https://github.com/jwillikers/esphome-config.git
-----
-
-. Copy the `secrets.yaml.template` template to `secrets.yaml` in the ESPHome configuration directory.
-+
-[,sh]
-----
-cp ~/Projects/esphome-config/esphome/secrets.yaml.template ~/Projects/esphome-config/esphome/secrets.yaml
 ----
 
 . Populate the secrets for the configuration in the `~/Projects/esphome-config/esphome/secrets.yaml` file.
@@ -67,16 +60,33 @@ echo (getent group dialout) | sudo tee -a /etc/group
 +
 [,sh]
 ----
-sudo usermod --append --groups dialout core
+sudo usermod --append --groups dialout $USER
 ----
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
-. Symlink the `esphome.caddyfile` file to the `sites-enabled` directory.
+. When using a reverse proxy, make sure to enable the necessary settings in the `http` section in `configuration.yaml`.
+Here I ensure that trusted proxies include any IP's on the internal Podman CNI network on which my reverse proxy is running, along with it's IPv4 and IPv6 addresses on the Tailscale VPN plus it's IP address on the local network.
 +
-[,sh]
+.~/container-volumes/home-assistant-config/configuration.yaml
+[source,yaml]
 ----
-ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/esphome.caddyfile ~/Projects/caddy-config/sites-enabled/esphome.caddyfile
+http:
+    use_x_forwarded_for: true
+    trusted_proxies:
+        # localhost
+        - ::1
+        - 127.0.0.1
+        # Tailscale
+        - fd7a:115c:a1e0:ab12:4843:cd96:6251:db4b
+        - 100.81.219.75
+        # LAN
+        - 10.1.0.47
+        # Docker
+        - 172.16.0.0/12
+        # Podman
+        - 10.88.0.0/16
+        - 10.89.0.0/16
 ----
 
 . Create the directory for Podman's systemd generator.

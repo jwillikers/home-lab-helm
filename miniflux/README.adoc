@@ -24,6 +24,13 @@ The {Miniflux} pod provides a simple RSS feed reader.
 ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/miniflux.caddyfile ~/Projects/caddy-config/sites-enabled/
 ----
 
+. Copy the `miniflux-secrets.yaml.template` file to `miniflux-secrets.yaml`. 
++
+[,sh]
+----
+cp miniflux-secrets.yaml.template miniflux-secrets.yaml
+----
+
 . Fill in any missing secrets in the `miniflux-secrets.yaml` file.
 +
 --

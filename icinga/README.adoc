@@ -83,7 +83,32 @@ mkdir -p ~/Projects
 git -C ~/Projects clone https://github.com/jwillikers/icinga-config.git
 ----
 
-. Generate the `IcingaDbWebApiPassword`.
+. For each template file in the `~/Projects/icinga-config/etc/icinga2/constants.d` directory, copy it to the same directory without the `.template` extension.
++
+Bash::
++
+[,sh]
+----
+for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; do cp -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/$(basename -- "$host_template" ".template"); done
+----
+
+fish::
++
+[,sh]
+----
+for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; cp -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/(basename -- "$host_template" ".template"); end
+----
+
+Nushell::
++
+[,sh]
+----
+for host_template in (glob ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template) { cp $host_template $"($host_template | path parse | reject extension | path join)" }
+----
+
+. Fill in any missing credentials in the files in the `~/Projects/icinga-config/etc/icinga2/constants.d` directory, such as SNMPv3 authentication and encryption keys.
+
+.. Generate the `IcingaDbWebApiPassword`.
 This password will be used by Icinga Web 2 to connect to the Icinga 2 instance.
 Keep this password handy when filling at the `icingaweb-secrets.yaml` file later.
 +
@@ -92,7 +117,7 @@ Keep this password handy when filling at the `icingaweb-secrets.yaml` file later
 echo "const IcingaDbWebApiPassword = \"$(openssl rand -base64 30)\"" | tee ~/Projects/icinga-config/etc/icinga2/constants.d/icingadb-web-api-user-password.conf
 ----
 
-. Generate the `TicketSalt`.
+.. Generate the `TicketSalt`.
 +
 [,sh]
 ----
@@ -111,6 +136,20 @@ mkdir -p ~/.config/containers/systemd
 [,sh]
 ----
 ln --force --relative --symbolic ../podman.network icinga.kube icingadb.kube icingaweb.kube ~/.config/containers/systemd/
+----
+
+. Copy the `icingadb-secrets.yaml.template` file to `icingadb-secrets.yaml`.
++
+[,sh]
+----
+cp icingadb-secrets.yaml.template icingadb-secrets.yaml
+----
+
+. Copy the `icingaweb-secrets.yaml.template` file to `icingaweb-secrets.yaml`.
++
+[,sh]
+----
+cp icingaweb-secrets.yaml.template icingaweb-secrets.yaml
 ----
 
 . Fill in any missing secrets in the `icingadb-secrets.yaml` and `icingaweb-secrets.yaml` files.

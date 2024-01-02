@@ -38,14 +38,14 @@ These are made available in the `certbot-data` volume which can be used by other
 +
 [,sh]
 ----
-mkdir -p ~/.config/certbot
+mkdir --parents ~/.config/certbot
 ----
 
-. Copy the `ovh-credentials.ini` file to `~/.config/certbot/`.
+. Copy the `ovh-credentials.ini.template` file to `~/.config/certbot/ovh-credentials.ini`.
 +
 [,sh]
 ----
-cp ovh-credentials.ini ~/.config/certbot/
+cp ovh-credentials.ini.template ~/.config/certbot/ovh-credentials.ini
 ----
 
 . Restrict the permissions of the file so that only the owner can read and write to the file.
@@ -84,7 +84,7 @@ podman run \
 +
 [,sh]
 ----
-mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
+mkdir --parents ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
 . Symlink the `certbot-renew.container` file to the `~/.config/containers/systemd/` directory.

@@ -73,6 +73,13 @@ I use `ACME DNS-01 Challenge Provider`.
 I use `Unlimited` to avoid the token expiring.
 . Add the required _Rights_ for `/domain/zone/*` for each of `GET`, `PUT`, `POST`, and `DELETE`.
 . Create the token.
+. Copy the `caddy-secrets.yaml.template` file to `caddy-secrets.yaml`. 
++
+[,sh]
+----
+cp caddy-secrets.yaml.template caddy-secrets.yaml
+----
+
 . Add the token's application key, application secret, and consumer key to the corresponding variables in the `caddy-secrets.yaml` file.
 . Import the `caddy-secrets.yaml` secrets in Podman with the `podman play kube` command.
 +

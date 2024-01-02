@@ -47,6 +47,13 @@ sudo firewall-cmd --reload
 ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/influxdb.caddyfile ~/Projects/caddy-config/sites-enabled/
 ----
 
+. Copy the `influxdb-secrets.yaml.template` file to `influxdb-secrets.yaml`. 
++
+[,sh]
+----
+cp influxdb-secrets.yaml.template influxdb-secrets.yaml
+----
+
 . Fill in any missing secrets in the `influxdb-secrets.yaml` file.
 +
 [TIP]

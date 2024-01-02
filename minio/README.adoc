@@ -59,6 +59,13 @@ mkdir -p ~/.config/containers/systemd
 ln --force --relative --symbolic ../podman.network minio.kube ~/.config/containers/systemd/
 ----
 
+. Copy the `minio-secrets.yaml.template` file to `minio-secrets.yaml`. 
++
+[,sh]
+----
+cp minio-secrets.yaml.template minio-secrets.yaml
+----
+
 . Fill in any missing secrets in the `minio-secrets.yaml` file.
 +
 [TIP]

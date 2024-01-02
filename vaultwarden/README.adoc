@@ -24,6 +24,13 @@ The {Vaultwarden} pod provides a Bitwarden-compatible server written in Rust.
 ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/vaultwarden.caddyfile ~/Projects/caddy-config/sites-enabled/vaultwarden.caddyfile
 ----
 
+. Copy the `vaultwarden-secrets.yaml.template` file to `vaultwarden-secrets.yaml`. 
++
+[,sh]
+----
+cp vaultwarden-secrets.yaml.template vaultwarden-secrets.yaml
+----
+
 . Fill in any missing secrets in the `vaultwarden-secrets.yaml` file.
 +
 --
