@@ -277,7 +277,7 @@ git -C ~/Projects clone https://github.com/jwillikers/home-lab-helm.git
 
 This project is licensed under the https://creativecommons.org/licenses/by-sa/4.0/legalcode[Creative Commons Attribution-ShareAlike 4.0 International License].
 
-© 2023 Jordan Williams
+© 2023-2024 Jordan Williams
 
 == Authors
 
