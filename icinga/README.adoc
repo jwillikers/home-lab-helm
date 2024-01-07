@@ -110,7 +110,10 @@ for host_template in (glob ~/Projects/icinga-config/etc/icinga2/constants.d/*.co
 +
 [NOTE]
 ====
-Escape any `$` or `"` characters in string constants with a backslash, `\`, to avoid confusing Icinga.
+Be sure to escape characters in string constants.
+Escape any `$` with an additional `$` character.
+Escape other characters, such as the `"` character,  with a backslash, `\`.
+Refer to https://icinga.com/docs/icinga-2/2.10/doc/17-language-reference/#string-literals-escape-sequences[String Literals Escape Sequences] in the https://icinga.com/docs/icinga-2/2.10/doc/17-language-reference/[Language Reference] for which characters need to be escaped.
 ====
 
 .. Generate the `IcingaDbWebApiPassword`.
@@ -134,6 +137,33 @@ echo "const TicketSalt = \"$(openssl rand -base64 30)\"" > ~/Projects/icinga-con
 [,sh]
 ----
 chmod 0640 ~/Projects/icinga-config/etc/icinga2/constants.d/{*-credentials.conf,*-password.conf,ticket-salt.conf}
+----
+
+. Determine the UID mappings inside the rootless user's namespace.
++
+[,sh]
+----
+podman unshare cat /proc/self/uid_map
+         0        818          1
+         1     655360      65536
+----
+
+. Do the math to determine the UID outside of the container that is used for user inside the container.
+In this case, the container defaults to UID 5665 inside the container.
+From the output of the previous command, we can see that UID 1 maps to UID 655360.
+The following expression yields the UID outside of the container.
++
+[,sh]
+----
+math 655360 + 5665 - 1
+661024
+----
+
+. Make sure that sensitive files are owned by the subuid that will map to the `icinga` user in the container.
++
+[,sh]
+----
+sudo chown 661024 /home/core/Projects/icinga-config/etc/icinga2/constants.d/{*-credentials.conf,*-password.conf,ticket-salt.conf}
 ----
 
 . Create the directory for Podman's systemd generator.
