@@ -152,7 +152,7 @@ Use these values in the next step.
 +
 [,sh]
 ----
-cp gitea-secrets.yaml.template gitea-secrets.yaml
+cp --no-clobber gitea-secrets.yaml.template gitea-secrets.yaml
 ----
 
 . Fill in the missing secrets in the `gitea-secrets.yaml` file.

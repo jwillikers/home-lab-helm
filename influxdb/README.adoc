@@ -51,7 +51,7 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/influxd
 +
 [,sh]
 ----
-cp influxdb-secrets.yaml.template influxdb-secrets.yaml
+cp --no-clobber influxdb-secrets.yaml.template influxdb-secrets.yaml
 ----
 
 . Fill in any missing secrets in the `influxdb-secrets.yaml` file.

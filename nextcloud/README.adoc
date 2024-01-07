@@ -130,7 +130,7 @@ Use these values in the next step.
 +
 [,sh]
 ----
-cp nextcloud-secrets.yaml.template nextcloud-secrets.yaml
+cp --no-clobber nextcloud-secrets.yaml.template nextcloud-secrets.yaml
 ----
 
 . Fill in any missing secrets in the `nextcloud-secrets.yaml` file.

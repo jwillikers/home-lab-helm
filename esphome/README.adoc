@@ -27,7 +27,7 @@ git -C ~/Projects clone https://github.com/jwillikers/esphome-config.git
 +
 [,sh]
 ----
-cp ~/Projects/esphome-config/esphome/secrets.yaml.template ~/Projects/esphome-config/esphome/secrets.yaml
+cp --no-clobber ~/Projects/esphome-config/esphome/secrets.yaml.template ~/Projects/esphome-config/esphome/secrets.yaml
 ----
 
 . Populate the secrets for the configuration in the `~/Projects/esphome-config/esphome/secrets.yaml` file.

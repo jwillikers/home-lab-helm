@@ -77,7 +77,7 @@ I use `Unlimited` to avoid the token expiring.
 +
 [,sh]
 ----
-cp caddy-secrets.yaml.template caddy-secrets.yaml
+cp --no-clobber caddy-secrets.yaml.template caddy-secrets.yaml
 ----
 
 . Add the token's application key, application secret, and consumer key to the corresponding variables in the `caddy-secrets.yaml` file.

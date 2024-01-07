@@ -89,21 +89,21 @@ Bash::
 +
 [,sh]
 ----
-for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; do cp -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/$(basename -- "$host_template" ".template"); done
+for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; do cp --no-clobber -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/$(basename --no-clobber -- "$host_template" ".template"); done
 ----
 
 fish::
 +
 [,sh]
 ----
-for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; cp -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/(basename -- "$host_template" ".template"); end
+for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; cp --no-clobber -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/(basename --no-clobber -- "$host_template" ".template"); end
 ----
 
 Nushell::
 +
 [,sh]
 ----
-for host_template in (glob ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template) { cp $host_template $"($host_template | path parse | reject extension | path join)" }
+for host_template in (glob ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template) { cp --no-clobber $host_template $"($host_template | path parse | reject extension | path join)" }
 ----
 
 . Fill in any missing credentials in the files in the `~/Projects/icinga-config/etc/icinga2/constants.d` directory, such as SNMPv3 authentication and encryption keys.
@@ -142,14 +142,14 @@ ln --force --relative --symbolic ../podman.network icinga.kube icingadb.kube ici
 +
 [,sh]
 ----
-cp icingadb-secrets.yaml.template icingadb-secrets.yaml
+cp --no-clobber icingadb-secrets.yaml.template icingadb-secrets.yaml
 ----
 
 . Copy the `icingaweb-secrets.yaml.template` file to `icingaweb-secrets.yaml`.
 +
 [,sh]
 ----
-cp icingaweb-secrets.yaml.template icingaweb-secrets.yaml
+cp --no-clobber icingaweb-secrets.yaml.template icingaweb-secrets.yaml
 ----
 
 . Fill in any missing secrets in the `icingadb-secrets.yaml` and `icingaweb-secrets.yaml` files.

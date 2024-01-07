@@ -45,7 +45,7 @@ mkdir --parents ~/.config/certbot
 +
 [,sh]
 ----
-cp ovh-credentials.ini.template ~/.config/certbot/ovh-credentials.ini
+cp --no-clobber ovh-credentials.ini.template ~/.config/certbot/ovh-credentials.ini
 ----
 
 . Restrict the permissions of the file so that only the owner can read and write to the file.

@@ -28,7 +28,7 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/vaultwa
 +
 [,sh]
 ----
-cp vaultwarden-secrets.yaml.template vaultwarden-secrets.yaml
+cp --no-clobber vaultwarden-secrets.yaml.template vaultwarden-secrets.yaml
 ----
 
 . Fill in any missing secrets in the `vaultwarden-secrets.yaml` file.

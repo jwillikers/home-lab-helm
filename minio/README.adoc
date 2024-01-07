@@ -63,7 +63,7 @@ ln --force --relative --symbolic ../podman.network minio.kube ~/.config/containe
 +
 [,sh]
 ----
-cp minio-secrets.yaml.template minio-secrets.yaml
+cp --no-clobber minio-secrets.yaml.template minio-secrets.yaml
 ----
 
 . Fill in any missing secrets in the `minio-secrets.yaml` file.
