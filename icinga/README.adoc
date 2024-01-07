@@ -107,6 +107,11 @@ for host_template in (glob ~/Projects/icinga-config/etc/icinga2/constants.d/*.co
 ----
 
 . Fill in any missing credentials in the files in the `~/Projects/icinga-config/etc/icinga2/constants.d` directory, such as SNMPv3 authentication and encryption keys.
++
+[NOTE]
+====
+Escape any `$` or `"` characters in string constants with a backslash, `\`, to avoid confusing Icinga.
+====
 
 .. Generate the `IcingaDbWebApiPassword`.
 This password will be used by Icinga Web 2 to connect to the Icinga 2 instance.
