@@ -66,6 +66,13 @@ ln --force --relative --symbolic ../podman.network minio.kube ~/.config/containe
 cp --no-clobber minio-secrets.yaml.template minio-secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Fill in any missing secrets in the `minio-secrets.yaml` file.
 +
 [TIP]

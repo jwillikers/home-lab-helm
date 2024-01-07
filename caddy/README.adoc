@@ -80,6 +80,13 @@ I use `Unlimited` to avoid the token expiring.
 cp --no-clobber caddy-secrets.yaml.template caddy-secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Add the token's application key, application secret, and consumer key to the corresponding variables in the `caddy-secrets.yaml` file.
 . Import the `caddy-secrets.yaml` secrets in Podman with the `podman play kube` command.
 +

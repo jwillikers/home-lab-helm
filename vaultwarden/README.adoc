@@ -31,6 +31,13 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/vaultwa
 cp --no-clobber vaultwarden-secrets.yaml.template vaultwarden-secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Fill in any missing secrets in the `vaultwarden-secrets.yaml` file.
 +
 --

@@ -124,11 +124,18 @@ echo "const IcingaDbWebApiPassword = \"$(openssl rand -base64 30)\"" | tee ~/Pro
 echo "const TicketSalt = \"$(openssl rand -base64 30)\"" > ~/Projects/icinga-config/etc/icinga2/constants.d/ticket-salt.conf
 ----
 
+. Make sure that the sensitive files are not world readable.
++
+[,sh]
+----
+chmod 0640 ~/Projects/icinga-config/etc/icinga2/constants.d/{*-credentials.conf,*-password.conf,ticket-salt.conf}
+----
+
 . Create the directory for Podman's systemd generator.
 +
 [,sh]
 ----
-mkdir -p ~/.config/containers/systemd
+mkdir --parents ~/.config/containers/systemd
 ----
 
 . Symlink the `podman.network`, `icinga.kube`, `icingadb.kube`, and `icingaweb.kube` files to the `~/.config/containers/systemd/` directory.
@@ -150,6 +157,13 @@ cp --no-clobber icingadb-secrets.yaml.template icingadb-secrets.yaml
 [,sh]
 ----
 cp --no-clobber icingaweb-secrets.yaml.template icingaweb-secrets.yaml
+----
+
+. Make sure that the secrets files are not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
 ----
 
 . Fill in any missing secrets in the `icingadb-secrets.yaml` and `icingaweb-secrets.yaml` files.

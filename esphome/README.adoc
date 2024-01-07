@@ -30,6 +30,13 @@ git -C ~/Projects clone https://github.com/jwillikers/esphome-config.git
 cp --no-clobber ~/Projects/esphome-config/esphome/secrets.yaml.template ~/Projects/esphome-config/esphome/secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Populate the secrets for the configuration in the `~/Projects/esphome-config/esphome/secrets.yaml` file.
 +
 [TIP]

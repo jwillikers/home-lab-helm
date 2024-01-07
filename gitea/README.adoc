@@ -155,6 +155,13 @@ Use these values in the next step.
 cp --no-clobber gitea-secrets.yaml.template gitea-secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Fill in the missing secrets in the `gitea-secrets.yaml` file.
 +
 [TIP]

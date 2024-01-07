@@ -31,6 +31,13 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/miniflu
 cp --no-clobber miniflux-secrets.yaml.template miniflux-secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Fill in any missing secrets in the `miniflux-secrets.yaml` file.
 +
 --

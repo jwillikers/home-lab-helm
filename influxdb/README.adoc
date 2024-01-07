@@ -54,6 +54,13 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/influxd
 cp --no-clobber influxdb-secrets.yaml.template influxdb-secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Fill in any missing secrets in the `influxdb-secrets.yaml` file.
 +
 [TIP]

@@ -133,6 +133,13 @@ Use these values in the next step.
 cp --no-clobber nextcloud-secrets.yaml.template nextcloud-secrets.yaml
 ----
 
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
 . Fill in any missing secrets in the `nextcloud-secrets.yaml` file.
 +
 [TIP]
