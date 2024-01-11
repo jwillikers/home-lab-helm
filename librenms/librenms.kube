@@ -7,7 +7,7 @@ Requires=librenms.service
 [Kube]
 Yaml=%h/Projects/home-lab-helm/librenms/librenms.yaml
 Network=podman.network
-UserNS=keep-id
+# UserNS=keep-id
 
 [Service]
 Restart=always

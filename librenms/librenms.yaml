@@ -39,7 +39,6 @@ spec:
         - mountPath: /data
           name: librenms-redis-data-pvc
     - args:
-        - "mysqld"
         - "--innodb-file-per-table=1"
         - "--lower-case-table-names=0"
         - "--character-set-server=utf8mb4"
@@ -47,6 +46,8 @@ spec:
       env:
         - name: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
           value: "1"
+        - name: MARIADB_DATABASE
+          value: librenms
         - name: MARIADB_USER
           value: librenms
         - name: MARIADB_PASSWORD
@@ -94,16 +95,18 @@ spec:
         - name: CACHE_DRIVER
           value: redis
         - name: DB_DATABASE
-          value: pgsql
+          value: librenms
         - name: DB_HOST
           value: localhost
+        - name: DB_DATABASE
+          value: librenms
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: librenms-secrets
               key: librenms_mariadb_password
               optional: false
-        - name: DB_USER
+        - name: DB_USERNAME
           value: librenms
         - name: MEMORY_LIMIT
           value: "256M"
@@ -136,11 +139,6 @@ spec:
       image: docker.io/librenms/librenms:latest
       name: librenms
       securityContext:
-        capabilities:
-          drop: ["all"]
-          add: 
-            - "NET_ADMIN"
-            - "NET_RAW"
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -154,16 +152,18 @@ spec:
         - name: CACHE_DRIVER
           value: redis
         - name: DB_DATABASE
-          value: pgsql
+          value: librenms
         - name: DB_HOST
           value: localhost
+        - name: DB_DATABASE
+          value: librenms
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: librenms-secrets
               key: librenms_mariadb_password
               optional: false
-        - name: DB_USER
+        - name: DB_USERNAME
           value: librenms
         - name: DISPATCHER_NODE_ID
           value: dispatcher1
@@ -200,11 +200,6 @@ spec:
       image: docker.io/librenms/librenms:latest
       name: dispatcher
       securityContext:
-        capabilities:
-          drop: ["all"]
-          add: 
-            - "NET_ADMIN"
-            - "NET_RAW"
         seLinuxOptions:
           type: spc_t
       volumeMounts:

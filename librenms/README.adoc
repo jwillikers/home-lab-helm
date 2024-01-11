@@ -26,8 +26,19 @@ The instructions here document the process get the LibreNMS service up and runni
 +
 [,sh]
 ----
-ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/librenms.caddyfile ~/Projects/librenms-config/sites-enabled/
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/librenms.caddyfile ~/Projects/caddy-config/sites-enabled/
 ----
+
+// 32190
+
+// . Increase the max open files limits for the core user in the `/etc/security/limits.d/core.conf` file.
+// +
+// ./etc/security/limits.d/core.conf
+// [source]
+// ----
+// core soft nofile 32190
+// core hard nproc 32190
+// ----
 
 // . Increase the process limits for the core user in the `/etc/security/limits.d/core.conf` file.
 // +
