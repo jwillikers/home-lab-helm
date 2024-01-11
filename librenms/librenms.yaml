@@ -163,7 +163,7 @@ spec:
           value: redis
         - name: DB_DATABASE
           value: librenms
-        - name: DB_HOST
+        - name: "127.0.0.1"
           value: localhost
         - name: DB_DATABASE
           value: librenms
@@ -180,7 +180,7 @@ spec:
         - name: MEMORY_LIMIT
           value: "256M"
         - name: REDIS_HOST
-          value: localhost
+          value: "127.0.0.1"
         - name: RRDCACHED_SERVER
           value: localhost:42217
         - name: SESSION_DRIVER
