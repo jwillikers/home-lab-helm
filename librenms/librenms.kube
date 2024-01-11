@@ -1,0 +1,18 @@
+[Unit]
+Description=LibreNMS
+Before=local-fs.target
+Requires=librenms.service
+
+
+[Kube]
+Yaml=%h/Projects/home-lab-helm/librenms/librenms.yaml
+Network=podman.network
+UserNS=keep-id
+
+[Service]
+Restart=always
+TimeoutStartSec=15min
+TimeoutStopSec=15min
+
+[Install]
+WantedBy=multi-user.target default.target

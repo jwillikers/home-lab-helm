@@ -1,0 +1,239 @@
+= LibreNMS
+:experimental:
+:icons: font
+:keywords: management monitoring network nms php snmp
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:LibreNMS: https://www.librenms.org/[LibreNMS]
+
+The {LibreNMS} configuration provides a LibreNMS service for network monitoring.
+
+== Usage
+
+The LibreNMS Kubernetes YAML uses the configuration provided by the https://github.com/jwillikers/librenms-config[LibreNMS Config] repository.
+Certain sensitive parameters are kept in specific files which must be managed separately.
+The instructions here document the process get the LibreNMS service up and running.
+
+. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Symlink the `librenms.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/librenms.caddyfile ~/Projects/librenms-config/sites-enabled/
+----
+
+// . Increase the process limits for the core user in the `/etc/security/limits.d/core.conf` file.
+// +
+// ./etc/security/limits.d/core.conf
+// [source]
+// ----
+// core soft nproc 250000
+// core hard nproc 500000
+// ----
+
+// . Reboot for the limits to take effect.
+// +
+// [,sh]
+// ----
+// sudo systemctl reboot
+// ----
+
+. Create the `~/Projects` directory.
++
+[,sh]
+----
+mkdir --parents ~/Projects
+----
+
+// . Clone the LibreNMS Config repository under the `~/Projects` directory.
+// +
+// [,sh]
+// ----
+// git -C ~/Projects clone https://github.com/jwillikers/librenms-config.git
+// ----
+
+// . For each template file in the `~/Projects/icinga-config/etc/icinga2/constants.d` directory, copy it to the same directory without the `.template` extension.
+// +
+// Bash::
+// +
+// [,sh]
+// ----
+// for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; do cp --no-clobber -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/$(basename --no-clobber -- "$host_template" ".template"); done
+// ----
+
+// fish::
+// +
+// [,sh]
+// ----
+// for host_template in ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template; cp --no-clobber -- "$host_template" ~/Projects/icinga-config/etc/icinga2/constants.d/(basename --no-clobber -- "$host_template" ".template"); end
+// ----
+
+// Nushell::
+// +
+// [,sh]
+// ----
+// for host_template in (glob ~/Projects/icinga-config/etc/icinga2/constants.d/*.conf.template) { cp --no-clobber $host_template $"($host_template | path parse | reject extension | path join)" }
+// ----
+
+// . Fill in any missing credentials in the files in the `~/Projects/icinga-config/etc/icinga2/constants.d` directory, such as SNMPv3 authentication and encryption keys.
+// +
+// [NOTE]
+// ====
+// Be sure to escape characters in string constants.
+// Escape any `$` with an additional `$` character.
+// Escape other characters, such as the `"` character,  with a backslash, `\`.
+// Refer to https://icinga.com/docs/icinga-2/2.10/doc/17-language-reference/#string-literals-escape-sequences[String Literals Escape Sequences] in the https://icinga.com/docs/icinga-2/2.10/doc/17-language-reference/[Language Reference] for which characters need to be escaped.
+// ====
+
+// .. Generate the `IcingaDbWebApiPassword`.
+// This password will be used by Icinga Web 2 to connect to the Icinga 2 instance.
+// Keep this password handy when filling at the `icingaweb-secrets.yaml` file later.
+// +
+// [,sh]
+// ----
+// echo "const IcingaDbWebApiPassword = \"$(openssl rand -base64 30)\"" | tee ~/Projects/icinga-config/etc/icinga2/constants.d/icingadb-web-api-user-password.conf
+// ----
+
+// .. Generate the `TicketSalt`.
+// +
+// [,sh]
+// ----
+// echo "const TicketSalt = \"$(openssl rand -base64 30)\"" > ~/Projects/icinga-config/etc/icinga2/constants.d/ticket-salt.conf
+// ----
+
+// . Make sure that the sensitive files are not world readable.
+// +
+// [,sh]
+// ----
+// chmod 0660 ~/Projects/icinga-config/etc/icinga2/constants.d/{*-credentials.conf,*-password.conf,ticket-salt.conf}
+// ----
+
+// . Determine the UID mappings inside the rootless user's namespace.
+// +
+// [,sh]
+// ----
+// podman unshare cat /proc/self/uid_map
+//          0        818          1
+//          1     655360      65536
+// ----
+
+// . Do the math to determine the UID outside of the container that is used for user inside the container.
+// In this case, the container defaults to UID 5665 inside the container.
+// From the output of the previous command, we can see that UID 1 maps to UID 655360.
+// The following expression yields the UID outside of the container.
+// +
+// [,sh]
+// ----
+// math 655360 + 5665 - 1
+// 661024
+// ----
+
+// . Make sure that sensitive files are owned by the subuid that will map to the `icinga` user in the container.
+// This command will need to be run by user allowed to use `sudo`.
+// +
+// [,sh]
+// ----
+// sudo chown 661024 /home/core/Projects/icinga-config/etc/icinga2/constants.d/{*-credentials.conf,*-password.conf,ticket-salt.conf}
+// ----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir --parents ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `librenms.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network librenms.kube ~/.config/containers/systemd/
+----
+
+. Copy the `librenms-secrets.yaml.template` file to `librenms-secrets.yaml`.
++
+[,sh]
+----
+cp --no-clobber librenms-secrets.yaml.template librenms-secrets.yaml
+----
+
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
+. Fill in any missing secrets in the `librenms-secrets.yaml` files.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
+----
+====
+
+. Import the `librenms-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube librenms-secrets.yaml
+----
+
+// . Initialize Icinga.
+// +
+// [,sh]
+// ----
+// podman run \
+//   --env ICINGA_MASTER=1 \
+//   --hostname icinga.jwillikers.io \
+//   --interactive \
+//   --network systemd-podman \
+//   --rm \
+//   --tty \
+//   --volume icinga-data:/data:Z \
+//   docker.io/icinga/icinga2:latest \
+//   icinga2 node wizard
+// ----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the LibreNMS service.
++
+[,sh]
+----
+systemctl --user enable --now librenms
+----
+
+// == Validate
+
+// Use the following Podman command to validate the Icinga configuration.
+
+// [,sh]
+// ----
+// podman run \
+//   --env ICINGA_MASTER=1 \
+//   --hostname icinga.jwillikers.io \
+//   --interactive \
+//   --rm \
+//   --tty \
+//   --volume icinga-data:/data:Z \
+//   --volume ~/Projects/icinga-config/etc/icinga2:/data/etc/icinga2:ro,Z \
+//   docker.io/icinga/icinga2:latest \
+//   icinga2 daemon --validate
+// ----

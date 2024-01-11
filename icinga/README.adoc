@@ -136,7 +136,7 @@ echo "const TicketSalt = \"$(openssl rand -base64 30)\"" > ~/Projects/icinga-con
 +
 [,sh]
 ----
-chmod 0640 ~/Projects/icinga-config/etc/icinga2/constants.d/{*-credentials.conf,*-password.conf,ticket-salt.conf}
+chmod 0660 ~/Projects/icinga-config/etc/icinga2/constants.d/{*-credentials.conf,*-password.conf,ticket-salt.conf}
 ----
 
 . Determine the UID mappings inside the rootless user's namespace.
@@ -160,6 +160,7 @@ math 655360 + 5665 - 1
 ----
 
 . Make sure that sensitive files are owned by the subuid that will map to the `icinga` user in the container.
+This command will need to be run by user allowed to use `sudo`.
 +
 [,sh]
 ----
@@ -251,11 +252,11 @@ podman run \
 systemctl --user daemon-reload
 ----
 
-. Start the Icinga 2, Icinga DB, and Icinga Web 2 pods.
+. Enable and start the Icinga 2, Icinga DB, and Icinga Web 2 pods.
 +
 [,sh]
 ----
-systemctl --user start icinga icingadb icingaweb
+systemctl --user enable --now icinga icingadb icingaweb
 ----
 
 == Validate

@@ -1,0 +1,243 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-01-09T15:28:33Z"
+  labels:
+    app: librenms
+  name: librenms
+spec:
+  selector:
+    app: librenms
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.containers.autoupdate/dispatcher: registry
+    io.containers.autoupdate/librenms: registry
+    io.containers.autoupdate/mariadb: registry
+    io.containers.autoupdate/redis: registry
+    io.containers.autoupdate/rrdcached: registry
+  creationTimestamp: "2023-10-28T15:28:33Z"
+  labels:
+    app: librenms
+  name: librenms
+spec:
+  containers:
+    - args:
+        - redis-server
+      image: docker.io/library/redis:latest
+      name: redis
+      securityContext:
+        # The Redis user and group use the id 999.
+        runAsGroup: 999
+        runAsUser: 999
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data
+          name: librenms-redis-data-pvc
+    - args:
+        - "mysqld"
+        - "--innodb-file-per-table=1"
+        - "--lower-case-table-names=0"
+        - "--character-set-server=utf8mb4"
+        - "--collation-server=utf8mb4_unicode_ci"
+      env:
+        - name: MARIADB_ALLOW_EMPTY_ROOT_PASSWORD
+          value: "1"
+        - name: MARIADB_USER
+          value: librenms
+        - name: MARIADB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: librenms-secrets
+              key: librenms_mariadb_password
+              optional: false
+      image: docker.io/library/mariadb:latest
+      name: mariadb
+      securityContext:
+        # runAsGroup: 818
+        # runAsUser: 818
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/mysql
+          name: librenms-mariadb-data-pvc
+    - env:
+        - name: FLUSH_DEAD_DATA_INTERVAL
+          value: "3600"
+        - name: LOG_LEVEL
+          value: INFO
+        - name: WRITE_JITTER
+          value: "1800"
+        - name: WRITE_THREADS
+          value: "4"
+        - name: WRITE_TIMEOUT
+          value: "1800"
+        - name: TZ
+          value: "US/Central"
+      image: docker.io/crazymax/rrdcached:latest
+      name: rrdcached
+      securityContext:
+        # runAsGroup: 818
+        # runAsUser: 818
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data/db
+          name: librenms-rrdcached-data-pvc
+        - mountPath: /data/journal
+          name: librenms-rrdcached-journal-pvc
+    - env:
+        - name: CACHE_DRIVER
+          value: redis
+        - name: DB_DATABASE
+          value: pgsql
+        - name: DB_HOST
+          value: localhost
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: librenms-secrets
+              key: librenms_mariadb_password
+              optional: false
+        - name: DB_USER
+          value: librenms
+        - name: MEMORY_LIMIT
+          value: "256M"
+        - name: REDIS_HOST
+          value: localhost
+        - name: RRDCACHED_SERVER
+          value: localhost:42217
+        - name: SESSION_DRIVER
+          value: redis
+        - name: SNMP_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: librenms-secrets
+              key: librenms_snmp_authentication_passphrase
+              optional: false
+        - name: SNMP_AUTH_PROTO
+          value: SHA-256
+        - name: SNMP_PRIV
+          valueFrom:
+            secretKeyRef:
+              name: librenms-secrets
+              key: librenms_snmp_privacy_passphrase
+              optional: false
+        - name: SNMP_PRIV_PROTO
+          value: AES
+        - name: SNMP_USER
+          value: monitor
+        - name: TZ
+          value: US/Central
+      image: docker.io/librenms/librenms:latest
+      name: librenms
+      securityContext:
+        capabilities:
+          drop: ["all"]
+          add: 
+            - "NET_ADMIN"
+            - "NET_RAW"
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data
+          name: librenms-librenms-data-pvc
+        - mountPath: /data/config
+          name: librenms-librenms-config-host
+        - mountPath: /data/alert-templates
+          name: librenms-librenms-alert-templates-host
+    - env:
+        - name: CACHE_DRIVER
+          value: redis
+        - name: DB_DATABASE
+          value: pgsql
+        - name: DB_HOST
+          value: localhost
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: librenms-secrets
+              key: librenms_mariadb_password
+              optional: false
+        - name: DB_USER
+          value: librenms
+        - name: DISPATCHER_NODE_ID
+          value: dispatcher1
+        - name: MEMORY_LIMIT
+          value: "256M"
+        - name: REDIS_HOST
+          value: localhost
+        - name: RRDCACHED_SERVER
+          value: localhost:42217
+        - name: SESSION_DRIVER
+          value: redis
+        - name: SIDECAR_DISPATCHER
+          value: "1"
+        - name: SNMP_AUTH
+          valueFrom:
+            secretKeyRef:
+              name: librenms-secrets
+              key: librenms_snmp_authentication_passphrase
+              optional: false
+        - name: SNMP_AUTH_PROTO
+          value: SHA-256
+        - name: SNMP_PRIV
+          valueFrom:
+            secretKeyRef:
+              name: librenms-secrets
+              key: librenms_snmp_privacy_passphrase
+              optional: false
+        - name: SNMP_PRIV_PROTO
+          value: AES
+        - name: SNMP_USER
+          value: monitor
+        - name: TZ
+          value: US/Central
+      image: docker.io/librenms/librenms:latest
+      name: dispatcher
+      securityContext:
+        capabilities:
+          drop: ["all"]
+          add: 
+            - "NET_ADMIN"
+            - "NET_RAW"
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /data
+          name: librenms-librenms-data-pvc
+        - mountPath: /data/config
+          name: librenms-librenms-config-host
+        - mountPath: /data/alert-templates
+          name: librenms-librenms-alert-templates-host
+  enableServiceLinks: false
+  # todo Revert if doesn't work.
+  hostUsers: true
+  volumes:
+    - name: librenms-librenms-data-pvc
+      persistentVolumeClaim:
+        claimName: librenms-librenms-data
+    - hostPath:
+        path: /home/core/Projects/librenms-config/alert-templates
+        type: Directory
+      name: librenms-librenms-alert-templates-host
+    - hostPath:
+        path: /home/core/Projects/librenms-config/config
+        type: Directory
+      name: librenms-librenms-config-host
+    - name: librenms-mariadb-data-pvc
+      persistentVolumeClaim:
+        claimName: librenms-mariadb-data
+    - name: librenms-redis-data-pvc
+      persistentVolumeClaim:
+        claimName: librenms-redis-data
+    - name: librenms-rrdcached-data-pvc
+      persistentVolumeClaim:
+        claimName: librenms-rrdcached-data
+    - name: librenms-rrdcached-journal-pvc
+      persistentVolumeClaim:
+        claimName: librenms-rrdcached-journal
