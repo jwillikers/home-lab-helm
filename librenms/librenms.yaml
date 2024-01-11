@@ -56,6 +56,8 @@ spec:
               name: librenms-secrets
               key: librenms_mariadb_password
               optional: false
+        - name: TZ
+          value: US/Central
       image: docker.io/library/mariadb:latest
       name: mariadb
       securityContext:
@@ -97,7 +99,7 @@ spec:
         - name: DB_DATABASE
           value: librenms
         - name: DB_HOST
-          value: localhost
+          value: "127.0.0.1"
         - name: DB_DATABASE
           value: librenms
         - name: DB_PASSWORD
@@ -111,7 +113,7 @@ spec:
         - name: MEMORY_LIMIT
           value: "256M"
         - name: REDIS_HOST
-          value: localhost
+          value: "127.0.0.1"
         - name: RRDCACHED_SERVER
           value: localhost:42217
         - name: SESSION_DRIVER
@@ -139,6 +141,9 @@ spec:
       image: docker.io/librenms/librenms:latest
       name: librenms
       securityContext:
+        capabilities:
+          add:
+            - CAP_NET_RAW
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -200,6 +205,9 @@ spec:
       image: docker.io/librenms/librenms:latest
       name: dispatcher
       securityContext:
+        capabilities:
+          add:
+            - CAP_NET_RAW
         seLinuxOptions:
           type: spc_t
       volumeMounts:
