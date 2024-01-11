@@ -94,6 +94,8 @@ spec:
         - mountPath: /data/journal
           name: librenms-rrdcached-journal-pvc
     - env:
+        - name: APP_TRUSTED_PROXIES
+          value: "10.88.0.0/16,10.89.0.0/16,fd6c:19c:9b16:d7c6::/64"
         - name: CACHE_DRIVER
           value: redis
         - name: DB_DATABASE
@@ -118,6 +120,8 @@ spec:
           value: localhost:42217
         - name: SESSION_DRIVER
           value: redis
+        - name: SESSION_SECURE_COOKIE
+          env: "true"
         - name: SNMP_AUTH
           valueFrom:
             secretKeyRef:
@@ -138,6 +142,7 @@ spec:
           value: monitor
         - name: TZ
           value: US/Central
+      hostname: librenms.jwillikers.io
       image: docker.io/librenms/librenms:latest
       name: librenms
       securityContext:
