@@ -53,7 +53,6 @@ spec:
           name: influxdb-data-pvc
   containers:
     - args:
-        - /entrypoint.sh
         - influxd
       env:
         - name: DOCKER_INFLUXDB_INIT_ORG
@@ -78,6 +77,8 @@ spec:
               name: influxdb-secrets
               key: influxdb_admin_password
               optional: false
+        - name: TIMEZONE
+          value: US/Central
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
