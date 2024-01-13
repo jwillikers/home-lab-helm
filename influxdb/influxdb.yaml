@@ -38,7 +38,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown 1000:1000 /var/lib/influxdb2"]
+      command: ["sh", "-c", "chown 818:818 /var/lib/influxdb2"]
       securityContext:
         capabilities:
           drop: ["all"]
@@ -78,9 +78,9 @@ spec:
               key: influxdb_admin_password
               optional: false
         - name: INFLUXD_TLS_CERT
-          value: /influxdb.jwillikers.io.public.crt
+          value: /home/influxdb/influxdb.jwillikers.io.public.crt
         - name: INFLUXD_TLS_KEY
-          value: /influxdb.jwillikers.io.public.key
+          value: /home/influxdb/influxdb.jwillikers.io.public.key
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
@@ -88,10 +88,8 @@ spec:
           hostPort: 8086
       securityContext:
         capabilities: {}
-        runAsGroup: 1000
-        runAsUser: 1000
-        # runAsGroup: 818
-        # runAsUser: 818
+        runAsGroup: 818
+        runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
@@ -102,10 +100,10 @@ spec:
           name: influxdb-config-host
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
-        - mountPath: /influxdb.jwillikers.io.public.crt
+        - mountPath: /home/influxdb/influxdb.jwillikers.io.public.crt
           name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.crt-host
           readOnly: true
-        - mountPath: /influxdb.jwillikers.io.private.key
+        - mountPath: /home/influxdb/influxdb.jwillikers.io.private.key
           name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.key-host
           readOnly: true
   enableServiceLinks: false
