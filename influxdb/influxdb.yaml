@@ -81,7 +81,7 @@ spec:
           value: /home/influxdb/influxdb.jwillikers.io.public.crt
         - name: INFLUXD_TLS_KEY
           value: /home/influxdb/influxdb.jwillikers.io.public.key
-      image: quay.io/influxdb/influxdb:latest
+      image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
         - containerPort: 8086
