@@ -79,9 +79,9 @@ spec:
               key: influxdb_admin_password
               optional: false
         - name: INFLUXD_TLS_CERT
-          value: /caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.crt
+          value: /caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.crt
         - name: INFLUXD_TLS_KEY
-          value: /caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.key
+          value: /caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.key
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
