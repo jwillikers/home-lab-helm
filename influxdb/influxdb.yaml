@@ -53,6 +53,7 @@ spec:
           name: influxdb-data-pvc
   containers:
     - args:
+        - entrypoint.sh
         - influxd
       env:
         - name: DOCKER_INFLUXDB_INIT_ORG
@@ -77,6 +78,10 @@ spec:
               name: influxdb-secrets
               key: influxdb_admin_password
               optional: false
+        - name: INFLUXD_TLS_CERT
+          value: /srv/tls/influxdb.jwillikers.io.public.crt
+        - name: INFLUXD_TLS_KEY
+          value: /srv/tls/influxdb.jwillikers.io.public.key
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
@@ -96,6 +101,12 @@ spec:
           name: influxdb-config-host
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
+        - mountPath: /srv/tls/influxdb.jwillikers.io.public.crt
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.crt-host
+          readOnly: true
+        - mountPath: /srv/tls/influxdb.jwillikers.io.private.key
+          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.key-host
+          readOnly: true
   enableServiceLinks: false
   hostUsers: false
   volumes:
@@ -110,3 +121,20 @@ spec:
     - name: influxdb-data-pvc
       persistentVolumeClaim:
         claimName: influxdb-data
+    - hostPath:
+        path: /home/core/.local/share/containers/storage/volumes/caddy-data/_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.crt
+        type: File
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.crt-host
+    - hostPath:
+        path: /home/core/.local/share/containers/storage/volumes/caddy-data/_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.key
+        type: File
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.key-host
+    - hostPath:
+        path: /home/core/.local/share/containers/storage/volumes/caddy-data/_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.lan.jwillikers.io/influxdb.lan.jwillikers.io.crt
+        type: File
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.lan.jwillikers.io-influxdb.lan.jwillikers.io.crt-host
+    - hostPath:
+        path: /home/core/.local/share/containers/storage/volumes/caddy-data/_data/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.lan.jwillikers.io/influxdb.lan.jwillikers.io.key
+        type: File
+      name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.lan.jwillikers.io-influxdb.lan.jwillikers.io.key-host
+
