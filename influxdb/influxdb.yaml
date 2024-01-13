@@ -38,7 +38,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown 818:818 /var/lib/influxdb2"]
+      command: ["sh", "-c", "chown 1000:1000 /var/lib/influxdb2"]
       securityContext:
         capabilities:
           drop: ["all"]
@@ -54,8 +54,6 @@ spec:
   containers:
     - args:
         - influxd
-        - --tls-cert=/influxdb.jwillikers.io.public.crt
-        - --tls-key=/influxdb.jwillikers.io.public.key
       env:
         - name: DOCKER_INFLUXDB_INIT_ORG
           value: jwillikers
@@ -79,6 +77,10 @@ spec:
               name: influxdb-secrets
               key: influxdb_admin_password
               optional: false
+        - name: INFLUXD_TLS_CERT
+          value: /influxdb.jwillikers.io.public.crt
+        - name: INFLUXD_TLS_KEY
+          value: /influxdb.jwillikers.io.public.key
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
@@ -86,8 +88,10 @@ spec:
           hostPort: 8086
       securityContext:
         capabilities: {}
-        runAsGroup: 818
-        runAsUser: 818
+        runAsGroup: 1000
+        runAsUser: 1000
+        # runAsGroup: 818
+        # runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
