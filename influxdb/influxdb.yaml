@@ -78,10 +78,6 @@ spec:
               name: influxdb-secrets
               key: influxdb_admin_password
               optional: false
-        - name: INFLUXD_TLS_CERT
-          value: /caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.crt
-        - name: INFLUXD_TLS_KEY
-          value: /caddy/caddy/certificates/acme-v02.api.letsencrypt.org-directory/influxdb.jwillikers.io/influxdb.jwillikers.io.key
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
@@ -101,9 +97,6 @@ spec:
           name: influxdb-config-host
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
-        - mountPath: /caddy
-          name: caddy-data-pvc
-          readOnly: true
   enableServiceLinks: false
   hostUsers: false
   volumes:
@@ -118,7 +111,3 @@ spec:
     - name: influxdb-data-pvc
       persistentVolumeClaim:
         claimName: influxdb-data
-    - name: caddy-data-pvc
-      persistentVolumeClaim:
-        claimName: caddy-data
-
