@@ -77,7 +77,7 @@ spec:
               name: influxdb-secrets
               key: influxdb_admin_password
               optional: false
-      image: quay.io/influxdb/influxdb:latest
+      image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
         - containerPort: 8086
