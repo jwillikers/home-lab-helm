@@ -77,8 +77,8 @@ spec:
               name: influxdb-secrets
               key: influxdb_admin_password
               optional: false
-        - name: TIMEZONE
-          value: US/Central
+        - name: TZ
+          value: America/Chicago
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:
