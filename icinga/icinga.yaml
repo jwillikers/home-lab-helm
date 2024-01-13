@@ -40,6 +40,8 @@ spec:
       value: "1"
     - name: HOSTNAME
       value: icinga.jwillikers.io
+    - name: TIMEZONE
+      value: US/Central
     image: quay.io/jwillikers/icinga-manubulon:latest
     name: icinga
     securityContext:
