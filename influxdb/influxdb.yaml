@@ -54,8 +54,8 @@ spec:
   containers:
     - args:
         - influxd
-        - --tls-cert=/certs/influxdb.jwillikers.io/public.crt
-        - --tls-key=/certs/influxdb.jwillikers.io/public.key
+        - --tls-cert=/influxdb.jwillikers.io.public.crt
+        - --tls-key=/influxdb.jwillikers.io.public.key
       env:
         - name: DOCKER_INFLUXDB_INIT_ORG
           value: jwillikers
@@ -98,17 +98,11 @@ spec:
           name: influxdb-config-host
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
-        - mountPath: /certs/influxdb.jwillikers.io/public.crt
+        - mountPath: /influxdb.jwillikers.io.public.crt
           name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.crt-host
           readOnly: true
-        - mountPath: /certs/influxdb.jwillikers.io/private.key
+        - mountPath: /influxdb.jwillikers.io.private.key
           name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.jwillikers.io-influxdb.jwillikers.io.key-host
-          readOnly: true
-        - mountPath: /certs/influxdb.lan.jwillikers.io/public.crt
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.lan.jwillikers.io-influxdb.lan.jwillikers.io.crt-host
-          readOnly: true
-        - mountPath: /certs/influxdb.lan.jwillikers.io/private.key
-          name: caddy-data-caddy-certificates-acme-v02.api.letsencrypt.org-directory-influxdb.lan.jwillikers.io-influxdb.lan.jwillikers.io.key-host
           readOnly: true
   enableServiceLinks: false
   hostUsers: false
