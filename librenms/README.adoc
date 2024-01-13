@@ -201,22 +201,6 @@ tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
 podman play kube librenms-secrets.yaml
 ----
 
-// . Initialize Icinga.
-// +
-// [,sh]
-// ----
-// podman run \
-//   --env ICINGA_MASTER=1 \
-//   --hostname icinga.jwillikers.io \
-//   --interactive \
-//   --network systemd-podman \
-//   --rm \
-//   --tty \
-//   --volume icinga-data:/data:Z \
-//   docker.io/icinga/icinga2:latest \
-//   icinga2 node wizard
-// ----
-
 . Load the newly added systemd units.
 +
 [,sh]
@@ -231,20 +215,16 @@ systemctl --user daemon-reload
 systemctl --user enable --now librenms
 ----
 
-// == Validate
+. Scan the network and automatically add devices.
++
+[,sh]
+----
+podman exec -it --user librenms:librenms librenms-librenms ./snmp-scan.py
+----
 
-// Use the following Podman command to validate the Icinga configuration.
+== Maintenance
 
-// [,sh]
-// ----
-// podman run \
-//   --env ICINGA_MASTER=1 \
-//   --hostname icinga.jwillikers.io \
-//   --interactive \
-//   --rm \
-//   --tty \
-//   --volume icinga-data:/data:Z \
-//   --volume ~/Projects/icinga-config/etc/icinga2:/data/etc/icinga2:ro,Z \
-//   docker.io/icinga/icinga2:latest \
-//   icinga2 daemon --validate
-// ----
+[,sh]
+----
+podman exec -it --user librenms:librenms librenms-librenms ./validate.php
+----
