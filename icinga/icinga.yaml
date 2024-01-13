@@ -35,8 +35,6 @@ spec:
   - args:
     - icinga2
     - daemon
-    - -x
-    - debug
     env:
     - name: ICINGA_MASTER
       value: "1"
