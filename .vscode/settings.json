@@ -15,6 +15,7 @@
         "Caddyfile",
         "certbot",
         "certonly",
+        "cgroupns",
         "checkmodule",
         "commandtransports",
         "compat",

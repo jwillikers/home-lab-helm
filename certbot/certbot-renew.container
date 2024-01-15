@@ -3,6 +3,7 @@ Description=Certbot TLS certificate manager
 Before=local-fs.target
 
 [Container]
+AutoUpdate=registry
 ContainerName=certbot
 Exec=renew \
     --agree-tos \
@@ -11,7 +12,6 @@ Exec=renew \
     --email jordan@jwillikers.com \
     --noninteractive
 Image=docker.io/certbot/dns-ovh:latest
-Label=io.containers.autoupdate=registry
 UserNS=keep-id
 Volume=%h/.config/certbot/ovh-credentials.ini:/etc/letsencrypt/ovh-credentials.ini:ro,Z
 Volume=certbot-certificates:/etc/letsencrypt:z
@@ -19,4 +19,4 @@ Volume=certbot-data:/var/lib/letsencrypt:Z
 Volume=certbot-log:/var/log/letsencrypt:Z
 
 [Service]
-Restart=on-failure
+Type=oneshot

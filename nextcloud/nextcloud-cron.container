@@ -23,4 +23,4 @@ Volume=%h/Projects/nextcloud-config/etc/php/conf.d/redis-session.ini:/usr/local/
 Volume=%h/Projects/nextcloud-config/etc/php-fpm.d/z-www-overrides.conf:/usr/local/etc/php-fpm.d/z-www-overrides.conf:ro,z
 
 [Service]
-Restart=on-failure
+Type=oneshot
