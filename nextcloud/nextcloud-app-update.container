@@ -4,14 +4,15 @@ Before=local-fs.target
 After=nextcloud.service
 
 [Container]
+AutoUpdate=registry
 ContainerName=nextcloud-cron-app-update
 Exec=/var/www/html/occ app:update --all
 Group=818
 Image=docker.io/library/nextcloud:fpm
-Label=io.containers.autoupdate=registry
-PodmanArgs=--pod=nextcloud
+Pod=nextcloud
 Timezone=local
 User=818
+UserNS=keep-id
 Volume=%h/container-volumes/nextcloud-nextcloud-app:/var/www/html:z
 Volume=%h/container-volumes/nextcloud-nextcloud-config:/var/www/html/config:z
 Volume=%h/container-volumes/nextcloud-nextcloud-custom-apps:/var/www/html/custom_apps:z
