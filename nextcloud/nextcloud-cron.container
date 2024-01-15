@@ -14,7 +14,6 @@ Image=docker.io/library/nextcloud:fpm
 PodmanArgs=--pod=nextcloud
 Timezone=local
 User=818
-UserNS=keep-id
 Volume=%h/container-volumes/nextcloud-nextcloud-app:/var/www/html:z
 Volume=%h/container-volumes/nextcloud-nextcloud-config:/var/www/html/config:z
 Volume=%h/container-volumes/nextcloud-nextcloud-custom-apps:/var/www/html/custom_apps:z
