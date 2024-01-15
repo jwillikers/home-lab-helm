@@ -9,7 +9,9 @@ ContainerName=nextcloud-cron-preview-generator
 Exec=/var/www/html/occ preview:pre-generate
 Group=818
 Image=docker.io/library/nextcloud:fpm
-Pod=nextcloud
+# todo Use Pod keyword available in upcoming Podman release.
+# Pod=nextcloud
+PodmanArgs=--pod=nextcloud
 Timezone=local
 User=818
 UserNS=keep-id
