@@ -1,0 +1,26 @@
+[Unit]
+Description=Add missing indices to the Nextcloud database
+Before=local-fs.target
+After=nextcloud.service
+
+[Container]
+AutoUpdate=registry
+ContainerName=nextcloud-cron-add-missing-indices
+Exec=/var/www/html/occ db:add-missing-indices
+Group=818
+Image=docker.io/library/nextcloud:fpm
+# todo Use Pod keyword available in upcoming Podman release.
+# Pod=nextcloud
+PodmanArgs=--pod=nextcloud
+Timezone=local
+User=818
+Volume=%h/container-volumes/nextcloud-nextcloud-app:/var/www/html:z
+Volume=%h/container-volumes/nextcloud-nextcloud-config:/var/www/html/config:z
+Volume=%h/container-volumes/nextcloud-nextcloud-custom-apps:/var/www/html/custom_apps:z
+Volume=%h/container-volumes/nextcloud-nextcloud-data:/var/www/html/data:z
+Volume=%h/Projects/nextcloud-config/docker-entrypoint-hooks.d/pre-installation:/docker-entrypoint-hooks.d/pre-installation:ro,z
+Volume=%h/Projects/nextcloud-config/etc/php/conf.d/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:ro,z
+Volume=%h/Projects/nextcloud-config/etc/php-fpm.d/z-www-overrides.conf:/usr/local/etc/php-fpm.d/z-www-overrides.conf:ro,z
+
+[Service]
+Restart=on-failure

@@ -1,0 +1,9 @@
+[Unit]
+Description=Regularly add missing indices to Nextcloud's database
+
+[Timer]
+OnCalendar=*-*-* 03:00:00
+RandomizedDelaySec=30min
+
+[Install]
+WantedBy=timers.target
