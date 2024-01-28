@@ -5,7 +5,7 @@ After=nextcloud.service
 
 [Container]
 AutoUpdate=registry
-ContainerName=nextcloud-add-missing-indices
+ContainerName=nextcloud-maintenance
 Exec=/usr/local/bin/nextcloud-maintenance.sh
 Group=818
 Image=docker.io/library/nextcloud:fpm
