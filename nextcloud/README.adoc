@@ -60,7 +60,7 @@ git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 mkdir --parents ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
-. Symlink the `caddy.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, `nextcloud-app-update.container`, and `nextcloud-preview-generate.container` files to the `~/.config/containers/systemd/` directory.
+. Symlink the `caddy.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, `nextcloud-maintenance.container`, and `nextcloud-preview-generate.container` files to the `~/.config/containers/systemd/` directory.
 +
 [,sh]
 ----
@@ -68,21 +68,19 @@ ln --force --relative --symbolic \
   ../podman.network \
   caddy.kube \
   nextcloud.kube \
-  nextcloud-add-missing-indices.container \
-  nextcloud-app-update.container \
   nextcloud-cron.container \
+  nextcloud-maintenance.container \
   nextcloud-preview-generate.container \
   ~/.config/containers/systemd/
 ----
 
-. Symlink the `nextcloud-cron.timer`, `nextcloud-add-missing-indices.timer`, `nextcloud-app-update.timer`, and `nextcloud-preview-generate.timer` files to the `~/.config/systemd/user/` directory.
+. Symlink the `nextcloud-cron.timer`, `nextcloud-maintenance.timer`, and `nextcloud-preview-generate.timer` files to the `~/.config/systemd/user/` directory.
 +
 [,sh]
 ----
 ln --force --relative --symbolic \
-  nextcloud-add-missing-indices.timer \
-  nextcloud-app-update.timer \
   nextcloud-cron.timer \
+  nextcloud-maintenance.timer \
   nextcloud-preview-generate.timer \
   ~/.config/systemd/user/
 ----
@@ -181,7 +179,7 @@ systemctl --user start caddy nextcloud
 +
 [,sh]
 ----
-systemctl --user enable --now nextcloud-cron.timer nextcloud-add-missing-indices.timer nextcloud-app-update.timer nextcloud-preview-generate.timer
+systemctl --user enable --now nextcloud-cron.timer nextcloud-maintenance.timer nextcloud-preview-generate.timer
 ----
 
 == External Storage
