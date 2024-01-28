@@ -1,5 +1,5 @@
 [Unit]
-Description=Regularly add missing indices to Nextcloud's database
+Description=Regularly run Nextcloud maintenance tasks
 
 [Timer]
 OnCalendar=*-*-* 03:00:00

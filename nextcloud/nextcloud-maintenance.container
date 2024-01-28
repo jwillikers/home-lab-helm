@@ -1,12 +1,12 @@
 [Unit]
-Description=Add missing indices to the Nextcloud database
+Description=Run Nextcloud maintenance tasks
 Before=local-fs.target
 After=nextcloud.service
 
 [Container]
 AutoUpdate=registry
 ContainerName=nextcloud-add-missing-indices
-Exec=/var/www/html/occ db:add-missing-indices
+Exec=/usr/local/bin/nextcloud-maintenance.sh
 Group=818
 Image=docker.io/library/nextcloud:fpm
 # todo Use Pod keyword available in upcoming Podman release.
@@ -21,6 +21,7 @@ Volume=%h/container-volumes/nextcloud-nextcloud-data:/var/www/html/data:z
 Volume=%h/Projects/nextcloud-config/docker-entrypoint-hooks.d/pre-installation:/docker-entrypoint-hooks.d/pre-installation:ro,z
 Volume=%h/Projects/nextcloud-config/etc/php/conf.d/redis-session.ini:/usr/local/etc/php/conf.d/redis-session.ini:ro,z
 Volume=%h/Projects/nextcloud-config/etc/php-fpm.d/z-www-overrides.conf:/usr/local/etc/php-fpm.d/z-www-overrides.conf:ro,z
+Volume=%h/Projects/home-lab-helm/nextcloud/nextcloud-maintenance.sh:/usr/local/bin/nextcloud-maintenance.sh:z
 
 [Service]
 Type=oneshot

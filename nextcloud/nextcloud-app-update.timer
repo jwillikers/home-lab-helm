@@ -1,9 +1,0 @@
-[Unit]
-Description=Update all Nextcloud apps daily
-
-[Timer]
-OnCalendar=daily
-RandomizedDelaySec=30min
-
-[Install]
-WantedBy=timers.target

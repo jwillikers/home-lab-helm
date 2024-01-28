@@ -57,7 +57,7 @@ git -C ~/Projects clone https://github.com/jwillikers/nextcloud-config.git
 +
 [,sh]
 ----
-mkdir -p ~/.config/containers/systemd ~/.config/systemd/user/
+mkdir --parents ~/.config/containers/systemd ~/.config/systemd/user/
 ----
 
 . Symlink the `caddy.kube`, `podman.network`, `nextcloud.kube`, `nextcloud-cron.container`, `nextcloud-app-update.container`, and `nextcloud-preview-generate.container` files to the `~/.config/containers/systemd/` directory.
@@ -183,6 +183,41 @@ systemctl --user start caddy nextcloud
 ----
 systemctl --user enable --now nextcloud-cron.timer nextcloud-add-missing-indices.timer nextcloud-app-update.timer nextcloud-preview-generate.timer
 ----
+
+== External Storage
+
+External storage can be added to Nextcloud.
+My instance uses an additional MinIO bucket where photos are uploaded from my https://github.com/jwillikers/pi-camera[Pi Camera].
+These instructions describe how to configure this MinIO bucket.
+
+. Create the `pi-camera` bucket with MinIO.
++
+[,sh]
+----
+podman run \
+  --interactive \
+  --name minio-client \
+  --rm \
+  --tty \
+  --user $(id -u):$(id -g) \
+  --userns keep-id \
+  --volume minio-client-config:/.mc:Z \
+  --volume ./pi-camera-minio-policy.json:/pi-camera-minio-policy.json:Z \
+  quay.io/minio/mc:latest \
+  admin user svcacct add --description "Nextcloud server storage backend" --name "Nextcloud Pi Camera" --policy "pi-camera-minio-policy.json" jwillikers core
+Access Key: XXXXXXXXXXXXXXXXXXXX
+Secret Key: ****************************************
+Expiration: no-expiry
+----
+
+. Open the _External storage_ settings in Nextcloud's Administration Settings page.
+. Enter the folder name, i.e. `pi-camera`.
+. From the _Add storage_ drop-down, select `Amazon S3`.
+. For _Bucket_, enter `pi-camera`.
+. For _Hostname_, use the hostname of the MinIO server, `minio.jwillikers.io`.
+. Set the _Region_ to `us-east-1`.
+. Select _Enable SSL_. 
+. Select _Enable Path Style_.
 
 == Maintenance
 
