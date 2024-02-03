@@ -35,6 +35,13 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/immich.
 git -C ~/Projects clone https://github.com/jwillikers/immich-config.git
 ----
 
+. Create the necessary directories.
++
+[,sh]
+----
+mkdir --parents ~/container-volumes/{immich-uploads-host,immich-postgresql-data-host}
+----
+
 . Copy the `immich-secrets.yaml.template` file to `immich-secrets.yaml`. 
 +
 [,sh]
