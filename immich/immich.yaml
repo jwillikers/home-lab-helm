@@ -44,8 +44,10 @@ spec:
       name: postgresql
       resources: {}
       securityContext:
-        runAsGroup: 818
-        runAsUser: 818
+        # The rootless docker.io/tensorchord/pgvecto-rs image runs as UID 26 in the container.
+        # https://github.com/tensorchord/pgvecto.rs/blob/4eb1f87ae637c857b41724b9980d1d2141800d8c/docker/pgvecto-rs-rootless.Dockerfile#L12C16-L12C18
+        runAsGroup: 26
+        runAsUser: 26
         seLinuxOptions:
           type: spc_t
       volumeMounts:
