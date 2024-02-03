@@ -165,7 +165,7 @@ spec:
           value: localhost
         - name: TZ
           value: US/Central
-      image: ghcr.io/immich-app/immich-machine-learning:release
+      image: ghcr.io/immich-app/immich-machine-learning:main-openvino
       name: immich-machine-learning
       resources: {}
       securityContext:
