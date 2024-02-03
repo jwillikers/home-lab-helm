@@ -108,8 +108,10 @@ spec:
         - mountPath: /etc/immich/immich-config.json
           name: immich-immich-server-config-host
           readOnly: true
+        - mountPath: /usr/src/app/upload/upload
+          name: immich-immich-server-upload-host
         - mountPath: /usr/src/app/upload
-          name: immich-immich-server-uploads-host
+          name: immich-immich-server-cache-pvc
     - args:
         - start.sh
         - microservices
@@ -144,8 +146,10 @@ spec:
         - mountPath: /etc/immich/immich-config.json
           name: immich-immich-server-config-host
           readOnly: true
+        - mountPath: /usr/src/app/upload/upload
+          name: immich-immich-server-upload-host
         - mountPath: /usr/src/app/upload
-          name: immich-immich-server-uploads-host
+          name: immich-immich-server-cache-pvc
     - args:
         - ./start.sh
       env:
@@ -187,10 +191,13 @@ spec:
         path: /home/core/Projects/immich-config/immich-config.json
         type: File
       name: immich-immich-server-config-host
+    - name: immich-immich-server-cache-pvc
+      persistentVolumeClaim:
+        claimName: immich-immich-server-cache
     - hostPath:
-        path: /home/core/container-volumes/immich-immich-server-uploads
+        path: /home/core/container-volumes/immich-immich-server-upload
         type: Directory
-      name: immich-immich-server-uploads-host
+      name: immich-immich-server-upload-host
     - hostPath:
         path: /home/core/container-volumes/immich-postgresql-data
         type: Directory
