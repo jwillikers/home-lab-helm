@@ -1,7 +1,7 @@
 [Unit]
 Description=Vaultwarden password manager server
 Before=local-fs.target
-RequiresMountsFor=%t/containers %h/container-volumes/vaultwarden-data %h/container-volumes/vaultwarden-db-data
+RequiresMountsFor=%t/containers %h/container-volumes/vaultwarden-vaultwarden-data %h/container-volumes/vaultwarden-postgresql-data
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/vaultwarden/vaultwarden.yaml
