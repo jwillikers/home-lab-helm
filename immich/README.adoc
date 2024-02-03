@@ -39,7 +39,7 @@ git -C ~/Projects clone https://github.com/jwillikers/immich-config.git
 +
 [,sh]
 ----
-mkdir --parents ~/container-volumes/{immich-uploads-host,immich-postgresql-data-host}
+mkdir --parents ~/container-volumes/{immich-uploads,immich-postgresql-data}
 ----
 
 . Copy the `immich-secrets.yaml.template` file to `immich-secrets.yaml`. 

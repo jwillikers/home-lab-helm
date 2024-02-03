@@ -194,7 +194,7 @@ spec:
         type: File
       name: immich-config-host
     - hostPath:
-        path: /home/core/container-volumes/immich-immich-server-data
+        path: /home/core/container-volumes/immich-uploads
         type: Directory
       name: immich-uploads-host
     - hostPath:
