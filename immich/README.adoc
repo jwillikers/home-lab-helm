@@ -28,6 +28,35 @@ The Immich pod uses the configuration file provided by the https://github.com/jw
 ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/immich.caddyfile ~/Projects/caddy-config/sites-enabled/immich.caddyfile
 ----
 
+. Permit container to access devices in SELinux.
++
+[,sh]
+----
+sudo setsebool -P container_use_devices=true
+----
+
+. On Fedora IoT, the _video_ and _render_ groups do not exist in `/etc/group`, so they must be added there.
++
+[,sh]
+----
+echo $(getent group render) | sudo tee -a /etc/group; and \
+echo $(getent group video) | sudo tee -a /etc/group
+----
+
+. Add the core user to the _render_ and _video_ groups to access graphics devices without requiring superuser privileges.
++
+[,sh]
+----
+sudo usermod -aG render,video core
+----
+
+. Reboot for the group change to take effect.
++
+[,sh]
+----
+sudo systemctl reboot
+----
+
 . Clone the Immich Config repository under the `~/Projects` directory.
 +
 [,sh]

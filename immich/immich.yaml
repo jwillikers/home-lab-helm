@@ -19,6 +19,8 @@ metadata:
     io.containers.autoupdate/immich-server: registry
     io.containers.autoupdate/postgresql: registry
     io.containers.autoupdate/redis: registry
+    io.podman.annotations.userns: true
+    run.oci.keep_original_groups: true
   creationTimestamp: "2023-04-21T17:53:56Z"
   labels:
     app: immich
