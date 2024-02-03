@@ -102,9 +102,9 @@ spec:
           type: spc_t
       volumeMounts:
         - mountPath: /etc/immich/immich.config.json
-          name: immich-config-host
+          name: immich-immich-server-config-host
         - mountPath: /usr/src/app/upload
-          name: immich-uploads-host
+          name: immich-immich-server-uploads-host
     - args:
         - start.sh
         - microservices
@@ -142,9 +142,9 @@ spec:
         - mountPath: /dev/dri
           name: dev-dri-host
         - mountPath: /etc/immich/immich.config.json
-          name: immich-config-host
+          name: immich-immich-server-config-host
         - mountPath: /usr/src/app/upload
-          name: immich-uploads-host
+          name: immich-immich-server-uploads-host
     - env:
         - name: DB_HOSTNAME
           value: localhost
@@ -192,11 +192,11 @@ spec:
     - hostPath:
         path: /home/core/Projects/immich-config/immich.config.json
         type: File
-      name: immich-config-host
+      name: immich-immich-server-config-host
     - hostPath:
-        path: /home/core/container-volumes/immich-uploads
+        path: /home/core/container-volumes/immich-immich-server-uploads
         type: Directory
-      name: immich-uploads-host
+      name: immich-immich-server-uploads-host
     - hostPath:
         path: /home/core/container-volumes/immich-postgresql-data
         type: Directory

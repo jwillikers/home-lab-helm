@@ -1,7 +1,7 @@
 [Unit]
 Description=Immich self-hosted photo server
 Before=local-fs.target
-RequiresMountsFor=%t/containers %h/container-volumes/immich-uploads %h/container-volumes/immich-postgresql-data
+RequiresMountsFor=%t/containers %h/container-volumes/immich-immich-server-uploads %h/container-volumes/immich-postgresql-data
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/immich/immich.yaml
