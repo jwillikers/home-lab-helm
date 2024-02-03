@@ -108,6 +108,8 @@ spec:
         - mountPath: /etc/immich/immich-config.json
           name: immich-immich-server-config-host
           readOnly: true
+        - mountPath: /usr/src/app/upload/profile
+          name: immich-immich-server-profile-host
         - mountPath: /usr/src/app/upload/upload
           name: immich-immich-server-upload-host
         - mountPath: /usr/src/app/upload
@@ -146,6 +148,8 @@ spec:
         - mountPath: /etc/immich/immich-config.json
           name: immich-immich-server-config-host
           readOnly: true
+        - mountPath: /usr/src/app/upload/profile
+          name: immich-immich-server-profile-host
         - mountPath: /usr/src/app/upload/upload
           name: immich-immich-server-upload-host
         - mountPath: /usr/src/app/upload
@@ -194,6 +198,10 @@ spec:
     - name: immich-immich-server-cache-pvc
       persistentVolumeClaim:
         claimName: immich-immich-server-cache
+    - hostPath:
+        path: /home/core/container-volumes/immich-immich-server-profile
+        type: Directory
+      name: immich-immich-server-profile-host
     - hostPath:
         path: /home/core/container-volumes/immich-immich-server-upload
         type: Directory
