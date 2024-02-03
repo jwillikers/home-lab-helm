@@ -1,7 +1,7 @@
 = Immich
 :experimental:
 :icons: font
-:keywords: bitwarden password rust vault vaultwarden
+:keywords: image immich openvino photo photograph picture qsv transcode
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
