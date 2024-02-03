@@ -1,0 +1,31 @@
+= RPM Fusion
+:keywords: fedora rpm rpm-ostree rpmfusion
+:RPM-Fusion: https://rpmfusion.org/[RPM Fusion]
+
+{RPM-Fusion} provides 3rd party software that isn't shipped as part of the official Fedora distribution.
+
+. Add the RPM Fusion repositories.
++
+[,sh]
+----
+sudo rpm-ostree install https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+----
+
+. Reboot to apply the changes.
++
+[,sh]
+----
+sudo systemctl reboot
+----
+
+. Now remove the lock on the versioned RPM Fusion packages.
+This is documented in https://docs.fedoraproject.org/en-US/fedora-sericea/tips-and-tricks/#_enabling_rpm_fusion_repos[Fedora Sericea: Tips and Tricks - Enabling RPM Fusion repos].
++
+[,sh]
+----
+sudo rpm-ostree update \
+    --uninstall rpmfusion-free-release \
+    --uninstall rpmfusion-nonfree-release \
+    --install rpmfusion-free-release \
+    --install rpmfusion-nonfree-release
+----

@@ -16,9 +16,13 @@ The {Immich} pod provides a service for hosting photographs.
 == Usage
 
 The Immich pod uses the configuration file provided by the https://github.com/jwillikers/immich-config[Immich Config] repository.
+My server uses an 11th gen https://ark.intel.com/content/www/us/en/ark/products/208921/intel-core-i7-1165g7-processor-12m-cache-up-to-4-70-ghz-with-ipu.html[Intel Core i7-1165G7 processor].
+This processor's GPU supports Intel Quick Sync Video, a.k.a _QSV_, which provides hardware-accelerated transcoding.
+This configuration enables hardware-acceleration for transcoding as well as machine learning for this particular chipset.
+The machine learning hardware-acceleration uses https://github.com/openvinotoolkit/openvino[OpenVINO].
 
+. Follow the <<../doc/RPM Fusion.adoc,RPM Fusion>> documentation to add the RPM Fusion repository.
 . Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
-
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
 . Symlink the `immich.caddyfile` file to the `sites-enabled` directory.
@@ -35,19 +39,49 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/immich.
 mkdir --parents ~/.config/containers/
 ----
 
+. Install the Linux firmware and driver for the Intel GPU along with some helpful utilities.
++
+[,sh]
+----
+sudo rpm-ostree install intel-gpu-firmware intel-media-driver intel-gpu-tools libva-utils 
+----
+
+. Create the `/etc/modprobe.d` directory.
++
+[,sh]
+----
+sudo mkdir --parents /etc/modprobe.d
+----
+
+. Enable loading the graphics micro controller, _GuC_, and the HEVC/H.265 micro controller, _HuC_.
+This functionality isn't loaded by default until Intel 12th generation chips, unfortunately.
++
+[,sh]
+----
+echo 'options i915 enable_guc=3' | sudo tee /etc/modprobe.d/i915.conf
+----
+
+. Add this configuration file to the initramfs of the system.
+On Fedora Atomic systems, this is done using the `rpm-ostree initramfs-etc` command.
++
+[,sh]
+----
+sudo rpm-ostree initramfs-etc --track=/etc/modprobe.d/i915.conf
+----
+
 . Configure Podman to mount in the devices under `/dev/dri` to allow access to the machine's graphics card.
 This is a workaround to mount in devices when using Podman with Kubernetes YAML.
-Support should eventually be added for doing this with Kubernetes plugins as is standard.
+Support should eventually be added for doing this with Kubernetes plugins as is the status quo.
 Refer to the Podman issue https://github.com/containers/podman/issues/17833[Support device mapping in kube play similar do Kubernetes device plugins #17833].
 +
 .~/.config/containers/containers.conf
 [,toml]
 ----
 [containers]
-devices=["/dev/dri/card0:/dev/dri/card0", "/dev/dri/renderD128:/dev/dri/renderD128"]
+devices=["/dev/dri:/dev/dri"]
 ----
 
-. Permit container to access devices in SELinux.
+. Permit containers access to devices in SELinux.
 +
 [,sh]
 ----
@@ -62,7 +96,7 @@ echo $(getent group render) | sudo tee -a /etc/group; and \
 echo $(getent group video) | sudo tee -a /etc/group
 ----
 
-. Add the core user to the _render_ and _video_ groups to access graphics devices without requiring superuser privileges.
+. Add the core user to the _render_ and _video_ groups to allow access to the graphics devices without requiring superuser privileges.
 +
 [,sh]
 ----
@@ -150,3 +184,11 @@ systemctl --user daemon-reload
 ----
 systemctl --user start immich
 ----
+
+== References
+
+.Documentation
+* https://wiki.archlinux.org/title/intel_graphics#Enable_GuC_/_HuC_firmware_loading[Arch Linux Wiki: Intel Graphics - Enable GuC / HuC firmware loading]
+* https://immich.app/docs/features/hardware-transcoding[Immich: Hardware Transcoding]
+* https://immich.app/docs/features/ml-hardware-acceleration[Immich: Hardware-Accelerated Machine Learning]
+* https://jellyfin.org/docs/general/administration/hardware-acceleration/intel/#configure-and-verify-lp-mode-on-linux[Jellyfin: Configure And Verify LP Mode On Linux]
