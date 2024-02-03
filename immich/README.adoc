@@ -28,6 +28,25 @@ The Immich pod uses the configuration file provided by the https://github.com/jw
 ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/immich.caddyfile ~/Projects/caddy-config/sites-enabled/immich.caddyfile
 ----
 
+. Create the directory for Podman's configuration file.
++
+[,sh]
+----
+mkdir --parents ~/.config/containers/
+----
+
+. Configure Podman to mount in the devices under `/dev/dri` to allow access to the machine's graphics card.
+This is a workaround to mount in devices when using Podman with Kubernetes YAML.
+Support should eventually be added for doing this with Kubernetes plugins as is standard.
+Refer to the Podman issue https://github.com/containers/podman/issues/17833[Support device mapping in kube play similar do Kubernetes device plugins #17833].
++
+.~/.config/containers/containers.conf
+[,toml]
+----
+[containers]
+devices=["/dev/dri/card0:/dev/dri/card0", "/dev/dri/renderD128:/dev/dri/renderD128"]
+----
+
 . Permit container to access devices in SELinux.
 +
 [,sh]

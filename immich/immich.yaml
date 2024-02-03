@@ -19,8 +19,6 @@ metadata:
     io.containers.autoupdate/immich-server: registry
     io.containers.autoupdate/postgresql: registry
     io.containers.autoupdate/redis: registry
-    io.podman.annotations.userns: true
-    run.oci.keep_original_groups: true
   creationTimestamp: "2023-04-21T17:53:56Z"
   labels:
     app: immich
@@ -93,7 +91,7 @@ spec:
         - name: DB_USERNAME
           value: immich
         - name: IMMICH_CONFIG_FILE
-          value: /etc/immich/immich.config.json
+          value: /etc/immich/immich-config.json
         - name: REDIS_HOSTNAME
           value: localhost
         - name: TZ
@@ -107,8 +105,9 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
-        - mountPath: /etc/immich/immich.config.json
+        - mountPath: /etc/immich/immich-config.json
           name: immich-immich-server-config-host
+          readOnly: true
         - mountPath: /usr/src/app/upload
           name: immich-immich-server-uploads-host
     - args:
@@ -128,8 +127,7 @@ spec:
         - name: DB_USERNAME
           value: immich
         - name: IMMICH_CONFIG_FILE
-          value: /etc/immich/immich.config.json
-          readOnly: true
+          value: /etc/immich/immich-config.json
         - name: REDIS_HOSTNAME
           value: localhost
         - name: TZ
@@ -138,19 +136,12 @@ spec:
       name: immich-microservices
       resources: {}
       securityContext:
-        # privileged is only allowed as a temporary measure for hardware acceleration. 
-        # https://github.com/containers/podman/issues/17833#issuecomment-1925309723
-        privileged: true
         runAsGroup: 818
         runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
-        - mountPath: /dev/dri/card0
-          name: dev-dri-card0-host
-        - mountPath: /dev/dri/renderD128
-          name: dev-dri-renderD128-host
-        - mountPath: /etc/immich/immich.config.json
+        - mountPath: /etc/immich/immich-config.json
           name: immich-immich-server-config-host
           readOnly: true
         - mountPath: /usr/src/app/upload
@@ -178,37 +169,22 @@ spec:
       name: immich-machine-learning
       resources: {}
       securityContext:
-        # privileged is only allowed as a temporary measure for hardware acceleration. 
-        # https://github.com/containers/podman/issues/17833#issuecomment-1925309723
-        privileged: true
         runAsGroup: 818
         runAsUser: 818
         seLinuxOptions:
           type: spc_t
       volumeMounts:
-        - mountPath: /dev/dri/card0
-          name: dev-dri-card0-host
-        - mountPath: /dev/dri/renderD128
-          name: dev-dri-renderD128-host
         - mountPath: /cache
           name: immich-immich-machine-learning-cache-pvc
   enableServiceLinks: false
   hostname: immich
   hostUsers: false
   volumes:
-    - hostPath:
-        path: /dev/dri/card0
-        type: File
-      name: dev-dri-card0-host
-    - hostPath:
-        path: /dev/dri/renderD128
-        type: File
-      name: dev-dri-renderD128-host
     - name: immich-immich-machine-learning-cache-pvc
       persistentVolumeClaim:
         claimName: immich-immich-machine-learning-cache
     - hostPath:
-        path: /home/core/Projects/immich-config/immich.config.json
+        path: /home/core/Projects/immich-config/immich-config.json
         type: File
       name: immich-immich-server-config-host
     - hostPath:
