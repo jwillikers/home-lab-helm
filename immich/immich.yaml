@@ -190,7 +190,7 @@ spec:
       persistentVolumeClaim:
         claimName: immich-immich-machine-learning-cache
     - hostPath:
-        path: /home/core/Projects/immich-config/immich.config
+        path: /home/core/Projects/immich-config/immich.config.json
         type: File
       name: immich-immich-server-config-host
     - hostPath:

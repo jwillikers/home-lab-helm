@@ -1,5 +1,5 @@
 [Unit]
-Description=Immich Self-hosted Photo Solution
+Description=Immich self-hosted photo server
 Before=local-fs.target
 RequiresMountsFor=%t/containers %h/container-volumes/immich-immich-data %h/container-volumes/immich-postgresql-data
 
