@@ -255,6 +255,7 @@ git -C ~/Projects clone https://github.com/jwillikers/home-lab-helm.git
 * <<esphome/README.adoc,ESPHome>>
 * <<gitea/README.adoc,Gitea>>
 * <<icinga/README.adoc,Icinga>>
+* <<immich/README.adoc,Immich>>
 * <<influxdb/README.adoc,InfluxDB>>
 * <<jellyfin/README.adoc,Jellyfin>>
 * <<miniflux/README.adoc,Miniflux>>

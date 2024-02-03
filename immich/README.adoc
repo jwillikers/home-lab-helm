@@ -1,0 +1,97 @@
+= Immich
+:experimental:
+:icons: font
+:keywords: bitwarden password rust vault vaultwarden
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:Immich: https://immich.app/[Immich]
+
+The {Immich} pod provides a service for hosting photographs.
+
+== Usage
+
+The Immich pod uses the configuration file provided by the https://github.com/jwillikers/immich-config[Immich Config] repository.
+
+. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Symlink the `immich.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/immich.caddyfile ~/Projects/caddy-config/sites-enabled/immich.caddyfile
+----
+
+. Clone the Immich Config repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/immich-config.git
+----
+
+. Copy the `immich-secrets.yaml.template` file to `immich-secrets.yaml`. 
++
+[,sh]
+----
+cp --no-clobber immich-secrets.yaml.template immich-secrets.yaml
+----
+
+. Make sure that the secrets file is not world readable.
++
+[,sh]
+----
+chmod 0640 *-secrets.yaml
+----
+
+. Fill in any missing secrets in the `immich-secrets.yaml` file.
++
+[TIP]
+====
+You can generate a random password with the following command.
+
+[,sh]
+----
+tr -cd '[:alnum:]' < /dev/urandom | fold -w30 | head -n1 | tr -d '\n'
+----
+====
+
+. Import the `immich-secrets.yaml` secrets in Podman with the `podman play kube` command.
++
+[,sh]
+----
+podman play kube immich-secrets.yaml
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir --parents ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `immich.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network immich.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the Immich pod.
++
+[,sh]
+----
+systemctl --user start immich
+----
