@@ -27,6 +27,10 @@ spec:
   containers:
     - args:
         - postgres
+        - -c
+        - shared_preload_libraries=vectors.so
+        - -c
+        - search_path="$user", public, vectors
       env:
         - name: PGDATA
           value: /var/lib/postgresql/data/pgdata
