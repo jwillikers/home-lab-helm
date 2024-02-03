@@ -24,6 +24,13 @@ The {Vaultwarden} pod provides a Bitwarden-compatible server written in Rust.
 ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/vaultwarden.caddyfile ~/Projects/caddy-config/sites-enabled/vaultwarden.caddyfile
 ----
 
+. Create the necessary host-mount directories.
++
+[,sh]
+----
+mkdir --parents ~/container-volumes/{vaultwarden-vaultwarden-data,vaultwarden-postgresql-data}
+----
+
 . Copy the `vaultwarden-secrets.yaml.template` file to `vaultwarden-secrets.yaml`. 
 +
 [,sh]
