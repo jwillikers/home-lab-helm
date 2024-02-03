@@ -143,8 +143,10 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
-        - mountPath: /dev/dri
-          name: dev-dri-host
+        - mountPath: /dev/dri/card0
+          name: dev-dri-card0-host
+        - mountPath: /dev/dri/renderD128
+          name: dev-dri-renderD128-host
         - mountPath: /etc/immich/immich.config.json
           name: immich-immich-server-config-host
         - mountPath: /usr/src/app/upload
@@ -180,8 +182,10 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
-        - mountPath: /dev/dri
-          name: dev-dri-host
+        - mountPath: /dev/dri/card0
+          name: dev-dri-card0-host
+        - mountPath: /dev/dri/renderD128
+          name: dev-dri-renderD128-host
         - mountPath: /cache
           name: immich-immich-machine-learning-cache-pvc
   enableServiceLinks: false
@@ -189,9 +193,13 @@ spec:
   hostUsers: false
   volumes:
     - hostPath:
-        path: /dev/dri
-        type: Directory
-      name: dev-dri-host
+        path: /dev/dri/card0
+        type: File
+      name: dev-dri-card0-host
+    - hostPath:
+        path: /dev/dri/renderD128
+        type: File
+      name: dev-dri-renderD128-host
     - name: immich-immich-machine-learning-cache-pvc
       persistentVolumeClaim:
         claimName: immich-immich-machine-learning-cache
