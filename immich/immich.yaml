@@ -149,7 +149,9 @@ spec:
           name: immich-immich-server-config-host
         - mountPath: /usr/src/app/upload
           name: immich-immich-server-uploads-host
-    - env:
+    - args:
+        - ./start.sh
+      env:
         - name: DB_HOSTNAME
           value: localhost
         - name: DB_DATABASE_NAME
