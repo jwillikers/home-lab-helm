@@ -78,7 +78,7 @@ spec:
               key: influxdb_admin_password
               optional: false
         - name: TZ
-          value: America/Chicago
+          value: US/Central
       image: docker.io/library/influxdb:latest
       name: influxdb
       ports:

@@ -80,7 +80,7 @@ spec:
         - name: WRITE_TIMEOUT
           value: "1800"
         - name: TZ
-          value: "US/Central"
+          value: US/Central
       image: docker.io/crazymax/rrdcached:latest
       name: rrdcached
       securityContext:

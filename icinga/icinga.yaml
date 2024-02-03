@@ -41,7 +41,7 @@ spec:
     - name: HOSTNAME
       value: icinga.jwillikers.io
     - name: TZ
-      value: America/Chicago
+      value: US/Central
     image: quay.io/jwillikers/icinga-manubulon:latest
     name: icinga
     securityContext:
