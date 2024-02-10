@@ -173,7 +173,8 @@ spec:
           value: localhost
         - name: TZ
           value: US/Central
-      # todo image: ghcr.io/immich-app/immich-machine-learning:release-openvino
+      # todo Bump concurrency up when hardware-acceleration is working for smart search and face recognition.
+      # image: ghcr.io/immich-app/immich-machine-learning:release-openvino
       image: ghcr.io/immich-app/immich-machine-learning:release
       name: immich-machine-learning
       resources: {}
