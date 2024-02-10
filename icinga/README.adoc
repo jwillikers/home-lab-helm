@@ -21,6 +21,7 @@ Official helm charts are available from the https://github.com/Icinga/helm-chart
 == Usage
 
 The Icinga 2 chart uses the configuration provided by the https://github.com/jwillikers/icinga-config[Icinga Config] repository.
+It uses my https://github.com/jwillikers/icinga-snmp-image[Icinga SNMP Image] which adds several SNMP plugins to the official container image.
 Certain sensitive parameters are kept in specific files which must be managed separately.
 The instructions here document the process get the Icinga 2, Icinga DB, and Icinga Web 2 services up and running.
 
