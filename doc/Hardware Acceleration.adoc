@@ -1,0 +1,84 @@
+= Hardware Acceleration
+:experimental:
+
+Some containers, like Jellyfin and Immich, can make use of hardware acceleration for specific functions like transcoding media and machine learning.
+Sadly, the state of hardware accelerated workloads tends to rely heavily on the specific underlying hardware and is often not just plug-and-play.
+My server uses an 11th gen https://ark.intel.com/content/www/us/en/ark/products/208921/intel-core-i7-1165g7-processor-12m-cache-up-to-4-70-ghz-with-ipu.html[Intel Core i7-1165G7 processor].
+This processor's GPU supports Intel Quick Sync Video, a.k.a _QSV_, which provides hardware-accelerated transcoding.
+There's quite a bit of extra configuration to get the hardware acceleration for this system working, which is what is documented here.
+Mileage varies significantly between vendors and even generations from the same vendor.
+Additionally, using Kubernetes YAML with Podman as I do lacks a proper method of permitting access to the GPU.
+Fortunately, there's a workaround included here that should suffice until proper support lands in Podman.
+
+. Follow the <<../doc/RPM Fusion.adoc,RPM Fusion>> documentation to add the RPM Fusion repository.
+
+. Install the Linux firmware and driver for the Intel GPU along with some helpful utilities.
++
+[,sh]
+----
+sudo rpm-ostree install intel-gpu-firmware intel-media-driver intel-gpu-tools libva-utils 
+----
+
+. Create the `/etc/modprobe.d` directory.
++
+[,sh]
+----
+sudo mkdir --parents /etc/modprobe.d
+----
+
+. Enable loading the graphics micro controller, _GuC_, and the HEVC/H.265 micro controller, _HuC_.
+This functionality isn't loaded by default until Intel 12th generation chips, unfortunately.
++
+[,sh]
+----
+echo 'options i915 enable_guc=3' | sudo tee /etc/modprobe.d/i915.conf
+----
+
+. Add this configuration file to the initramfs of the system.
+On Fedora Atomic systems, this is done using the `rpm-ostree initramfs-etc` command.
++
+[,sh]
+----
+sudo rpm-ostree initramfs-etc --track=/etc/modprobe.d/i915.conf
+----
+
+. Configure Podman to mount in the devices under `/dev/dri` to allow access to the machine's graphics card.
+This is a workaround to mount in devices when using Podman with Kubernetes YAML.
+Support should eventually be added for doing this with Kubernetes plugins as is the status quo.
+Refer to the Podman issue https://github.com/containers/podman/issues/17833[Support device mapping in kube play similar do Kubernetes device plugins #17833].
++
+.~/.config/containers/containers.conf
+[,toml]
+----
+[containers]
+devices=["/dev/dri:/dev/dri"]
+----
+
+. Permit containers access to devices in SELinux.
++
+[,sh]
+----
+sudo setsebool -P container_use_devices=true
+----
+
+. On Fedora IoT, the _video_ and _render_ groups do not exist in `/etc/group`, so they must be added there.
++
+[,sh]
+----
+echo $(getent group render) | sudo tee -a /etc/group; and \
+echo $(getent group video) | sudo tee -a /etc/group
+----
+
+. Add the core user to the _render_ and _video_ groups to allow access to the graphics devices without requiring superuser privileges.
++
+[,sh]
+----
+sudo usermod -aG render,video core
+----
+
+. Reboot for the group change to take effect.
++
+[,sh]
+----
+sudo systemctl reboot
+----

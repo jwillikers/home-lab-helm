@@ -20,6 +20,8 @@ Jellyfin does not yet support accessing S3-compatible object storage directly.
 The storage is instead mounted to the host filesystem via s3fs.
 From there it is mounted inside the container.
 
+. Follow the <<../doc/Hardware Acceleration.adoc,Hardware Acceleration>> documentation to enable hardware acceleration.
+
 . Install the `s3fs-fuse` package.
 +
 [,sh]
