@@ -42,7 +42,7 @@ spec:
       value: icinga.jwillikers.io
     - name: TZ
       value: US/Central
-    image: quay.io/jwillikers/icinga-manubulon:latest
+    image: quay.io/jwillikers/icinga-snmp:latest
     name: icinga
     securityContext:
       capabilities:
