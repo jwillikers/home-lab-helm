@@ -49,7 +49,7 @@ spec:
   # todo hostUsers: false
   volumes:
     - hostPath:
-        path: /home/core/Projects/esphome-config
+        path: /home/core/Projects/esphome-config/esphome
         type: Directory
       name: esphome-config-host
     - name: esphome-cache-pvc
