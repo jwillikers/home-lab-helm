@@ -176,7 +176,7 @@ spec:
       # todo Uncomment when the OpenVINO fix is released.
       # https://github.com/immich-app/immich/pull/7389
       # image: ghcr.io/immich-app/immich-machine-learning:release-openvino
-      image: immich-machine-learning:main-openvino@sha256:5b70fc84d2c1e7bf895672c38c4601b65624b854873345b1fd606992b7f1834c
+      image: ghcr.io/immich-app/immich-machine-learning:main-openvino@sha256:5b70fc84d2c1e7bf895672c38c4601b65624b854873345b1fd606992b7f1834c
       name: immich-machine-learning
       resources: {}
       securityContext:
