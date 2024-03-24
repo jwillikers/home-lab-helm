@@ -2,7 +2,6 @@
 Description=NGINX reverse-proxy
 Before=local-fs.target
 RequiresMountsFor=%h/Projects/nginx-config
-Requires=bitcoin-core.service
 After=bitcoin-core.service
 
 [Kube]
