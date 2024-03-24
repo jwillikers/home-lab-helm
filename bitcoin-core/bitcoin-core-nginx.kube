@@ -2,10 +2,14 @@
 Description=NGINX reverse-proxy
 Before=local-fs.target
 RequiresMountsFor=%h/Projects/nginx-config
+Requires=bitcoin-core.service
+After=bitcoin-core.service
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/bitcoin-core/bitcoin-core-nginx.yaml
 Network=bitcoin-core.network
+PublishPort=192.0.2.1:50002:50002
+PublishPort=[fd42:42:42::1]:50002:50002
 
 [Service]
 Restart=always
