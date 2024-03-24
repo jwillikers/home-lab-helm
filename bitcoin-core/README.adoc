@@ -41,18 +41,18 @@ TLS certificates are handled by the Certbot container.
 sudo firewall-cmd --new-zone=electrs --permanent
 ----
 
-. Move the WireGuard interface, `wg0` here, to the `electrs` zone.
+. Move the WireGuard interface, `wg0` here, to the `bitcoin` zone.
 +
 [,sh]
 ----
-sudo firewall-cmd --add-interface=wg0 --zone=electrs --permanent
+sudo firewall-cmd --add-interface=wg0 --zone=bitcoin --permanent
 ----
 
 . Open TCP port 50002 for the `electrs` zone.
 +
 [,sh]
 ----
-sudo firewall-cmd --add-port=50002/tcp --zone=electrs --permanent
+sudo firewall-cmd --add-port=8333/tcp --add-port=50002/tcp --zone=bitcoin --permanent
 ----
 
 . Reload the new firewall rules.

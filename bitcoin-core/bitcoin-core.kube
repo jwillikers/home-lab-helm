@@ -6,6 +6,8 @@ RequiresMountsFor=%h/container-volumes
 [Kube]
 Yaml=%h/Projects/home-lab-helm/bitcoin-core/bitcoin-core.yaml
 Network=bitcoin-core.network
+PublishPort=192.0.2.1:8333:8333
+PublishPort=[fd42:42:42::1]:8333:8333
 UserNS=keep-id
 
 [Service]

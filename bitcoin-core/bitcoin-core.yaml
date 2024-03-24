@@ -10,6 +10,15 @@ metadata:
     app: bitcoin-core
   name: bitcoin-core
 spec:
+  ports:
+  - name: "8333"
+    nodePort: 32686
+    port: 8333
+    targetPort: 8333
+  - name: "8333"
+    nodePort: 30772
+    port: 8333
+    targetPort: 8333
   selector:
     app: bitcoin-core
   type: NodePort
@@ -58,6 +67,11 @@ spec:
         - -zmqpubrawtx=tcp://0.0.0.0:28333
       image: docker.io/lncm/bitcoind:v26.0
       name: bitcoin-core
+      ports:
+        - containerPort: 8333
+          hostIP: 192.0.2.1
+        - containerPort: 8333
+          hostIP: fd42:42:42::1
       securityContext:
         runAsGroup: 818
         runAsUser: 818
