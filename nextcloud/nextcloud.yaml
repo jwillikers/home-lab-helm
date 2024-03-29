@@ -34,9 +34,9 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        # The Redict user and group use the id 1000.
-        runAsGroup: 1000
-        runAsUser: 1000
+        # The Redict user and group use the id 999.
+        runAsGroup: 999
+        runAsUser: 999
         seLinuxOptions:
           type: spc_t
       volumeMounts:
