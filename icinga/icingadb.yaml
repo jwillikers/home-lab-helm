@@ -30,7 +30,7 @@ spec:
   containers:
     - args:
         - redict-server
-      image: registry.redict.io/redict:latest
+      image: registry.redict.io/redict:debian
       name: redict
       securityContext:
         # The Redict user and group use the id 999.

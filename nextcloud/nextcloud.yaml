@@ -25,7 +25,7 @@ spec:
   containers:
     - args:
         - redict-server
-      image: registry.redict.io/redict:latest
+      image: registry.redict.io/redict:debian
       name: redict
       resources: {}
       securityContext:
