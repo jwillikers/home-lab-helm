@@ -1,8 +1,8 @@
-= Redis
+= Redict
 :experimental:
 
-https://redis.io/[Redis] containers require some additional system configuration.
-Refer to the https://redis.io/docs/management/admin/[Redis administration] documentation for more details and recommendations.
+https://redict.io[Redict] containers require some additional system configuration.
+Refer to the https://redict.io/docs[Redict documentation] for more details and recommendations.
 
 == System Configuration
 

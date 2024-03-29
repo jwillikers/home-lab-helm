@@ -20,7 +20,7 @@ metadata:
   annotations:
     bind-mount-options: /var/home/core/container-volumes/icingadb-postgresql-data:Z
     io.containers.autoupdate/postgresql: registry
-    io.containers.autoupdate/redis: registry
+    io.containers.autoupdate/redict: registry
     io.containers.autoupdate/icingadb: registry
   creationTimestamp: "2023-10-28T15:28:33Z"
   labels:
@@ -29,18 +29,18 @@ metadata:
 spec:
   containers:
     - args:
-        - redis-server
-      image: docker.io/library/redis:latest
-      name: redis
+        - redict-server
+      image: registry.redict.io/redict:latest
+      name: redict
       securityContext:
-        # The Redis user and group use the id 999.
+        # The Redict user and group use the id 999.
         runAsGroup: 999
         runAsUser: 999
         seLinuxOptions:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: icingadb-redis-data-pvc
+          name: icingadb-redict-data-pvc
     - args:
         - postgres
       env:
@@ -95,9 +95,9 @@ spec:
   enableServiceLinks: false
   hostUsers: false
   volumes:
-    - name: icingadb-redis-data-pvc
+    - name: icingadb-redict-data-pvc
       persistentVolumeClaim:
-        claimName: icingadb-redis-data
+        claimName: icingadb-redict-data
     - name: icingadb-postgresql-data-pvc
       persistentVolumeClaim:
         claimName: icingadb-postgresql-data

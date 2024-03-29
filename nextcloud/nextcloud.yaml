@@ -10,11 +10,11 @@ metadata:
     bind-mount-options: /home/core/container-volumes/nextcloud-nextcloud-app:z
     bind-mount-options/imaginary: /home/core/container-volumes/nextcloud-nextcloud-app:z
     bind-mount-options/postgresql: /home/core/container-volumes/nextcloud-nextcloud-app:z
-    bind-mount-options/redis: /home/core/container-volumes/nextcloud-nextcloud-app:z
+    bind-mount-options/redict: /home/core/container-volumes/nextcloud-nextcloud-app:z
     bind-mount-options/nextcloud: /home/core/container-volumes/nextcloud-nextcloud-app:z
     io.containers.autoupdate/postgresql: registry
     io.containers.autoupdate/imaginary: registry
-    io.containers.autoupdate/redis: registry
+    io.containers.autoupdate/redict: registry
     io.containers.autoupdate/nextcloud: registry
   creationTimestamp: "2023-02-04T18:08:13Z"
   labels:
@@ -24,9 +24,9 @@ spec:
   automountServiceAccountToken: false
   containers:
     - args:
-        - redis-server
-      image: docker.io/library/redis:latest
-      name: redis
+        - redict-server
+      image: registry.redict.io/redict:latest
+      name: redict
       resources: {}
       securityContext:
         capabilities:
@@ -34,14 +34,14 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        # The Redis user and group use the id 999.
+        # The Redict user and group use the id 999.
         runAsGroup: 999
         runAsUser: 999
         seLinuxOptions:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: nextcloud-redis-data-pvc
+          name: nextcloud-redict-data-pvc
     - args:
         - postgres
         - -c
@@ -242,9 +242,9 @@ spec:
         path: /home/core/container-volumes/nextcloud-nextcloud-config
         type: Directory
       name: nextcloud-nextcloud-config-host
-    - name: nextcloud-redis-data-pvc
+    - name: nextcloud-redict-data-pvc
       persistentVolumeClaim:
-        claimName: nextcloud-redis-data
+        claimName: nextcloud-redict-data
     - hostPath:
         path: /home/core/container-volumes/nextcloud-postgresql-data
         type: Directory

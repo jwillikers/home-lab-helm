@@ -30,7 +30,7 @@ The instructions here document the process get the Icinga 2, Icinga DB, and Icin
 It is recommend to run Icinga 2 and Icinga DB on the same machine to reduce latency. 
 ====
 
-. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<../doc/Redict.adoc#System Configuration,Redict System Configuration>> instructions.
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
 . Symlink the `icinga.caddyfile` and `icingaweb.caddyfile` files to the `sites-enabled` directory.

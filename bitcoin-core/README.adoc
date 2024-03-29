@@ -34,11 +34,11 @@ If using a separate disk, I recommend putting the dedicated container user's ent
 . Follow the <<../certbot/README.adoc,Certbot Configuration>> instructions.
 TLS certificates are handled by the Certbot container.
 
-. Create a dedicated firewall zone for the electrs service.
+. Create a dedicated firewall zone for the Bitcoin-related services.
 +
 [,sh]
 ----
-sudo firewall-cmd --new-zone=electrs --permanent
+sudo firewall-cmd --new-zone=bitcoin --permanent
 ----
 
 . Move the WireGuard interface, `wg0` here, to the `bitcoin` zone.
@@ -48,7 +48,7 @@ sudo firewall-cmd --new-zone=electrs --permanent
 sudo firewall-cmd --add-interface=wg0 --zone=bitcoin --permanent
 ----
 
-. Open TCP port 50002 for the `electrs` zone.
+. Open TCP port 50002 for the `bitcoin` zone.
 +
 [,sh]
 ----

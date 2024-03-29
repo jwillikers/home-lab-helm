@@ -1,7 +1,7 @@
 = Nextcloud
 :experimental:
 :icons: font
-:keywords: cloud container helm k8s kubernetes linux nextcloud podman redis systemd
+:keywords: cloud container helm k8s kubernetes linux nextcloud podman redict systemd
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -13,7 +13,7 @@ endif::[]
 :Nextcloud: https://nextcloud.com/[Nextcloud]
 
 The {Nextcloud} pod uses the Nextcloud PHP-FPM container image.
-Redis provides image caching, and imaginary handles image previews. 
+Redict provides image caching, and imaginary handles image previews. 
 Background maintenance jobs are carried out by a separate container which is executed every five minutes by a systemd timer.
 There are also a couple of systemd timers and containers for running some specific tasks at regular intervals.
 
@@ -33,7 +33,7 @@ Follow the commands below to install the Nextcloud Config repository and configu
 . Set up the Minio Server pod, which the Nextcloud pod uses as its storage backend.
 Follow the steps in the <<../minio/README.adoc,Minio README>>.
 
-. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<../doc/Redict.adoc#System Configuration,Redict System Configuration>> instructions.
 
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>, using the `caddy.kube` in this directory instead of the `caddy/caddy.kube` file.
 This file uses the appropriate configuration to mount the Nextcloud directories in order to proxy the site via _FastCGI_.
@@ -252,7 +252,6 @@ podman exec --tty nextcloud-nextcloud ./occ upgrade
 * https://docs.nextcloud.com/server/latest/admin_manual/installation/server_tuning.html#tune-php-fpm[Nextcloud Admin Manual: Server tuning - Tune PHP-FPM]
 * https://docs.nextcloud.com/server/latest/admin_manual/configuration_files/files_locking_transactional.html[Nextcloud Admin Manual: Transactional file locking]
 * https://github.com/nextcloud/docker[Nextcloud Docker]
-* https://hub.docker.com/_/redis[redis Official Docker Image] 
 
 .See Also
 * https://github.com/nextcloud/all-in-one[Nextcloud All-in-One]

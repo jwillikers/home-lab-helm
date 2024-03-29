@@ -92,6 +92,7 @@
         "PUID",
         "quic",
         "rclone",
+        "redict",
         "rmem",
         "rpmfusion",
         "rrdcached",

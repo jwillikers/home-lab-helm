@@ -19,7 +19,7 @@ The LibreNMS Kubernetes YAML uses the configuration provided by the https://gith
 Certain sensitive parameters are kept in specific files which must be managed separately.
 The instructions here document the process get the LibreNMS service up and running.
 
-. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<../doc/Redict.adoc#System Configuration,Redict System Configuration>> instructions.
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
 . Symlink the `librenms.caddyfile` file to the `sites-enabled` directory.

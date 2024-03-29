@@ -17,7 +17,7 @@ metadata:
     io.containers.autoupdate/dispatcher: registry
     io.containers.autoupdate/librenms: registry
     io.containers.autoupdate/mariadb: registry
-    io.containers.autoupdate/redis: registry
+    io.containers.autoupdate/redict: registry
     io.containers.autoupdate/rrdcached: registry
   creationTimestamp: "2023-10-28T15:28:33Z"
   labels:
@@ -26,18 +26,18 @@ metadata:
 spec:
   containers:
     - args:
-        - redis-server
-      image: docker.io/library/redis:latest
-      name: redis
+        - redict-server
+      image: registry.redict.io/redict:latest
+      name: redict
       securityContext:
-        # The Redis user and group use the id 999.
+        # The Redict user and group use the id 999.
         runAsGroup: 999
         runAsUser: 999
         seLinuxOptions:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: librenms-redis-data-pvc
+          name: librenms-redict-data-pvc
     - args:
         - "--innodb-file-per-table=1"
         - "--lower-case-table-names=0"
@@ -97,7 +97,7 @@ spec:
         - name: APP_TRUSTED_PROXIES
           value: "10.88.0.0/16,10.89.0.0/16,fd6c:19c:9b16:d7c6::/64"
         - name: CACHE_DRIVER
-          value: redis
+          value: redict
         - name: DB_DATABASE
           value: librenms
         - name: DB_HOST
@@ -236,9 +236,9 @@ spec:
     - name: librenms-mariadb-data-pvc
       persistentVolumeClaim:
         claimName: librenms-mariadb-data
-    - name: librenms-redis-data-pvc
+    - name: librenms-redict-data-pvc
       persistentVolumeClaim:
-        claimName: librenms-redis-data
+        claimName: librenms-redict-data
     - name: librenms-rrdcached-data-pvc
       persistentVolumeClaim:
         claimName: librenms-rrdcached-data

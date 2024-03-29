@@ -18,7 +18,7 @@ metadata:
     io.containers.autoupdate/immich-microservices: registry
     io.containers.autoupdate/immich-server: registry
     io.containers.autoupdate/postgresql: registry
-    io.containers.autoupdate/redis: registry
+    io.containers.autoupdate/redict: registry
   creationTimestamp: "2023-04-21T17:53:56Z"
   labels:
     app: immich
@@ -56,9 +56,9 @@ spec:
         - mountPath: /var/lib/postgresql/data
           name: immich-postgresql-data-host
     - args:
-        - redis-server
-      image: docker.io/library/redis:latest
-      name: redis
+        - redict-server
+      image: registry.redict.io/redict:latest
+      name: redict
       resources: {}
       securityContext:
         capabilities:
@@ -66,14 +66,14 @@ spec:
             - CAP_MKNOD
             - CAP_NET_RAW
             - CAP_AUDIT_WRITE
-        # The Redis user and group use the id 999.
+        # The Redict user and group use the id 999.
         runAsGroup: 999
         runAsUser: 999
         seLinuxOptions:
           type: spc_t
       volumeMounts:
         - mountPath: /data
-          name: immich-redis-data-pvc
+          name: immich-redict-data-pvc
     - args:
         - start.sh
         - immich
@@ -210,7 +210,7 @@ spec:
         path: /home/core/container-volumes/immich-postgresql-data
         type: Directory
       name: immich-postgresql-data-host
-    - name: immich-redis-data-pvc
+    - name: immich-redict-data-pvc
       persistentVolumeClaim:
-        claimName: immich-redis-data
+        claimName: immich-redict-data
 status: {}

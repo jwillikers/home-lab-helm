@@ -22,7 +22,7 @@ This configuration enables hardware-acceleration for transcoding as well as mach
 The machine learning hardware-acceleration uses https://github.com/openvinotoolkit/openvino[OpenVINO].
 
 . Follow the <<../doc/Hardware Acceleration.adoc,Hardware Acceleration>> documentation to enable hardware acceleration.
-. Follow the <<../doc/Redis.adoc#System Configuration,Redis System Configuration>> instructions.
+. Follow the <<../doc/Redict.adoc#System Configuration,Redict System Configuration>> instructions.
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
 . Symlink the `immich.caddyfile` file to the `sites-enabled` directory.
