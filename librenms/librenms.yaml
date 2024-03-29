@@ -30,9 +30,9 @@ spec:
       image: registry.redict.io/redict:latest
       name: redict
       securityContext:
-        # The Redict user and group use the id 999.
-        runAsGroup: 999
-        runAsUser: 999
+        # The Redict user and group use the id 1000.
+        runAsGroup: 1000
+        runAsUser: 1000
         seLinuxOptions:
           type: spc_t
       volumeMounts:
