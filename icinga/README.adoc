@@ -33,11 +33,11 @@ It is recommend to run Icinga 2 and Icinga DB on the same machine to reduce late
 . Follow the <<../doc/Redict.adoc#System Configuration,Redict System Configuration>> instructions.
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
-. Symlink the `icinga.caddyfile` and `icingaweb.caddyfile` files to the `sites-enabled` directory.
+. Symlink the `icingaweb.caddyfile` file to the `sites-enabled` directory.
 +
 [,sh]
 ----
-ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/{icinga,icingaweb}.caddyfile ~/Projects/caddy-config/sites-enabled/
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/icingaweb.caddyfile ~/Projects/caddy-config/sites-enabled/
 ----
 
 . Open the necessary ports in the firewall, since rootless Podman won't be able to open these for us.
@@ -276,4 +276,107 @@ podman run \
   --volume ~/Projects/icinga-config/etc/icinga2:/data/etc/icinga2:ro,Z \
   docker.io/icinga/icinga2:latest \
   icinga2 daemon --validate
+----
+
+== IcingaDB PostgreSQL Migrations
+
+Occasionally, the schema for IcingaDB will be changed, requiring manually applying a new database schema.
+The following steps demonstrate how to upgrade the database with the new schema.
+
+. Create the `migrations` directory to place all of the SQL migration scripts.
++
+[,sh]
+----
+mkdir migrations
+----
+
+. Download the required migrations from the IcingaDB repository https://github.com/Icinga/icingadb/tree/main/schema/pgsql/upgrades[here].
++
+[,sh]
+----
+curl --location --output-dir migrations --remote-name https://raw.githubusercontent.com/Icinga/icingadb/v1.2.0/schema/pgsql/upgrades/1.2.0.sql
+----
+
+. Stop the `icingadb` service.
++
+[,sh]
+----
+systemctl --user stop icingadb
+----
+
+. Create the `icingadb` pod.
++
+[,sh]
+----
+podman pod create \
+  --name icingadb \
+  --network podman \
+  --replace \
+  --userns keep-id
+----
+
+. Run the IcingaDB PostgreSQL container, mounting in the `migrations` directory.
++
+[,sh]
+----
+podman run \
+  --detach \
+  --env PGDATA=/var/lib/postgresql/data/pgdata \
+  --env POSTGRES_DB=icingadb \
+  --env POSTGRES_USER=icingadb \
+  --health-cmd 'pg_isready -U icingadb' \
+  --health-interval 10s \
+  --health-start-period 30s \
+  --hostuser (id -u) \
+  --label "io.containers.autoupdate=registry" \
+  --name icingadb-postgresql \
+  --rm \
+  --pod icingadb \
+  --user (id -u):(id -g) \
+  --volume icingadb-postgresql-data:/var/lib/postgresql/data:Z \
+  --volume (pwd)/migrations:/migrations:Z \
+  docker.io/library/postgres:latest
+----
+
+. Execute the SQL migration script with the `psql` command as follows.
++
+[,sh]
+----
+podman exec \
+  --interactive \
+  --tty \
+  icingadb-postgresql \
+  psql \
+    --username=icingadb \
+    --dbname=icingadb \
+    --echo-all \
+    --file=/migrations/1.2.0.sql
+----
+
+. Stop the IcingaDB PostgreSQL container.
++
+[,sh]
+----
+podman stop icingadb-postgresql
+----
+
+. Stop the IcingaDB pod.
++
+[,sh]
+----
+podman pod stop icingadb
+----
+
+. Start the IcingaDB service again.
++
+[,sh]
+----
+systemctl --user start icingadb
+----
+
+. Clean up the `migrations` directory.
++
+[,sh]
+----
+rm --force --recursive migrations
 ----

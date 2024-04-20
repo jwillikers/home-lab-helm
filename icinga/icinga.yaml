@@ -15,6 +15,11 @@ metadata:
     app: icinga
   name: icinga
 spec:
+  ports:
+  - name: "5665"
+    nodePort: 32739
+    port: 5665
+    targetPort: 5665
   selector:
     app: icinga
   type: NodePort
@@ -44,6 +49,9 @@ spec:
       value: US/Central
     image: quay.io/jwillikers/icinga-snmp:latest
     name: icinga
+    ports:
+      - containerPort: 5665
+        hostPort: 5665
     securityContext:
       capabilities:
         add: ["NET_RAW"]
