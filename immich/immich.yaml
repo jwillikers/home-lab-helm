@@ -173,12 +173,18 @@ spec:
           value: localhost
         - name: TZ
           value: US/Central
+        # - name: LOG_LEVEL
+        #   value: DEBUG
       image: ghcr.io/immich-app/immich-machine-learning:release-openvino
       name: immich-machine-learning
       resources: {}
       securityContext:
+        # privileged: true
         runAsGroup: 818
         runAsUser: 818
+        # securityContext.supplementalGroups:
+        #   - render
+        #   - video
         seLinuxOptions:
           type: spc_t
       volumeMounts:

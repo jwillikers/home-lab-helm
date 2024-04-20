@@ -7,6 +7,7 @@ RequiresMountsFor=%t/containers %h/container-volumes/immich-immich-server-profil
 Yaml=%h/Projects/home-lab-helm/immich/immich.yaml
 Network=podman.network
 UserNS=keep-id
+# --security-opt unmask=/sys/dev
 
 [Service]
 Restart=always

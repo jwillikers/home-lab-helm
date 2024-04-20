@@ -16,8 +16,9 @@ Fortunately, there's a workaround included here that should suffice until proper
 +
 [,sh]
 ----
-sudo rpm-ostree install intel-gpu-firmware intel-media-driver intel-gpu-tools libva-utils 
+sudo rpm-ostree install clinfo intel-gpu-firmware intel-gpu-tools intel-media-driver intel-opencl libva-utils 
 ----
+// intel-compute-runtime
 
 . Create the `/etc/modprobe.d` directory.
 +
