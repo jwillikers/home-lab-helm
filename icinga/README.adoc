@@ -332,6 +332,7 @@ podman run \
   --name icingadb-postgresql \
   --rm \
   --pod icingadb \
+  // --secret
   --user (id -u):(id -g) \
   --volume icingadb-postgresql-data:/var/lib/postgresql/data:Z \
   --volume (pwd)/migrations:/migrations:Z \

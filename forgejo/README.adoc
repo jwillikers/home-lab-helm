@@ -87,7 +87,7 @@ sudo systemctl restart sshd
 .~/.ssh/config
 [source]
 ----
-Host rockpro64
+Host meerkat
   Port 2222
 ----
 

@@ -108,6 +108,8 @@ spec:
           value: true
         - name: FORGEJO__storage__STORAGE_TYPE
           value: minio
+        - name: FORGEJO_WORK_DIR
+          value: /var/lib/forgejo
       image: codeberg.org/forgejo/forgejo:7-rootless
       name: forgejo
       resources: {}
