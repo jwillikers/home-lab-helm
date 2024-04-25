@@ -124,6 +124,11 @@ spec:
           name: forgejo-forgejo-data-host
         - mountPath: /etc/forgejo
           name: forgejo-forgejo-config-host
+        # Currently, the paths for Gitea are used still.
+        - mountPath: /var/lib/gitea
+          name: forgejo-forgejo-data-host
+        - mountPath: /etc/gitea
+          name: forgejo-forgejo-config-host
   enableServiceLinks: false
   hostUsers: false
   hostname: forgejo
