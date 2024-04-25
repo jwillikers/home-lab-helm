@@ -1,0 +1,141 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-4.3.1
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2023-02-08T22:30:09Z"
+  labels:
+    app: forgejo
+  name: forgejo
+spec:
+  ports:
+    - name: "22"
+      nodePort: 30341
+      port: 22
+      targetPort: 22
+  selector:
+    app: forgejo
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    io.containers.autoupdate/postgresql: registry
+    io.containers.autoupdate/forgejo: registry
+  creationTimestamp: "2023-02-08T22:30:09Z"
+  labels:
+    app: forgejo
+  name: forgejo
+spec:
+  automountServiceAccountToken: false
+  containers:
+    - args:
+        - postgres
+      env:
+        - name: POSTGRES_DB
+          value: forgejo
+        - name: POSTGRES_USER
+          value: forgejo
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-secrets
+              key: forgejo_postgresql_password
+              optional: false
+      image: docker.io/library/postgres:latest
+      name: postgresql
+      ports:
+        - containerPort: 2222
+          hostPort: 22
+      resources: {}
+      securityContext:
+        capabilities: {}
+        runAsGroup: 818
+        runAsUser: 818
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: forgejo-postgresql-data-host
+    - env:
+        - name: FORGEJO__database__NAME
+          value: forgejo
+        - name: FORGEJO__database__HOST
+          value: localhost:5432
+        - name: FORGEJO__database__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-secrets
+              key: forgejo_postgresql_password
+              optional: false
+        - name: FORGEJO__database__DB_TYPE
+          value: postgres
+        - name: FORGEJO__database__USER
+          value: forgejo
+        - name: FORGEJO__server__DOMAIN
+          value: forgejo.jwillikers.io
+        - name: FORGEJO__server__SSH_DOMAIN
+          value: forgejo.jwillikers.io
+        - name: FORGEJO__server__ROOT_URL
+          value: https://forgejo.jwillikers.io
+        - name: FORGEJO__storage__MINIO_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-secrets
+              key: forgejo_minio_access_key_id
+              optional: false
+        - name: FORGEJO__storage__MINIO_BUCKET
+          value: forgejo
+        - name: FORGEJO__storage__MINIO_ENDPOINT
+          value: minio.jwillikers.io
+        - name: FORGEJO__storage__MINIO_LOCATION
+          value: us-east-1
+        - name: FORGEJO__storage__MINIO_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-secrets
+              key: forgejo_minio_secret_access_key
+              optional: false
+        - name: FORGEJO__storage__MINIO_USE_SSL
+          value: true
+        - name: FORGEJO__storage__SERVE_DIRECT
+          value: true
+        - name: FORGEJO__storage__STORAGE_TYPE
+          value: minio
+      image: codeberg.org/forgejo/forgejo:7-rootless
+      name: forgejo
+      resources: {}
+      securityContext:
+        capabilities: {}
+        runAsGroup: 818
+        runAsUser: 818
+        seLinuxOptions:
+          type: spc_t
+      volumeMounts:
+        - mountPath: /var/lib/forgejo
+          name: forgejo-forgejo-data-host
+        - mountPath: /etc/forgejo
+          name: forgejo-forgejo-config-host
+  enableServiceLinks: false
+  hostUsers: false
+  hostname: forgejo
+  volumes:
+    - hostPath:
+        path: /home/core/container-volumes/forgejo-postgresql-data
+        type: Directory
+      name: forgejo-postgresql-data-host
+    - hostPath:
+        path: /home/core/container-volumes/forgejo-forgejo-data
+        type: Directory
+      name: forgejo-forgejo-data-host
+    - hostPath:
+        path: /home/core/container-volumes/forgejo-forgejo-config
+        type: Directory
+      name: forgejo-forgejo-config-host
+status: {}

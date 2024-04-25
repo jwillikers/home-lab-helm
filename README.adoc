@@ -253,7 +253,7 @@ git -C ~/Projects clone https://github.com/jwillikers/home-lab-helm.git
 * <<certbot/README.adoc,Certbot>>
 * <<eclipse-mosquitto/README.adoc,Eclipse Mosquitto>>
 * <<esphome/README.adoc,ESPHome>>
-* <<gitea/README.adoc,Gitea>>
+* <<forgejo/README.adoc,Forgejo>>
 * <<icinga/README.adoc,Icinga>>
 * <<immich/README.adoc,Immich>>
 * <<influxdb/README.adoc,InfluxDB>>
