@@ -34,7 +34,7 @@ spec:
     - env:
         - name: JELLYFIN_PublishedServerUrl
           value: jellyfin.jwillikers.io
-      image: docker.io/jellyfin/jellyfin:latest
+      image: ghcr.io/jellyfin/jellyfin:latest
       name: jellyfin
       securityContext:
         capabilities:
