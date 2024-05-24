@@ -81,6 +81,8 @@ spec:
         - -XX:+HeapDumpOnOutOfMemoryError
         - -XX:HeapDumpPath=/opt/tplink/EAPController/logs/java_heapdump.hprof
         - -Djava.awt.headless=true
+        - --add-opens
+        - java.base/java.util=ALL-UNNAMED
         - -cp
         - "/opt/tplink/EAPController/lib/*::/opt/tplink/EAPController/properties:"
         - com.tplink.smb.omada.starter.OmadaLinuxMain
