@@ -95,7 +95,7 @@ spec:
           name: influxdb-config-host
           readOnly: true
         - mountPath: /etc/influxdb2
-          name: influxdb-config-host
+          name: influxdb-config-pvc
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
   enableServiceLinks: false
@@ -105,10 +105,9 @@ spec:
         path: /home/core/Projects/influxdb-config/etc/influxdb2/config.yml
         type: File
       name: influxdb-config-host
-    - hostPath:
-        path: /home/core/container-volumes/influxdb-config
-        type: Directory
-      name: influxdb-config-host
+    - name: influxdb-config-pvc
+      persistentVolumeClaim:
+        claimName: influxdb-config
     - name: influxdb-data-pvc
       persistentVolumeClaim:
         claimName: influxdb-data
