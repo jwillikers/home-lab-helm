@@ -61,12 +61,14 @@ spec:
     - name: MTX_PROTOCOLS
       value: tcp
     - name: MTX_WEBRTCADDITIONALHOSTS
-      value: fd7a:115c:a1e0:ab12:4843:cd96:625f:e80c
+      value: "100.95.232.12"
     image: docker.io/bluenviron/mediamtx:latest-ffmpeg
     name: mediamtx
     ports:
     - containerPort: 1935
     - containerPort: 8554
+    - containerPort: 8554
+      protocol: UDP
     - containerPort: 8888
     - containerPort: 8889
     - containerPort: 8189

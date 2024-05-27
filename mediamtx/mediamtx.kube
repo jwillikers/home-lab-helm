@@ -5,7 +5,16 @@ RequiresMountsFor=%h/container-volumes
 
 [Kube]
 Yaml=%h/Projects/home-lab-helm/mediamtx/mediamtx.yaml
-Network=podman.network
+Network=host
+#Network=podman.network
+#PublishPort=1935:1935/tcp
+#PublishPort=8000:8000/udp
+#PublishPort=8001:8001/udp
+#PublishPort=8189:8189/udp
+#PublishPort=8554:8554/tcp
+#PublishPort=8890:8554/udp
+#PublishPort=8888:8888/tcp
+#PublishPort=8889:8889/tcp
 UserNS=keep-id
 
 [Service]
