@@ -91,11 +91,11 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
+        - mountPath: /etc/influxdb2
+          name: influxdb-config-generated
         - mountPath: /etc/influxdb2/config.yml
           name: influxdb-config-host
           readOnly: true
-        - mountPath: /etc/influxdb2
-          name: influxdb-config-pvc
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
   enableServiceLinks: false
@@ -105,9 +105,9 @@ spec:
         path: /home/core/Projects/influxdb-config/etc/influxdb2/config.yml
         type: File
       name: influxdb-config-host
-    - name: influxdb-config-pvc
-      persistentVolumeClaim:
-        claimName: influxdb-config
+    - name: influxdb-config-generated
+      emptyDir:
+        sizeLimit: 10Mi
     - name: influxdb-data-pvc
       persistentVolumeClaim:
         claimName: influxdb-data
