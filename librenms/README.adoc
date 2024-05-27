@@ -169,6 +169,34 @@ systemctl --user enable --now librenms
 podman exec --interactive --tty --user librenms:librenms librenms-librenms ./snmp-scan.py
 ----
 
+== Add Devices Manually
+
+To add devices manually, use this command.
+
+Create an API access token https://librenms.jwillikers.io/api-access
+
+.add-device.json
+[,json]
+----
+{
+    "authlevel": "authPriv",
+    "authname": "monitor",
+    "authpass": "******",
+    "authalgo": "SHA-256",
+    "cryptopass": "******",
+    "cryptoalgo": "AES",
+    "display": "Meerkat",
+    "hostname": "meerkat.jwillikers.io",
+    "snmpver": "v3",
+    "transport": "udp"
+}
+----
+
+[,sh]
+----
+curl -X POST -d @add-device.json -H 'X-Auth-Token: YOURAPITOKENHERE' https://librenms.jwillikers.io/api/v0/devices
+----
+
 == Maintenance
 
 [,sh]
