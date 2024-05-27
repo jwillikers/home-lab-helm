@@ -97,7 +97,7 @@ spec:
         - name: APP_TRUSTED_PROXIES
           value: "10.88.0.0/16,10.89.0.0/16,fd6c:19c:9b16:d7c6::/64"
         - name: CACHE_DRIVER
-          value: redict
+          value: redis
         - name: DB_DATABASE
           value: librenms
         - name: DB_HOST
