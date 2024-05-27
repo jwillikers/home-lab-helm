@@ -42,12 +42,14 @@ sudo firewall-cmd \
     --add-port=1935/tcp \
     --add-port=8000/udp \
     --add-port=8001/udp \
+    --add-port=8002/udp \
+    --add-port=8003/udp \
     --add-port=8189/udp \
     --add-port=8554/tcp \
-    --add-port=8554/udp \
     --add-port=8888/tcp \
     --add-port=8889/tcp \
     --add-port=8890/udp \
+    --add-port=9996/tcp \
     --permanent
 ----
 

@@ -20,6 +20,26 @@ spec:
     nodePort: 31530
     port: 1935
     targetPort: 1935
+  - name: "8000"
+    nodePort: 30531
+    port: 8000
+    protocol: UDP
+    targetPort: 8000
+  - name: "8001"
+    nodePort: 30532
+    port: 8001
+    protocol: UDP
+    targetPort: 8001
+  - name: "8002"
+    nodePort: 30533
+    port: 8002
+    protocol: UDP
+    targetPort: 8002
+  - name: "8003"
+    nodePort: 30534
+    port: 8003
+    protocol: UDP
+    targetPort: 8003
   - name: "8554"
     nodePort: 30189
     port: 8554
@@ -42,6 +62,10 @@ spec:
     port: 8890
     protocol: UDP
     targetPort: 8890
+  - name: "9996"
+    nodePort: 30243
+    port: 9996
+    targetPort: 9996
   selector:
     app: mediamtx
   type: NodePort
@@ -66,15 +90,22 @@ spec:
     name: mediamtx
     ports:
     - containerPort: 1935
-    - containerPort: 8554
-    - containerPort: 8554
+    - containerPort: 8000
       protocol: UDP
+    - containerPort: 8001
+      protocol: UDP
+    - containerPort: 8002
+      protocol: UDP
+    - containerPort: 8003
+      protocol: UDP
+    - containerPort: 8554
     - containerPort: 8888
     - containerPort: 8889
     - containerPort: 8189
       protocol: UDP
     - containerPort: 8890
       protocol: UDP
+    - containerPort: 9996
     securityContext:
       runAsGroup: 818
       runAsUser: 818
