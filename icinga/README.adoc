@@ -74,7 +74,7 @@ sudo systemctl reboot
 +
 [,sh]
 ----
-mkdir -p ~/Projects
+mkdir --parents ~/Projects
 ----
 
 . Clone the Icinga Config repository under the `~/Projects` directory.
@@ -132,6 +132,12 @@ echo "const IcingaDbWebApiPassword = \"$(openssl rand -base64 30)\"" | tee ~/Pro
 ----
 echo "const TicketSalt = \"$(openssl rand -base64 30)\"" > ~/Projects/icinga-config/etc/icinga2/constants.d/ticket-salt.conf
 ----
+
+.. Create an `icinga` bucket in InfluxDB with an expiration policy.
+
+.. Generate an API key with _Write_ access to the `icinga` bucket.
+
+.. Add the InfluxDB API token to `etc/icinga2/constants.d/influxdb-auth-token.conf`.
 
 . Make sure that the sensitive files are not world readable.
 +
