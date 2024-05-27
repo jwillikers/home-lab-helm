@@ -108,31 +108,19 @@ systemctl --user start mediamtx
 
 == Publish
 
-sudo apt install --yes libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-gl gstreamer1.0-plugins-base-apps libcamera-dev gstreamer1.0-libcamera gstreamer1.0-rtsp
+A stream can be published to the server.
+The following example demonstrates how to publish an RTSP stream from a Raspberry Pi 5 using GStreamer.
 
-// ! timeoverlay ! videoconvert ! video/x-raw,format=I420 ! x264enc ! rtph264pay config-interval=-1
-
-// HERE!
-
-capsfilter caps=format=YUY2,colorimetry=bt709,interlace-mode=progressive 
-
-gst-launch-1.0 -v libcamerasrc ! video/x-raw, format=I420, width=1920, height=1080, framerate=30/1 ! timeoverlay ! videoconvert ! video/x-raw,format=I420 ! openh264enc ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator/publish
-
-gst-launch-1.0 -v libcamerasrc ! video/x-raw, format=RGBP, width=1920, height=1080, framerate=30/1 ! timeoverlay ! videoconvert ! video/x-raw,format=I420 ! openh264enc ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator/publish
-
-// gst-launch-1.0 libcamerasrc ! video/x-raw,format=RGBP,width=1280,height=720,framerate=30/1 ! qtdemux name=d d.video_0 ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator
-//  ! qtdemux name=d d.video_0
-// ! rtph264pay config-interval=-1 
-
-gst-launch-1.0 -v libcamerasrc ! video/x-raw, format=RGBx, width=1920, height=1080, framerate=30/1 ! timeoverlay ! videoconvert ! video/x-raw,format=I420 ! x264enc ! rtph264pay config-interval=-1 ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator/publish
-
-ffmpeg -re -stream_loop -1 -i file.ts -c copy -f rtsp rtsp://mediamtx.jwillikers.io:8554/detectionator
-
-gst-launch-1.0 -v libcamerasrc ! video/x-raw, format=RGBx, width=1920, height=1080, framerate=30/1 ! timeoverlay ! videoconvert ! video/x-raw,format=I420 ! avenc_h264 ! rtph264pay config-interval=-1 ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator/publish
-
+. Install the necessary dependencies.
++
 [,sh]
 ----
-gst-launch-1.0  ! jpegenc ! multipartmux ! tcpserversink host=0.0.0.0 port=5000
+sudo apt install --yes libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-gl gstreamer1.0-plugins-base-apps libcamera-dev gstreamer1.0-libcamera gstreamer1.0-rtsp
 ----
 
-gst-launch-1.0 -v libcamerasrc ! video/x-raw, format=RGBx, width=1920, height=1080, framerate=30/1 ! timeoverlay ! videoconvert ! video/x-raw,format=I420 ! x264enc ! rtph264pay config-interval=-1 ! udpsink host=8554 port=8554 sync=false async=true
+. Use the `gst-launch-1.0` command to create a pipeline and publish the camera feed to the server.
++
+[,sh]
+----
+gst-launch-1.0 -v libcamerasrc ! video/x-raw, format=RGBx, width=1920, height=1080, framerate=30/1 ! videoconvert ! video/x-raw,format=I420 ! openh264enc complexity=high multi-thread=4 rate-control=buffer slice-mode=auto ! video/x-h264,profile=baseline ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator protocols=tcp
+----
