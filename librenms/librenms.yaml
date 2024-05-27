@@ -219,7 +219,6 @@ spec:
         - mountPath: /data/alert-templates
           name: librenms-librenms-alert-templates-host
   enableServiceLinks: false
-  # todo Revert if doesn't work.
   hostUsers: true
   volumes:
     - name: librenms-librenms-data-pvc
