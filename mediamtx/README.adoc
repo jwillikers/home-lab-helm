@@ -1,0 +1,118 @@
+= MediaMTX
+:experimental:
+:icons: font
+:keywords: media mediamtx rtsp stream video webrtc
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:MediaMTX: https://github.com/bluenviron/mediamtx[MediaMTX]
+
+The {MediaMTX} pod provides an open source video streaming proxy server.
+
+== Usage
+
+The MediaMTX Kubernetes YAML uses the configuration provided by the https://github.com/jwillikers/mediamtx-config[MediaMTX Config] repository.
+
+. Follow the <<../doc/Hardware Acceleration.adoc,Hardware Acceleration>> documentation to enable hardware acceleration.
+
+. On Fedora IoT, the _video_ and _render_ groups do not exist in `/etc/group`, so they must be added there.
++
+[,sh]
+----
+echo (getent group render) | sudo tee -a /etc/group; and \
+echo (getent group video) | sudo tee -a /etc/group
+----
+
+. Add the user to the _render_ and _video_ groups to access certain devices without requiring superuser privileges.
++
+[,sh]
+----
+sudo usermod -aG render,video $USER
+----
+
+. Open the necessary ports in the firewall.
++
+[,sh]
+----
+sudo firewall-cmd \
+    --add-port=1935/tcp \
+    --add-port=8000/udp \
+    --add-port=8001/udp \
+    --add-port=8189/udp \
+    --add-port=8554/tcp \
+    --add-port=8888/tcp \
+    --add-port=8889/tcp \
+    --add-port=8890/udp \
+    --permanent
+----
+
+. Reload the firewall rules that were just saved.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
+. Clone the LibreNMS Config repository under the `~/Projects` directory.
++
+[,sh]
+----
+git -C ~/Projects clone https://github.com/jwillikers/mediamtx-config.git
+----
+
+// todo Use TLS.
+// 
+// . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+// . Symlink the `mediamtx.caddyfile` file to the `sites-enabled` directory.
+// +
+// [,sh]
+// ----
+// ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/jellyfin.caddyfile ~/Projects/caddy-config/sites-enabled/
+// ----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir --parents ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `mediamtx.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network mediamtx.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the MediaMTX pod.
++
+[,sh]
+----
+systemctl --user start mediamtx
+----
+
+== Publish
+
+sudo apt install --yes libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-bad1.0-dev gstreamer1.0-plugins-base gstreamer1.0-plugins-good gstreamer1.0-plugins-bad gstreamer1.0-libav gstreamer1.0-plugins-ugly gstreamer1.0-tools gstreamer1.0-x gstreamer1.0-gl gstreamer1.0-plugins-base-apps libcamera-dev gstreamer1.0-libcamera gstreamer1.0-rtsp
+
+gst-launch-1.0 -v libcamerasrc ! video/x-raw, format=RGBx, width=1920, height=1080, framerate=30/1 ! timeoverlay ! videoconvert ! video/x-raw,format=I420 ! x264enc ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator
+// gst-launch-1.0 libcamerasrc ! video/x-raw,format=RGBx,width=1280,height=720,framerate=30/1 ! qtdemux name=d d.video_0 ! rtspclientsink location=rtsp://mediamtx.jwillikers.io:8554/detectionator
+//  ! qtdemux name=d d.video_0
+// ! rtph264pay config-interval=-1 
+
+[,sh]
+----
+gst-launch-1.0  ! jpegenc ! multipartmux ! tcpserversink host=0.0.0.0 port=5000
+----

@@ -258,6 +258,7 @@ git -C ~/Projects clone https://github.com/jwillikers/home-lab-helm.git
 * <<immich/README.adoc,Immich>>
 * <<influxdb/README.adoc,InfluxDB>>
 * <<jellyfin/README.adoc,Jellyfin>>
+* <<MediaMTX/README.adoc,MediaMTX>>
 * <<miniflux/README.adoc,Miniflux>>
 * <<minio/README.adoc,MinIO>>
 * <<nextcloud/README.adoc,Nextcloud>>
