@@ -44,6 +44,11 @@ spec:
     nodePort: 30189
     port: 8554
     targetPort: 8554
+  - name: "8554"
+    nodePort: 30190
+    port: 8554
+    protocol: UDP
+    targetPort: 8554
   - name: "8888"
     nodePort: 31602
     port: 8888
@@ -80,6 +85,7 @@ metadata:
     app: mediamtx
   name: mediamtx
 spec:
+  hostNetwork: true
   containers:
   - env:
     # - name: MTX_PROTOCOLS
@@ -99,6 +105,8 @@ spec:
     - containerPort: 8003
       protocol: UDP
     - containerPort: 8554
+    - containerPort: 8554
+      protocol: UDP
     - containerPort: 8888
     - containerPort: 8889
     - containerPort: 8189
@@ -107,6 +115,7 @@ spec:
       protocol: UDP
     - containerPort: 9996
     securityContext:
+      privileged: true
       runAsGroup: 818
       runAsUser: 818
       seLinuxOptions:

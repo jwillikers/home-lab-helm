@@ -14,6 +14,7 @@ Network=host
 #PublishPort=8003:8003/udp
 #PublishPort=8189:8189/udp
 #PublishPort=8554:8554/tcp
+#PublishPort=8554:8554/udp
 #PublishPort=8888:8888/tcp
 #PublishPort=8889:8889/tcp
 #PublishPort=9996:9996/tcp
