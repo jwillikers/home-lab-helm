@@ -38,7 +38,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown 818:818 /var/lib/influxdb2"]
+      command: ["sh", "-c", "chown 818:818 /var/lib/influxdb2 /etc/influxdb2"]
       securityContext:
         capabilities:
           drop: ["all"]
@@ -49,6 +49,8 @@ spec:
         seLinuxOptions:
           type: spc_t
       volumeMounts:
+        - mountPath: /etc/influxdb2
+          name: influxdb-config-generated
         - mountPath: /var/lib/influxdb2
           name: influxdb-data-pvc
   containers:
