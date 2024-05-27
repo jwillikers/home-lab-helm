@@ -82,8 +82,8 @@ metadata:
 spec:
   containers:
   - env:
-    - name: MTX_PROTOCOLS
-      value: tcp
+    # - name: MTX_PROTOCOLS
+      # value: tcp
     - name: MTX_WEBRTCADDITIONALHOSTS
       value: "100.95.232.12"
     image: docker.io/bluenviron/mediamtx:latest-ffmpeg
