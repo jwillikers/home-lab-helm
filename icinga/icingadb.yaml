@@ -30,9 +30,7 @@ spec:
   containers:
     - args:
         - redict-server
-      # todo Use the upstream image when it provides aarch64 images. 
-      # image: registry.redict.io/redict:debian
-      image: localhost/redict:debian
+      image: registry.redict.io/redict:debian
       name: redict
       securityContext:
         # The Redict user and group use the id 999.
