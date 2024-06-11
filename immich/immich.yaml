@@ -15,7 +15,6 @@ kind: Pod
 metadata:
   annotations:
     io.containers.autoupdate/immich-machine-learning: registry
-    io.containers.autoupdate/immich-microservices: registry
     io.containers.autoupdate/immich-server: registry
     io.containers.autoupdate/postgresql: registry
     io.containers.autoupdate/redict: registry
@@ -76,7 +75,6 @@ spec:
           name: immich-redict-data-pvc
     - args:
         - start.sh
-        - immich
       env:
         - name: DB_HOSTNAME
           value: localhost
@@ -98,46 +96,6 @@ spec:
           value: US/Central
       image: ghcr.io/immich-app/immich-server:release
       name: immich-server
-      resources: {}
-      securityContext:
-        runAsGroup: 818
-        runAsUser: 818
-        seLinuxOptions:
-          type: spc_t
-      volumeMounts:
-        - mountPath: /etc/immich/immich-config.json
-          name: immich-immich-server-config-host
-          readOnly: true
-        - mountPath: /usr/src/app/upload/profile
-          name: immich-immich-server-profile-host
-        - mountPath: /usr/src/app/upload/upload
-          name: immich-immich-server-upload-host
-        - mountPath: /usr/src/app/upload
-          name: immich-immich-server-cache-pvc
-    - args:
-        - start.sh
-        - microservices
-      env:
-        - name: DB_HOSTNAME
-          value: localhost
-        - name: DB_DATABASE_NAME
-          value: immich
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: immich-secrets
-              key: immich_postgresql_password
-              optional: false
-        - name: DB_USERNAME
-          value: immich
-        - name: IMMICH_CONFIG_FILE
-          value: /etc/immich/immich-config.json
-        - name: REDIS_HOSTNAME
-          value: localhost
-        - name: TZ
-          value: US/Central
-      image: ghcr.io/immich-app/immich-server:release
-      name: immich-microservices
       resources: {}
       securityContext:
         runAsGroup: 818
