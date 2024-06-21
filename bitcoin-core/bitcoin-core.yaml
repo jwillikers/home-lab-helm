@@ -65,7 +65,7 @@ spec:
     - args:
         - -zmqpubrawblock=tcp://0.0.0.0:28332
         - -zmqpubrawtx=tcp://0.0.0.0:28333
-      image: docker.io/lncm/bitcoind:v26.0
+      image: docker.io/lncm/bitcoind:v27.0
       name: bitcoin-core
       ports:
         - containerPort: 8333
