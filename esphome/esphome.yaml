@@ -34,7 +34,7 @@ spec:
     - args:
         - dashboard
         - /config
-      image: docker.io/esphome/esphome:latest
+      image: ghcr.io/esphome/esphome:latest
       name: esphome
       securityContext:
         capabilities: {}
