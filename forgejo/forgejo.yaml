@@ -110,7 +110,7 @@ spec:
           value: minio
         - name: FORGEJO_WORK_DIR
           value: /var/lib/forgejo
-      image: codeberg.org/forgejo/forgejo:7-rootless
+      image: codeberg.org/forgejo/forgejo:8-rootless
       name: forgejo
       resources: {}
       securityContext:
