@@ -252,6 +252,14 @@ podman run \
   icinga2 node wizard
 ----
 
+. Enter kbd:[N] to create a master setup.
+. Accept the common name `icinga.jwillikers.io`.
+. Use the master zone name `jwillikers`.
+. Enter kbd:[N] to skip creating additional global zones.
+. Press kbd:[Enter] to skip the _Bind Host_.
+. Press kbd:[Enter] to skip the _Bind Port_.
+. Hit kbd:[N] to enable the `conf.d` directory.
+
 . Load the newly added systemd units.
 +
 [,sh]
@@ -263,7 +271,7 @@ systemctl --user daemon-reload
 +
 [,sh]
 ----
-systemctl --user enable --now icinga icingadb icingaweb
+systemctl --user start icinga icingadb icingaweb
 ----
 
 == Validate

@@ -115,7 +115,7 @@ ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/nextclo
 +
 [,sh]
 ----
-mkdir -p ~/.config/containers/systemd
+mkdir --parents ~/.config/containers/systemd
 ----
 
 . Symlink the `podman.network` and `caddy.kube` files to the `~/.config/containers/systemd/` directory.
