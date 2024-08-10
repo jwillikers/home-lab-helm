@@ -254,7 +254,7 @@ podman run \
 
 . Enter kbd:[N] to create a master setup.
 . Accept the common name `icinga.jwillikers.io`.
-. Use the master zone name `jwillikers`.
+. Use the master zone name `jwillikers.io`.
 . Enter kbd:[N] to skip creating additional global zones.
 . Press kbd:[Enter] to skip the _Bind Host_.
 . Press kbd:[Enter] to skip the _Bind Port_.
