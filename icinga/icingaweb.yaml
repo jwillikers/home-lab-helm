@@ -36,7 +36,7 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "chown 818:818 /data /var/run/apache2"]
+      command: ["sh", "-c", "mkdir --parents /data/etc /data/var && chown 818:818 /data /data/etc /data/var /var/run/apache2"]
       securityContext:
         capabilities:
           drop: ["all"]
