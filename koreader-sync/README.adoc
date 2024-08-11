@@ -10,9 +10,9 @@ ifdef::env-github[]
 :warning-caption: :warning:
 endif::[]
 :koreader: http://koreader.rocks/[koreader]
-:Koreader-Sync-Server: https://github.com/koreader/koreader-sync-server[Koreader Sync Server]
+:koreader-position-sync-server: https://github.com/koreader/koreader-sync-server[koreader position sync server]
 
-The {Koreader-Sync-Server} pod provides a book progress syncing service for {koreader} instances.
+The {koreader-position-sync-server} pod provides a book progress syncing service for {koreader} instances.
 This is a stop-gap solution until Jellyfin supports OPDS-pse in the Jellyfin OPDS Plugin.
 See https://github.com/jellyfin/jellyfin-plugin-opds/issues/29[this issue].
 
