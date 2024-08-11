@@ -1,0 +1,62 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.1.2
+
+# NOTE: If you generated this yaml from an unprivileged and rootless podman container on an SELinux
+# enabled system, check the podman generate kube man page for steps to follow to ensure that your pod/container
+# has the right permissions to access the volumes added.
+---
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2024-08-11T19:37:03Z"
+  labels:
+    app: koreader-sync-pod
+  name: koreader-sync-pod
+spec:
+  # ports:
+  # - name: "7200"
+  #   nodePort: 30772
+  #   port: 7200
+  #   targetPort: 7200
+  selector:
+    app: koreader-sync-pod
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2024-08-11T19:37:03Z"
+  labels:
+    app: koreader-sync-pod
+  name: koreader-sync-pod
+spec:
+  containers:
+  - env:
+    - name: TERM
+      value: xterm
+    image: docker.io/koreader/kosync:latest
+    name: koreader-sync
+    # ports:
+    # - containerPort: 7200
+    securityContext:
+      seLinuxOptions:
+        type: spc_t
+    volumeMounts:
+    - mountPath: /app/koreader-sync-server/logs
+      name: koreader-logs-pvc
+    - mountPath: /var/lib/redis
+      name: koreader-redis-data-pvc
+    - mountPath: /var/log/redis
+      name: koreader-redis-logs-pvc
+  volumes:
+  - name: koreader-logs-pvc
+    persistentVolumeClaim:
+      claimName: koreader-logs
+  - name: koreader-redis-data-pvc
+    persistentVolumeClaim:
+      claimName: koreader-redis-data
+  - name: koreader-redis-logs-pvc
+    persistentVolumeClaim:
+      claimName: koreader-redis-logs

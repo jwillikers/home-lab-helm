@@ -1,0 +1,56 @@
+= koreader-sync
+:experimental:
+:icons: font
+:keywords: jellyfin media music s3 s3fs-fuse stream
+ifdef::env-github[]
+:tip-caption: :bulb:
+:note-caption: :information_source:
+:important-caption: :heavy_exclamation_mark:
+:caution-caption: :fire:
+:warning-caption: :warning:
+endif::[]
+:koreader: http://koreader.rocks/[koreader]
+:Koreader-Sync-Server: https://github.com/koreader/koreader-sync-server[Koreader Sync Server]
+
+The {Koreader-Sync-Server} pod provides a book progress syncing service for {koreader} instances.
+This is a stop-gap solution until Jellyfin supports OPDS-pse in the Jellyfin OPDS Plugin.
+See https://github.com/jellyfin/jellyfin-plugin-opds/issues/29[this issue].
+
+== Usage
+
+. Follow the <<../caddy/README.adoc,instructions for Caddy>>.
+
+. Symlink the `koreader-sync.caddyfile` file to the `sites-enabled` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/koreader-sync.caddyfile ~/Projects/caddy-config/sites-enabled/
+----
+
+. Create the directory for Podman's systemd generator.
++
+[,sh]
+----
+mkdir --parents ~/.config/containers/systemd
+----
+
+. Symlink the `podman.network` and `koreader-sync.kube` files to the `~/.config/containers/systemd/` directory.
++
+[,sh]
+----
+ln --force --relative --symbolic ../podman.network koreader-sync.kube ~/.config/containers/systemd/
+----
+
+. Load the newly added systemd units.
++
+[,sh]
+----
+systemctl --user daemon-reload
+----
+
+. Start the `koreader-sync` pod.
++
+[,sh]
+----
+systemctl --user start koreader-sync
+----
