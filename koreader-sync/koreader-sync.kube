@@ -6,7 +6,6 @@ RequiresMountsFor=%h/container-volumes
 [Kube]
 Yaml=%h/Projects/home-lab-helm/koreader-sync/koreader-sync.yaml
 Network=podman.network
-UserNS=keep-id
 
 [Service]
 Restart=always
