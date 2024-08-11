@@ -208,3 +208,9 @@ systemctl --user daemon-reload
 ----
 systemctl --user start jellyfin
 ----
+
+== Plugins
+
+Install plugins in the web interface.
+I use the https://github.com/jellyfin/jellyfin-plugin-opds[Jellyfin OPDS Plugin] to provide an OPDS endpoint at `https://jellyfin.jwillikers.io/opds` that I can connect to via http://koreader.rocks/[koreader].
+This allows me to download ebooks from my Jellyfin library directly on my e-reader.
