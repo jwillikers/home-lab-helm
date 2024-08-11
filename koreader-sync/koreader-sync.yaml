@@ -15,11 +15,11 @@ metadata:
     app: koreader-sync-pod
   name: koreader-sync-pod
 spec:
-  # ports:
-  # - name: "7200"
-  #   nodePort: 30772
-  #   port: 7200
-  #   targetPort: 7200
+  ports:
+  - name: "7200"
+    nodePort: 30772
+    port: 7200
+    targetPort: 7200
   selector:
     app: koreader-sync-pod
   type: NodePort
@@ -38,8 +38,8 @@ spec:
       value: xterm
     image: docker.io/koreader/kosync:latest
     name: koreader-sync
-    # ports:
-    # - containerPort: 7200
+    ports:
+    - containerPort: 7200
     securityContext:
       seLinuxOptions:
         type: spc_t

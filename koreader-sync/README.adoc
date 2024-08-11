@@ -18,6 +18,20 @@ See https://github.com/jellyfin/jellyfin-plugin-opds/issues/29[this issue].
 
 == Usage
 
+. Open the default port, 7200, in the firewall, since rootless Podman won't be able to open this for us.
++
+[,sh]
+----
+sudo firewall-cmd --add-port=7200/tcp --permanent
+----
+
+. Reload the firewall rules that were just saved.
++
+[,sh]
+----
+sudo firewall-cmd --reload
+----
+
 . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
 . Symlink the `koreader-sync.caddyfile` file to the `sites-enabled` directory.
