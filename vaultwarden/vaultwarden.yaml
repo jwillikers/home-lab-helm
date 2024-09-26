@@ -41,7 +41,7 @@ spec:
               name: vaultwarden-secrets
               key: vaultwarden_postgresql_password
               optional: false
-      image: docker.io/library/postgres:latest
+      image: docker.io/library/postgres:16
       name: postgresql
       resources: {}
       securityContext:

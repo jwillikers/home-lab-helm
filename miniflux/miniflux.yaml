@@ -41,14 +41,14 @@ spec:
               name: miniflux-secrets
               key: miniflux_postgresql_password
               optional: false
-      image: docker.io/library/postgres:latest
+      image: docker.io/library/postgres:16
       name: postgresql
       livenessProbe:
         exec:
           command:
-          - pg_isready
-          - -U
-          - miniflux
+            - pg_isready
+            - -U
+            - miniflux
           initialDelaySeconds: 30
           periodSeconds: 10
       resources: {}
@@ -84,9 +84,9 @@ spec:
       livenessProbe:
         exec:
           command:
-          - miniflux
-          - -healthcheck
-          - auto
+            - miniflux
+            - -healthcheck
+            - auto
         initialDelaySeconds: 5
         periodSeconds: 5
       resources: {}

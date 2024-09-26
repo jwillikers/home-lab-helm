@@ -59,7 +59,7 @@ spec:
               name: nextcloud-secrets
               key: nextcloud_postgresql_password
               optional: false
-      image: docker.io/library/postgres:latest
+      image: docker.io/library/postgres:16
       name: postgresql
       resources: {}
       securityContext:

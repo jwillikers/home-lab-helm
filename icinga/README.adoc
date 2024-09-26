@@ -27,7 +27,7 @@ The instructions here document the process get the Icinga 2, Icinga DB, and Icin
 
 [TIP]
 ====
-It is recommend to run Icinga 2 and Icinga DB on the same machine to reduce latency. 
+It is recommend to run Icinga 2 and Icinga DB on the same machine to reduce latency.
 ====
 
 . Follow the <<../doc/Redict.adoc#System Configuration,Redict System Configuration>> instructions.
@@ -350,7 +350,7 @@ podman run \
   --user (id -u):(id -g) \
   --volume icingadb-postgresql-data:/var/lib/postgresql/data:Z \
   --volume (pwd)/migrations:/migrations:Z \
-  docker.io/library/postgres:latest
+  docker.io/library/postgres:16
 ----
 
 . Execute the SQL migration script with the `psql` command as follows.

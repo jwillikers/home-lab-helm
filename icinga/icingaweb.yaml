@@ -36,7 +36,12 @@ spec:
   initContainers:
     - name: chown-volumes
       image: docker.io/alpine:latest
-      command: ["sh", "-c", "mkdir --parents /data/etc /data/var && chown 818:818 /data /data/etc /data/var /var/run/apache2"]
+      command:
+        [
+          "sh",
+          "-c",
+          "mkdir --parents /data/etc /data/var && chown 818:818 /data /data/etc /data/var /var/run/apache2",
+        ]
       securityContext:
         capabilities:
           drop: ["all"]
@@ -67,7 +72,7 @@ spec:
               name: icingaweb-secrets
               key: icingaweb_postgresql_password
               optional: false
-      image: docker.io/library/postgres:latest
+      image: docker.io/library/postgres:16
       name: postgresql
       securityContext:
         runAsGroup: 818
