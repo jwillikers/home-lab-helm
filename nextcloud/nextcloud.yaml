@@ -59,7 +59,7 @@ spec:
               name: nextcloud-secrets
               key: nextcloud_postgresql_password
               optional: false
-      image: docker.io/pgautoupgrade/pgautoupgrade:17-bookworm
+      image: docker.io/library/postgres:17
       name: postgresql
       resources: {}
       securityContext:

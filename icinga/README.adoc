@@ -350,7 +350,7 @@ podman run \
   --user (id -u):(id -g) \
   --volume icingadb-postgresql-data:/var/lib/postgresql/data:Z \
   --volume (pwd)/migrations:/migrations:Z \
-  docker.io/library/postgres:16
+  docker.io/library/postgres:17
 ----
 
 . Execute the SQL migration script with the `psql` command as follows.

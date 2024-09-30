@@ -41,7 +41,7 @@ spec:
               name: miniflux-secrets
               key: miniflux_postgresql_password
               optional: false
-      image: docker.io/pgautoupgrade/pgautoupgrade:17-bookworm
+      image: docker.io/library/postgres:17
       name: postgresql
       livenessProbe:
         exec:
