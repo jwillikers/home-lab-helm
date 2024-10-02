@@ -15,7 +15,7 @@ The {Immich} pod provides a service for hosting photographs.
 
 == Usage
 
-The Immich pod uses the configuration file provided by the https://github.com/jwillikers/immich-config[Immich Config] repository.
+The Immich pod uses the configuration file provided by the https://codeberg.org/jwillikers/immich-config[Immich Config] repository.
 My server uses an 11th gen https://ark.intel.com/content/www/us/en/ark/products/208921/intel-core-i7-1165g7-processor-12m-cache-up-to-4-70-ghz-with-ipu.html[Intel Core i7-1165G7 processor].
 This processor's GPU supports Intel Quick Sync Video, a.k.a _QSV_, which provides hardware-accelerated transcoding.
 This configuration enables hardware-acceleration for transcoding as well as machine learning for this particular chipset.
@@ -43,7 +43,7 @@ mkdir --parents ~/.config/containers/
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/immich-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/immich-config.git
 ----
 
 . Create the necessary host-mount directories.
@@ -53,7 +53,7 @@ git -C ~/Projects clone https://github.com/jwillikers/immich-config.git
 mkdir --parents ~/container-volumes/{immich-immich-server-profile,immich-immich-server-upload,immich-postgresql-data}
 ----
 
-. Copy the `immich-secrets.yaml.template` file to `immich-secrets.yaml`. 
+. Copy the `immich-secrets.yaml.template` file to `immich-secrets.yaml`.
 +
 [,sh]
 ----

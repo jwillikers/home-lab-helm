@@ -12,7 +12,7 @@ endif::[]
 :NGINX: https://www.nginx.com/[NGINX]
 
 {NGINX} is a reverse-proxy used to proxy raw TCP connections such as the connection to electrs since Caddy does not natively include such functionality.
-NGINX configurations are stored in the https://github.com/jwillikers/nginx-config[NGINX Config] repository.
+NGINX configurations are stored in the https://codeberg.org/jwillikers/nginx-config[NGINX Config] repository.
 
 == System Configuration
 
@@ -65,7 +65,7 @@ mkdir -p ~/Projects
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/nginx-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/nginx-config.git
 ----
 
 . Symlink sites from the `sites-available` subdirectory to the `sites-enabled` subdirectory to enable them.

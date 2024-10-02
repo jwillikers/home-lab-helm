@@ -18,7 +18,7 @@ The configuration is intended for systems using https://selinuxproject.org/page/
 https://fedoraproject.org/iot/[Fedora IoT] is the current OS used for deployment.
 
 https://caddyserver.com/[Caddy] is used on per-machine basis as a reverse-proxy to manage connections between the containers and everything external to the host.
-Caddy configuration files for these services are stored in the https://github.com/jwillikers/caddy-config[Caddy Config] repository.
+Caddy configuration files for these services are stored in the https://codeberg.org/jwillikers/caddy-config[Caddy Config] repository.
 Anything that allows using a choice of database uses https://www.postgresql.org/[PostgreSQL].
 
 == Organization
@@ -28,7 +28,7 @@ Good question.
 It's standard.
 Kubernetes YAML isn't the equivalent of Docker Compose, but it accomplishes many of the same goals while being a common standard specification.
 It's a bit trickier to learn, but it also supports _pods_, which are an incredibly powerful construct when orchestrating containers.
-Plus, you can more easily scale up from Podman to full Kubernetes implementations. 
+Plus, you can more easily scale up from Podman to full Kubernetes implementations.
 
 As mentioned, this repository is meant to be run via Podman.
 The reason for this is approach is to reduce the overhead and complexity required for a full Kubernetes deployment.
@@ -89,7 +89,7 @@ Hourly backups are _extremely_ helpful.
 In order to reduce storage consumption, only the volumes I find critical for restoration are mounted from the `~/container-volumes` directory.
 For example, I don't mind losing the InfluxDB database, so that uses a persistent volume claim instead.
 So, be sure to adjust the volumes according to your own needs.
-My Btrbk backup configuration can be found in the https://github.com/jwillikers/btrbk-config[btrbk Config] directory if you're interested.
+My Btrbk backup configuration can be found in the https://codeberg.org/jwillikers/btrbk-config[btrbk Config] directory if you're interested.
 Comprehensive backup strategies should probably incorporate database dumps and copies of the data stored in S3-compatible object storage like MinIO.
 
 == Create a Dedicated User
@@ -179,7 +179,7 @@ Otherwise, use the following function to calculate the next available subgid ran
 set new_subgid (math (tail -1 /etc/subgid | awk -F ":" '{print $2}') + 65536)
 ----
 --
- 
+
 .. Configure the `core` user with the calculated subuid and subgid ranges.
 +
 [,sh]
@@ -241,7 +241,7 @@ Sorry.
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/home-lab-helm.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/home-lab-helm.git
 ----
 
 . Now follow the instructions in the _README.adoc_ files for the desired services.

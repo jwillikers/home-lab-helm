@@ -18,7 +18,7 @@ The Bitcoin Core pod bundles together essentials for running a Bitcoin node, inc
 
 == Usage
 
-The Bitcoin Core chart uses the configuration provided by the https://github.com/jwillikers/bitcoin-core-config[Bitcoin Core Config] repository.
+The Bitcoin Core chart uses the configuration provided by the https://codeberg.org/jwillikers/bitcoin-core-config[Bitcoin Core Config] repository.
 In order to isolate the Bitcoin Core node, it uses a dedicated systemd network and uses a special NGINX configuration that only exposes the electrs port on a dedicated WireGuard interface.
 It's still probably a good idea to relegate this node to its own dedicated hardware.
 
@@ -73,7 +73,7 @@ mkdir -p ~/Projects
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/nginx-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/nginx-config.git
 ----
 
 . Symlink the `electrs.conf` file from the `sites-available` subdirectory to the `sites-enabled` subdirectory to enable it.
@@ -87,7 +87,7 @@ ln --force --relative --symbolic ~/Projects/nginx-config/sites-available/electrs
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/bitcoin-core-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/bitcoin-core-config.git
 ----
 
 . Create the directory for Podman's systemd generator and user units.

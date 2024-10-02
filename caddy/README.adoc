@@ -12,7 +12,7 @@ endif::[]
 
 https://caddyserver.com/[Caddy] is the reverse-proxy used to connect the services of pods operating in internal Podman networks to the outside world and to handle TLS certificates provisioned through the ACME protocol.
 The https://github.com/jwillikers/caddy-ovh-image[Caddy OVH Image] is used since it includes the OVH plugin which makes it possible to obtain certificates through the DNS-01 challenge, which doesn't require the containers to be publicly accessible.
-Caddy configurations for the various services are provided by the https://github.com/jwillikers/caddy-config[Caddy Config] repository.
+Caddy configurations for the various services are provided by the https://codeberg.org/jwillikers/caddy-config[Caddy Config] repository.
 
 == System Configuration
 
@@ -73,7 +73,7 @@ I use `ACME DNS-01 Challenge Provider`.
 I use `Unlimited` to avoid the token expiring.
 . Add the required _Rights_ for `/domain/zone/*` for each of `GET`, `PUT`, `POST`, and `DELETE`.
 . Create the token.
-. Copy the `caddy-secrets.yaml.template` file to `caddy-secrets.yaml`. 
+. Copy the `caddy-secrets.yaml.template` file to `caddy-secrets.yaml`.
 +
 [,sh]
 ----
@@ -101,7 +101,7 @@ podman play kube caddy-secrets.yaml
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/caddy-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/caddy-config.git
 ----
 
 . Symlink sites from the `sites-available` subdirectory to the `sites-enabled` subdirectory to enable them.

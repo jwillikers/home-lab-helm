@@ -15,7 +15,7 @@ The {LibreNMS} configuration provides a LibreNMS service for network monitoring.
 
 == Usage
 
-The LibreNMS Kubernetes YAML uses the configuration provided by the https://github.com/jwillikers/librenms-config[LibreNMS Config] repository.
+The LibreNMS Kubernetes YAML uses the configuration provided by the https://codeberg.org/jwillikers/librenms-config[LibreNMS Config] repository.
 Certain sensitive parameters are kept in specific files which must be managed separately.
 The instructions here document the process get the LibreNMS service up and running.
 
@@ -40,7 +40,7 @@ mkdir --parents ~/Projects
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/librenms-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/librenms-config.git
 ----
 
 . For each template file in the `~/Projects/librenms-config/config` directory, copy it to the same directory without the `.template` extension.

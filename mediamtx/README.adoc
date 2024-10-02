@@ -15,7 +15,7 @@ The {MediaMTX} pod provides an open source video streaming proxy server.
 
 == Usage
 
-The MediaMTX Kubernetes YAML uses the configuration provided by the https://github.com/jwillikers/mediamtx-config[MediaMTX Config] repository.
+The MediaMTX Kubernetes YAML uses the configuration provided by the https://codeberg.org/jwillikers/mediamtx-config[MediaMTX Config] repository.
 
 . Follow the <<../doc/Hardware Acceleration.adoc,Hardware Acceleration>> documentation to enable hardware acceleration.
 
@@ -64,11 +64,11 @@ sudo firewall-cmd --reload
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/mediamtx-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/mediamtx-config.git
 ----
 
 // todo Use TLS.
-// 
+//
 // . Follow the <<../caddy/README.adoc,instructions for Caddy>>.
 
 // . Symlink the `mediamtx.caddyfile` file to the `sites-enabled` directory.

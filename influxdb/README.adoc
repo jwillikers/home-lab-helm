@@ -15,13 +15,13 @@ The {InfluxDB} pod provides a time-series database.
 
 == Usage
 
-The InfluxDB configuration is kept in the https://github.com/jwillikers/influxdb-config[InfluxDB config] repository.
+The InfluxDB configuration is kept in the https://codeberg.org/jwillikers/influxdb-config[InfluxDB config] repository.
 
-. Clone the https://github.com/jwillikers/influxdb-config[InfluxDB Config] repository.
+. Clone the https://codeberg.org/jwillikers/influxdb-config[InfluxDB Config] repository.
 +
 [,sh]
 ----
-git -C ~/Projects clone https://github.com/jwillikers/influxdb-config.git
+git -C ~/Projects clone https://codeberg.org/jwillikers/influxdb-config.git
 ----
 
 . Open the default InfluxDB port, 8086, in the firewall, since rootless Podman won't be able to open this for us.
@@ -47,7 +47,7 @@ sudo firewall-cmd --reload
 ln --force --relative --symbolic ~/Projects/caddy-config/sites-available/influxdb.caddyfile ~/Projects/caddy-config/sites-enabled/
 ----
 
-. Copy the `influxdb-secrets.yaml.template` file to `influxdb-secrets.yaml`. 
+. Copy the `influxdb-secrets.yaml.template` file to `influxdb-secrets.yaml`.
 +
 [,sh]
 ----
